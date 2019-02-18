@@ -61,7 +61,7 @@ class XoFilterPluginSettings
 		);
 
 		if ($settings['setDefaults'])
-			$output .= sprintf(
+			$output .= ' ' . sprintf(
 				__('Default settings have been applied, change them %s.', 'xo'),
 				'<a href="' . $this->settingsHref . '">' . __('here', 'xo') . '</a>'
 			);
