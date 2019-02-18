@@ -1,10 +1,10 @@
 <?php
-/**
- * Base controller class extended by all other API controllers.
- *
- * Provides methods for returning api responses and base methods for returning post objects.
- */
 
+/**
+ * An abstract API controller to be extended by API endpoint controllers.
+ * 
+ * @since 1.0.0
+ */
 class XoApiAbstractController
 {
 	/**
