@@ -2,7 +2,7 @@
 
 /**
  * Filter class responsible for handling various hooks related to plugin status pages and changes.
- * 
+ *
  * @since 1.0.0
  */
 class XoFilterPluginSettings
@@ -45,8 +45,6 @@ class XoFilterPluginSettings
 		$this->ActivationNotice->RegisterNotice(array(
 			'setDefaults' => $setDefaults
 		));
-
-		flush_rewrite_rules();
 	}
 
 	function DeactivatePlugin() {
@@ -55,6 +53,8 @@ class XoFilterPluginSettings
 	}
 
 	function RenderActivationNotice($settings) {
+		flush_rewrite_rules();
+
 		$output = '<p><strong>' . sprintf(
 			__('Thanks for choosing %s.', 'xo'),
 			$this->Xo->name

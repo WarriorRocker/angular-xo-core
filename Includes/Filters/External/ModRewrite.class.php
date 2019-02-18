@@ -35,18 +35,20 @@ class XoFilterModRewrite
 		remove_filter('mod_rewrite_rules', array($this, 'ModifyRewrites'), 20);
 	}
 
-	function ModifyRewrites($rules) {
-		$rulesCopy = $rules;
+	function ModifyRewrites($rulesOriginal) {
+		$rulesUpdated = $rulesOriginal;
 		$rulesHead = '# Modified by ' . $this->Xo->name. "\n";
 
-		$this->UpdateRewrites($rulesCopy);
+		$this->UpdateRewrites($rulesUpdated);
 
-		if ($rulesCopy != $rules) {
-			$this->UpdateNotice->RegisterNotice();
-			return $rulesHead . $rulesCopy;
+		if ($rulesUpdated != $rulesOriginal) {
+			//$this->UpdateNotice->RegisterNotice();
+
+			$this->AddIndentsToRules($rulesUpdated);
+			return $rulesHead . $rulesUpdated;
 		}
 
-		return $rules;
+		return $rulesOriginal;
 	}
 
 	function UpdateRewrites(&$rules) {
@@ -54,8 +56,6 @@ class XoFilterModRewrite
 			$this->AddWpJsonRule($rules);
 			$this->AddXoApiRule($rules);
 		}
-
-		$this->AddIndentsToRules($rules);
 	}
 
 	function UpdateEntryPointRules(&$rules) {
