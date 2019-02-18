@@ -97,24 +97,47 @@ class XoOptions
 	}
 
 	function Includes() {
+		// Include abstract classes for admin pages and tabs
+		$this->IncludeAbstractClasses();
+
+		// Include tabs used on the General Settings page
+		$this->IncludeGeneralTabs();
+
+		// Include tabs used on the Tools page
+		$this->IncludeToolsTabs();
+	}
+
+	function IncludeAbstractClasses() {
 		$this->Xo->RequireOnce('Includes/Options/Abstract/Tab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Abstract/FieldsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Abstract/SettingsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Abstract/AdminPage.class.php');
 
+		$this->Xo->RequireOnce('Includes/Options/Classes/MenuPage.class.php');
+		$this->Xo->RequireOnce('Includes/Options/Classes/SubMenuPage.class.php');
+	}
+
+	function IncludeGeneralTabs() {
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/IndexTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/PostsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/RoutingTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/TemplatesTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/AcfTab.class.php');
-
-		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ToolsTab.class.php');
-		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ProfileTab.class.php');
-
-		$this->Xo->RequireOnce('Includes/Options/Classes/MenuPage.class.php');
-		$this->Xo->RequireOnce('Includes/Options/Classes/SubMenuPage.class.php');
 	}
 
+	function IncludeToolsTabs() {
+		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ToolsTab.class.php');
+		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ProfileTab.class.php');
+	}
+
+	/**
+	 * Helper function used to embed an svg image file within the WordPress admin
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @param string $file Relative path to file within the Xo plugin folder.
+	 * @return string Base64 encoded image data.
+	 */
 	public function GetImageAsSvgBase64($file) {
 		ob_start();
 		$this->Xo->RequireOnce($file, false);
