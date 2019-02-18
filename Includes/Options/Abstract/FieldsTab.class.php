@@ -2,7 +2,7 @@
 
 /**
  * An abstract class extending tab used to construct an options page in a custom way.
- * 
+ *
  * @since 1.0.0
  */
 class XoOptionsAbstractFieldsTab extends XoOptionsAbstractTab
@@ -102,6 +102,8 @@ class XoOptionsAbstractFieldsTab extends XoOptionsAbstractTab
 
 		$output .= '</select>';
 
+		$output .= $this->GenerateFieldDescription($description);
+
 		echo $output;
 	}
 
@@ -123,5 +125,18 @@ class XoOptionsAbstractFieldsTab extends XoOptionsAbstractTab
 		)) . '>' . $value . '</textarea>';
 
 		echo $output;
+	}
+
+	function GenerateFieldDescription($descriptions) {
+		$output = '';
+
+		if (is_array($descriptions))
+			foreach ($descriptions as $description)
+				$output .= $this->GenerateFieldDescription($description);
+
+		else if ($descriptions)
+			$output = '<p class="description">' . $descriptions . '</p>';
+
+		return $output;
 	}
 }

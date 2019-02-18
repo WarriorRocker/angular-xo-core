@@ -2,7 +2,7 @@
 
 /**
  * Filter class responsible for generating various apache mod_rewrite rules.
- * 
+ *
  * @since 1.0.0
  */
 class XoFilterModRewrite
@@ -59,7 +59,7 @@ class XoFilterModRewrite
 	}
 
 	function UpdateEntryPointRules(&$rules) {
-		if (!$this->Xo->Services->Options->GetOption('xo_index_redirect_enabled', false))
+		if ($this->Xo->Services->Options->GetOption('xo_index_redirect_mode') != 'offline')
 			return false;
 
 		if (!$index = $this->Xo->Services->Options->GetOption('xo_index_dist', false))

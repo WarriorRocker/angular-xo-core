@@ -2,7 +2,7 @@
 
 /**
  * Filter class used to add Xo for Angular compatible templates to the WordPress post edit screen.
- * 
+ *
  * @since 1.0.0
  */
 class XoFilterPostTemplates
@@ -25,7 +25,8 @@ class XoFilterPostTemplates
 	}
 
 	function TemplateInclude($template) {
-		if ($file = $this->Xo->GetFile('Includes/Theme/ThemeIndex.php'))
+		if (($this->Xo->Services->Options->GetOption('xo_index_redirect_mode') == 'live')
+			&& ($file = $this->Xo->GetFile('Includes/Theme/ThemeIndex.php')))
 			return $file;
 
 		return $template;

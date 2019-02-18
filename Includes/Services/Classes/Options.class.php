@@ -77,7 +77,7 @@ class XoServiceOptions
 			// Index Tab
 			'xo_index_src' => '/src/index.html',
 			'xo_index_dist' => '/dist/index.html',
-			'xo_index_redirect_enabled' => false,
+			'xo_index_redirect_mode' => 'default',
 
 			// Routing Tab
 			'xo_routing_previews_enabled' => true,

@@ -19,7 +19,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 			function ($section) {
 				$this->AddGeneralSectionSrcIndexSetting($section);
 				$this->AddGeneralSectionDistIndexSetting($section);
-				$this->AddGeneralSectionRedirectEnabledSetting($section);
+				$this->AddGeneralSectionRedirectModeSetting($section);
 			}
 		);
 	}
@@ -32,7 +32,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 			function ($option, $states, $value) {
 				return $this->GenerateInputTextField(
 					$option, $states, $value,
-					__('The full path to the src index relative to get_template_directory.', 'xo')
+					__('The full path to the src index relative to the active template folder.', 'xo')
 				);
 			}
 		);
@@ -46,22 +46,44 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 			function ($option, $states, $value) {
 				return $this->GenerateInputTextField(
 					$option, $states, $value,
-					__('The full path to the dist index relative to get_template_directory.', 'xo')
+					__('The full path to the dist index relative to active template folder.', 'xo')
 				);
 			}
 		);
 	}
 
-	function AddGeneralSectionRedirectEnabledSetting($section) {
+	function AddGeneralSectionRedirectModeSetting($section) {
 		$this->AddSettingsField(
 			$section,
-			'xo_index_redirect_enabled',
-			__('Redirect Enabled', 'xo'),
+			'xo_index_redirect_mode',
+			__('Redirect Mode', 'xo'),
 			function ($option, $states, $value) {
-				return $this->GenerateInputCheckboxField(
-					$option, $states, $value,
-					__('This will redirect all front-end requests to the dist index.', 'xo')
+				$choices = array(
+					'default' => __('Default', 'xo'),
+					'live' => __('Live', 'xo'),
+					'offline' => __('Offline', 'xo')
 				);
+
+				$descriptions = array(
+					__('Configures the way the main template index will be loaded.', 'xo'),
+					sprintf(
+						__('<strong>%s</strong> - %s', 'xo'),
+						__('Default', 'xo'),
+						__('Allow WordPress to load the active theme normally.', 'xo')
+					),
+					sprintf(
+						__('<strong>%s</strong> - %s', 'xo'),
+						__('Live', 'xo'),
+						__('Attempt to parse the Dist Index and redirect template requests if successful.', 'xo')
+					),
+					sprintf(
+						__('<strong>%s</strong> - %s', 'xo'),
+						__('Offline', 'xo'),
+						__('Advanced mode which redirects all front-end requests directly to the Dist Index.', 'xo')
+					)
+				);
+
+				return $this->GenerateSelectField($option, $states, $choices, false, $value, $descriptions);
 			},
 			function ($oldValue, $newValue, $option) {
 				if ($oldValue !== $newValue)
