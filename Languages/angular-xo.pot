@@ -1,0 +1,336 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Xo for Angular 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/angular-xo\n"
+"POT-Creation-Date: 2018-08-20 21:12-0400\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: Poedit 2.1.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: xo.php\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Includes/Api/Controllers/Config.class.php:33
+msgid "Successfully generated config."
+msgstr ""
+
+#: Includes/Api/Controllers/Menus.class.php:10
+msgid "Missing menu name."
+msgstr ""
+
+#: Includes/Api/Controllers/Menus.class.php:13
+msgid "No theme menu locations defined."
+msgstr ""
+
+#: Includes/Api/Controllers/Menus.class.php:16
+#, php-format
+msgid "Requested menu location %s not found."
+msgstr ""
+
+#: Includes/Api/Controllers/Menus.class.php:35
+msgid "Successfully retrieved menu."
+msgstr ""
+
+#: Includes/Api/Controllers/Options.class.php:32
+msgid "Successfully retrieved options."
+msgstr ""
+
+#: Includes/Api/Controllers/Options.class.php:40
+msgid "Not an allowed option name."
+msgstr ""
+
+#: Includes/Api/Controllers/Options.class.php:50
+msgid "Successfully retrieved option."
+msgstr ""
+
+#: Includes/Api/Controllers/Options.class.php:68
+msgid "Missing group name."
+msgstr ""
+
+#: Includes/Api/Controllers/Options.class.php:71
+msgid "No allowed groups are defined."
+msgstr ""
+
+#: Includes/Api/Controllers/Options.class.php:76
+msgid "Not an allowed option group."
+msgstr ""
+
+#: Includes/Api/Controllers/Options.class.php:80
+msgid "Unable to retrieve options group."
+msgstr ""
+
+#: Includes/Api/Controllers/Options.class.php:90
+msgid "Successfully retrieved options group."
+msgstr ""
+
+#: Includes/Api/Controllers/Posts.class.php:18
+msgid "Missing post url."
+msgstr ""
+
+#: Includes/Api/Controllers/Posts.class.php:28
+msgid "Unable to locate post."
+msgstr ""
+
+#: Includes/Api/Controllers/Posts.class.php:32
+msgid "Unable to verify nonce."
+msgstr ""
+
+#: Includes/Api/Controllers/Posts.class.php:37
+msgid "Unable to locate post autosave."
+msgstr ""
+
+#: Includes/Api/Controllers/Posts.class.php:39
+msgid "The selected post is not published."
+msgstr ""
+
+#: Includes/Api/Controllers/Posts.class.php:46
+msgid "Successfully located post."
+msgstr ""
+
+#: Includes/Api/Controllers/Posts.class.php:165
+msgid "Successfully located posts."
+msgstr ""
+
+#: Includes/Api/Controllers/Routes.class.php:19
+msgid "Successfully retrieved routes."
+msgstr ""
+
+#: Includes/Api/Controllers/Terms.class.php:7
+msgid "Missing terms taxonomy."
+msgstr ""
+
+#: Includes/Api/Controllers/Terms.class.php:17
+msgid "Terms taxonomy does not exist."
+msgstr ""
+
+#: Includes/Api/Controllers/Terms.class.php:36
+msgid "Successfully located terms taxonomy."
+msgstr ""
+
+#: Includes/Classes/Xo.class.php:51 Includes/Classes/Xo.class.php:52
+#: Includes/Options/NavMenu.class.php:33
+msgid "Xo for Angular"
+msgstr ""
+
+#: Includes/Classes/Xo.class.php:55
+msgid "API"
+msgstr ""
+
+#: Includes/Classes/Xo.class.php:56
+msgid "Posts"
+msgstr ""
+
+#: Includes/Classes/Xo.class.php:57
+msgid "Routing"
+msgstr ""
+
+#: Includes/Classes/Xo.class.php:58
+msgid "Templates"
+msgstr ""
+
+#: Includes/Classes/Xo.class.php:59
+msgid "ACF"
+msgstr ""
+
+#: Includes/Filters/PostStates.class.php:22
+#: Includes/Options/Tabs/PostsTab.class.php:34
+#, php-format
+msgid "%s Page"
+msgstr ""
+
+#: Includes/Filters/PostStates.class.php:27
+#: Includes/Options/Tabs/RoutingTab.class.php:69
+msgid "404 Page"
+msgstr ""
+
+#: Includes/Options/NavMenu.class.php:74
+msgid "Use routerLinkActiveOptions exact"
+msgstr ""
+
+#: Includes/Options/Tabs/AcfTab.class.php:15
+msgid "Editor Options"
+msgstr ""
+
+#: Includes/Options/Tabs/AcfTab.class.php:16
+msgid "Used to set control the display of ACF options on editor pages."
+msgstr ""
+
+#: Includes/Options/Tabs/AcfTab.class.php:27
+msgid "ACF Groups Enabled"
+msgstr ""
+
+#: Includes/Options/Tabs/AcfTab.class.php:32
+msgid "Show ACF option group for template based on acfGroups template annotation."
+msgstr ""
+
+#: Includes/Options/Tabs/AcfTab.class.php:41
+msgid "Allowed Options"
+msgstr ""
+
+#: Includes/Options/Tabs/AcfTab.class.php:42
+msgid "Used to set which option groups are allowed through the Xo API."
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:15
+msgid "General Settings"
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:16
+msgid "Used to configure general settings for the Xo API."
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:27
+msgid "API Endpoint"
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:32
+msgid "Used to set the endpoint location of the Xo API."
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:45
+msgid "Config Settings"
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:46
+msgid "Used to manage injection of main config."
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:59
+msgid "Config Enabled"
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:64
+msgid "Enable the output of XoApiConfigController->Get() using wp_localize_script."
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:74
+msgid "Script Handle"
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:79
+msgid "Name of the main app bundle added with wp_enqueue_script."
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:89
+msgid "Object Name"
+msgstr ""
+
+#: Includes/Options/Tabs/ApiTab.class.php:94
+msgid "Object name which will be assigned the config output."
+msgstr ""
+
+#: Includes/Options/Tabs/PostsTab.class.php:15
+msgid "Post Pages"
+msgstr ""
+
+#: Includes/Options/Tabs/PostsTab.class.php:16
+msgid "Used to set the root page of a post type."
+msgstr ""
+
+#: Includes/Options/Tabs/PostsTab.class.php:39
+#: Includes/Options/Tabs/PostsTab.class.php:85
+msgid "&mdash; None &mdash;"
+msgstr ""
+
+#: Includes/Options/Tabs/PostsTab.class.php:51
+msgid "Post Templates"
+msgstr ""
+
+#: Includes/Options/Tabs/PostsTab.class.php:52
+msgid "Used to set the default template for a post type."
+msgstr ""
+
+#: Includes/Options/Tabs/PostsTab.class.php:70
+#, php-format
+msgid "%s Template"
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:15
+msgid "Template Redirect"
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:16
+msgid "Used to override the default template selected by wordpress."
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:28
+msgid "Redirect Enabled"
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:33
+msgid "This will add a filter on template_include."
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:43
+msgid "Template Index"
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:48
+msgid "The full path to the index relative to get_template_directory."
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:57
+msgid "Routing Errors"
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:58
+msgid "Used to set the page to display for various routing errors."
+msgstr ""
+
+#: Includes/Options/Tabs/RoutingTab.class.php:74
+msgid "&mdash; Front Page &mdash;"
+msgstr ""
+
+#: Includes/Options/Tabs/TemplatesTab.class.php:14
+msgid "Templates Reader"
+msgstr ""
+
+#: Includes/Options/Tabs/TemplatesTab.class.php:15
+msgid "Used to set options for the Angular template reader."
+msgstr ""
+
+#: Includes/Options/Tabs/TemplatesTab.class.php:28
+msgid "Templates Path"
+msgstr ""
+
+#: Includes/Options/Tabs/TemplatesTab.class.php:33
+msgid "Relative to the current template directory. Values may be comma separated."
+msgstr ""
+
+#: Includes/Options/Tabs/TemplatesTab.class.php:43
+msgid "Templates Extension"
+msgstr ""
+
+#: Includes/Options/Tabs/TemplatesTab.class.php:48
+msgid "File extensions to include. Values may be comma separated."
+msgstr ""
+
+#: Includes/Options/Tabs/TemplatesTab.class.php:58
+msgid "Templates Annotation Prefix"
+msgstr ""
+
+#: Includes/Options/Tabs/TemplatesTab.class.php:63
+msgid "Template annotations prefix."
+msgstr ""
+
+#: Includes/Services/ApiRouter.class.php:65
+#, php-format
+msgid "Unknown class %s."
+msgstr ""
+
+#: Includes/Services/ApiRouter.class.php:70
+#, php-format
+msgid "Method %s not found in class %s."
+msgstr ""
+
+#: Includes/Services/ApiRouter.class.php:81
+#, php-format
+msgid "Method %s in class %s expects %u parameters."
+msgstr ""
