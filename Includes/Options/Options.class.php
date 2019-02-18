@@ -59,6 +59,7 @@ class XoOptions
 
 	function InitMainSettingsPageTabs() {
 		$this->MainSettingsPage->AddTab('index', __('Index', 'xo'), 'XoOptionsTabIndex');
+		$this->MainSettingsPage->AddTab('api', __('API', 'xo'), 'XoOptionsTabApi');
 		$this->MainSettingsPage->AddTab('posts', __('Posts', 'xo'), 'XoOptionsTabPosts');
 		$this->MainSettingsPage->AddTab('routing', __('Routing', 'xo'), 'XoOptionsTabRouting');
 		$this->MainSettingsPage->AddTab('templates', __('Templates', 'xo'), 'XoOptionsTabTemplates');
@@ -119,6 +120,7 @@ class XoOptions
 
 	function IncludeGeneralTabs() {
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/IndexTab.class.php');
+		$this->Xo->RequireOnce('Includes/Options/Tabs/General/ApiTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/PostsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/RoutingTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/TemplatesTab.class.php');
@@ -132,9 +134,9 @@ class XoOptions
 
 	/**
 	 * Helper function used to embed an svg image file within the WordPress admin
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param string $file Relative path to file within the Xo plugin folder.
 	 * @return string Base64 encoded image data.
 	 */

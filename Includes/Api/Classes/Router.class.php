@@ -2,7 +2,7 @@
 
 /**
  * Main entry point for all requests to the Xo API responsible for instantiating an API controller and returning the response.
- * 
+ *
  * @since 1.0.0
  */
 class XoApiClassRouter
@@ -12,7 +12,6 @@ class XoApiClassRouter
 	 */
 	var $Xo;
 
-	var $apiEndpoint = '/xo-api';
 	var $classQueryVar = 'xo_api_class';
 	var $methodQueryVar = 'xo_api_method';
 
@@ -35,7 +34,11 @@ class XoApiClassRouter
 	}
 
 	function AddRewrites() {
-		$apiEndpoint = ltrim($this->apiEndpoint, '/');
+		if ((!$this->Xo->Services->Options->GetOption('xo_api_enabled', false))
+			|| (!$apiEndpiont = $this->Xo->Services->Options->GetOption('xo_api_endpoint')))
+			return;
+
+		$apiEndpoint = ltrim($apiEndpiont, '/');
 
 		add_rewrite_rule(
 			'^' . $apiEndpoint . '\/$',
@@ -64,6 +67,9 @@ class XoApiClassRouter
 
 	function ApiQuery() {
 		global $wp;
+
+		if (!$this->Xo->Services->Options->GetOption('xo_api_enabled', false))
+			return;
 
 		if (empty($wp->query_vars[$this->classQueryVar]))
 			return;

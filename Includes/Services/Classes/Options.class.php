@@ -79,6 +79,10 @@ class XoServiceOptions
 			'xo_index_dist' => '/dist/index.html',
 			'xo_index_redirect_mode' => 'default',
 
+			// Api Tab
+			'xo_api_enabled' => true,
+			'xo_api_endpoint' => '/xo-api',
+
 			// Routing Tab
 			'xo_routing_previews_enabled' => true,
 			'xo_404_page_id' => 0,
@@ -150,9 +154,9 @@ class XoServiceOptions
 
 	/**
 	 * Get the states of a given option filtered by xo/options/states/{{option_name}}.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param string $option Name of the option.
 	 * @return array States of the given option.
 	 */
@@ -169,9 +173,9 @@ class XoServiceOptions
 
 	/**
 	 * Get options which may override the defaults by reading the angular.json file.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return bool|string[]
 	 */
 	function GetOptionsFromJson() {
