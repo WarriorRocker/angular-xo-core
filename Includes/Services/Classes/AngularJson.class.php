@@ -2,7 +2,7 @@
 
 /**
  * Service class used to retrieve various json related configurations.
- * 
+ *
  * @since 1.0.0
  */
 class XoServiceAngularJson
@@ -27,6 +27,7 @@ class XoServiceAngularJson
 				$configs[$project_name . ':' . $architect_name] = array(
 					'project' => $project_name,
 					'architect' => $architect_name,
+					'prefix' => $project->prefix,
 					'sourceRoot' => $project->sourceRoot,
 					'outputPath' => $architect->options->outputPath,
 					'index' => $architect->options->index

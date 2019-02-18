@@ -89,7 +89,7 @@ class XoServiceOptions
 
 			// Templates Tab
 			'xo_templates_cache_enabled' => true,
-			'xo_templates_path' => '/src',
+			'xo_templates_path' => '/src/app',
 
 			// ACF Tab
 			'xo_acf_allowed_groups' => array()
@@ -196,7 +196,8 @@ class XoServiceOptions
 			}
 
 			if (!empty($json['sourceRoot']))
-				$config['xo_templates_path'] = '/' . ltrim($json['sourceRoot'], '/');
+				$config['xo_templates_path'] = '/' . ltrim($json['sourceRoot'], '/')
+					. ((!empty($json['prefix'])) ? '/' . $json['prefix'] : '');
 
 			if ($config)
 				return $config;

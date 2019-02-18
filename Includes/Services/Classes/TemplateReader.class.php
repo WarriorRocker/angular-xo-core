@@ -180,7 +180,7 @@ class XoServiceTemplateReader
 
 				if ($key == 'loadChildren') {
 					$trimPath = strlen(ltrim($this->templatesPath, '/'));
-					$value = '.' . substr(rtrim($template, '.ts'), $trimPath) . '#' . $value;
+					$value = '.' . substr(substr($template, 0, strlen($template) - 3), $trimPath) . '#' . $value;
 				} else if (array_key_exists($key, $this->annotationsFormats)) {
 					if ($this->annotationsFormats[$key] == 'boolean') {
 						$value = ((strtolower($value) == 'true') ? 1 : 0);
