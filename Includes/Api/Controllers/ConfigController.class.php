@@ -2,16 +2,16 @@
 
 /**
  * Provide endpoints for retrieving the main site configuration.
- * 
+ *
  * @since 1.0.0
  */
-class XoApiControllerConfig extends XoApiAbstractController
+class XoApiControllerConfig extends XoApiAbstractIndexController
 {
 	/**
 	 * Get the main site configuration.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return XoApiAbstractConfigGetResponse
 	 */
 	function Get() {

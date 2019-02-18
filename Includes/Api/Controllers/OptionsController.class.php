@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerOptions extends XoApiAbstractController
+class XoApiControllerOptions extends XoApiAbstractIndexController
 {
 	/**
 	 * Get an option group by name.

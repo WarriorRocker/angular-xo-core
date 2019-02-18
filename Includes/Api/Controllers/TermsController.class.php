@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerTerms extends XoApiAbstractController
+class XoApiControllerTerms extends XoApiAbstractIndexController
 {
 	/**
 	 * Filter, search, or list terms by various properties similar to get_terms().

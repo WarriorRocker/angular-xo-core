@@ -2,16 +2,16 @@
 
 /**
  * Provide endpoints for retrieving dynamic routes.
- * 
+ *
  * @since 1.0.0
  */
-class XoApiControllerRoutes extends XoApiAbstractController
+class XoApiControllerRoutes extends XoApiAbstractIndexController
 {
 	/**
 	 * Get the dynamic route configuration.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return XoApiAbstractRoutesGetResponse
 	 */
 	function Get() {
@@ -37,7 +37,7 @@ class XoApiControllerRoutes extends XoApiAbstractController
 		if (!$routes)
 			return new XoApiAbstractRoutesGetResponse(false, __('Unable to retrieve routes.', 'xo'));
 
-		// Return success 
+		// Return success
 		return new XoApiAbstractRoutesGetResponse(
 			true, __('Successfully retrieved routes.', 'xo'),
 			$routes

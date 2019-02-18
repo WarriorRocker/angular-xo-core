@@ -2,10 +2,10 @@
 
 /**
  * Provide endpoints for retrieving, searching, and listing various post types.
- * 
+ *
  * @since 1.0.0
  */
-class XoApiControllerPosts extends XoApiAbstractController
+class XoApiControllerPosts extends XoApiAbstractIndexController
 {
 	/**
 	 * Get a post using either the relative URL or postId.

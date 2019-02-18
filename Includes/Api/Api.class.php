@@ -77,6 +77,7 @@ class XoApi
 
 	function IncludeApiControllers() {
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Controller.class.php');
+		$this->Xo->RequireOnce('Includes/Api/Abstract/IndexController.class.php');
 
 		$this->Xo->RequireOnce('Includes/Api/Controllers/ConfigController.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Controllers/RoutesController.class.php');

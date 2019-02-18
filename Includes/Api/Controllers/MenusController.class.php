@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerMenus extends XoApiAbstractController
+class XoApiControllerMenus extends XoApiAbstractIndexController
 {
 	/**
 	 * Get a navigation menu by location name
