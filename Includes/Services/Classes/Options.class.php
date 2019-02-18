@@ -23,14 +23,25 @@ class XoServiceOptions
 
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
+		$this->SetOverrides();
+	}
 
-		add_filter('xo/options/states', array($this, 'GetStates'), 10, 2);
+	/**
+	 * Set overrides from XO_SETTINGS if defined.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	function SetOverrides() {
+		if (!defined('XO_SETTINGS'))
+			return;
 
-		if (defined('XO_SETTINGS')) {
-			$settings = json_decode(XO_SETTINGS, true);
-			if (!empty($settings['overrides']))
-				$this->overrides = $settings['overrides'];
-		}
+		if (!$settings = json_decode(XO_SETTINGS, true))
+			return;
+
+		if (!empty($settings['overrides']))
+			$this->overrides = $settings['overrides'];
 	}
 
 	/**
