@@ -21,7 +21,7 @@ class XoApiClassRouter
 		$this->Xo = $Xo;
 
 		add_action('init', array($this, 'Init'), 10, 0);
-		add_action('parse_request', array($this, 'ApiQuery'), 0, 0);
+		add_action('template_redirect', array($this, 'ApiQuery'), 0, 0);
 	}
 
 	function Init() {
@@ -35,10 +35,10 @@ class XoApiClassRouter
 
 	function AddRewrites() {
 		if ((!$this->Xo->Services->Options->GetOption('xo_api_enabled', false))
-			|| (!$apiEndpiont = $this->Xo->Services->Options->GetOption('xo_api_endpoint')))
+			|| (!$apiEndpoint = $this->Xo->Services->Options->GetOption('xo_api_endpoint')))
 			return;
 
-		$apiEndpoint = ltrim($apiEndpiont, '/');
+		$apiEndpoint = ltrim($apiEndpoint, '/');
 
 		add_rewrite_rule(
 			'^' . $apiEndpoint . '\/$',

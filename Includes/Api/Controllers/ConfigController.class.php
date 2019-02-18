@@ -26,7 +26,7 @@ class XoApiControllerConfig extends XoApiAbstractIndexController
 				'debug' => WP_DEBUG
 			),
 			'paths' => array(
-				'apiUrl' => '/xo-api/',
+				'apiUrl' => $this->Xo->Services->Options->GetOption('xo_api_endpoint') . '/',
 				'templateUrl' => wp_make_link_relative(get_bloginfo('template_url')) . '/'
 			)
 		);

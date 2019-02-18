@@ -12,8 +12,6 @@ class XoServiceIndexBuilder
 	 */
 	var $Xo;
 
-	var $apiEndpiont = '/xo-api';
-
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 

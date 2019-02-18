@@ -7,8 +7,20 @@
  */
 class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 {
+	/**
+	 * @var XoServiceAdminNotice
+	 */
+	var $RewritesNeedUpdatingNotice;
+
 	function Init() {
+		$this->RewritesNeedUpdatingNotice = new XoServiceAdminNotice(
+			'angular-xo-rewrites-need-update-notice',
+			array($this, 'RewritesNeedUpdatingNoticeRender')
+		);
+
 		$this->InitGeneralSection();
+
+		$this->DoAction();
 	}
 
 	function InitGeneralSection() {
@@ -33,6 +45,9 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 					$option, $states, $value,
 					__('Whether to enable the Xo API.', 'xo')
 				);
+			},
+			function ($oldValue, $newValue, $option) {
+				$this->UpdatedApiSetting($oldValue, $newValue, $option);
 			}
 		);
 	}
@@ -47,7 +62,41 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 					$option, $states, $value,
 					__('Relative base path for the Xo API.', 'xo')
 				);
+			},
+			function ($oldValue, $newValue, $option) {
+				$this->UpdatedApiSetting($oldValue, $newValue, $option);
 			}
 		);
+	}
+
+	function UpdatedApiSetting($oldValue, $newValue, $option) {
+		if ($oldValue !== $newValue) {
+			$this->RewritesNeedUpdatingNotice->RegisterNotice();
+		}
+	}
+
+	function RewritesNeedUpdatingNoticeRender($settings) {
+		$output = '<p><strong>' . sprintf(
+			__('%s API settings updated, please %s now.', 'xo'),
+			$this->Xo->name,
+			sprintf(
+				'<a href="' . $this->SettingsPage->GetTabUrl()
+					. '&action=update-rewrites' . '">%s</a>',
+				__('update rewrites', 'xo')
+			)
+		) . '</strong></p>';
+
+		return $output;
+	}
+
+	function DoAction() {
+		if (empty($_GET['action']))
+			return;
+
+		switch ($_GET['action']) {
+			case 'update-rewrites':
+				flush_rewrite_rules();
+				break;
+		}
 	}
 }

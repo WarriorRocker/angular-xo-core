@@ -17,8 +17,6 @@ class XoFilterModRewrite
 	 */
 	var $UpdateNotice;
 
-	var $apiEndpoint = '/xo-api';
-
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 
@@ -97,7 +95,11 @@ class XoFilterModRewrite
 		if (($pos = strpos($rules, 'RewriteRule')) === false)
 			return;
 
-		$apiEndpoint = ltrim($this->apiEndpoint, '/');
+		if ((!$this->Xo->Services->Options->GetOption('xo_api_enabled', false))
+			|| (!$apiEndpoint = $this->Xo->Services->Options->GetOption('xo_api_endpoint')))
+			return;
+
+		$apiEndpoint = ltrim($apiEndpoint, '/');
 
 		$rules = substr($rules, 0, $pos) .
 			'RewriteRule ^' . $apiEndpoint . '/(.*)$ /index.php [NC,L]' . "\n" .

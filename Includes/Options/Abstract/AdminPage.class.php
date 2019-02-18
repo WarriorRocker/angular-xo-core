@@ -2,7 +2,7 @@
 
 /**
  * An abstract class used to setup, display, and manage tabs on a WordPress admin page.
- * 
+ *
  * @since 1.0.0
  */
 class XoOptionsAbstractAdminPage
@@ -14,54 +14,54 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * The H1 title shown at the top of the page.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @var string
 	 */
 	public $pageTitle;
 
 	/**
 	 * The slug of the admin page.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @var string
 	 */
 	public $pageSlug;
 
 	/**
 	 * A derived url of the current page. Useful for linking within a page such as tabs.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @var string
 	 */
 	public $baseUrl;
 
 	/**
 	 * Slug of the currently active tab.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @var string
 	 */
 	public $currentSlug;
 
 	/**
 	 * Configuration of the currently active tab.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @var array
 	 */
 	public $currentTab;
 
 	/**
 	 * Collection of tabs registered for the current admin page.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @var array
 	 */
 	public $tabs = array();
@@ -74,7 +74,7 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * Render the current view and tab.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	function Render() {
@@ -91,9 +91,9 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * Add a tab to the current admin page.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param string $slug URL slug used when referencing the tab.
 	 * @param string $title Title shown in the tabs navigation bar.
 	 * @param string $class Class to instantiate for the tab, expected to be included prior to admin_init.
@@ -108,10 +108,12 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * Iterate through the tabs and create a new instance, useful for allowing additional hooks within the tab.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	function InitTabs() {
+		$this->SetCurrentTab();
+
 		foreach ($this->tabs as &$tab)
 			if (!empty($tab['class']))
 				$tab['classInstance'] = new $tab['class']($this, $tab['slug']);
@@ -119,7 +121,7 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * Set the currently active tab based either on the URL or default if not found or not set.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	function SetCurrentTab() {
@@ -139,7 +141,7 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * Small function to render the title of the given admin page.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	function RenderHeading() {
@@ -149,7 +151,7 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * Render the tab navigation bar or nothing if there is only one or no tabs.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	function RenderTabs() {
@@ -170,7 +172,7 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * Small function to render the currently selected tab.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	function RenderCurrentTab() {
@@ -180,9 +182,9 @@ class XoOptionsAbstractAdminPage
 
 	/**
 	 * Helper function to get the URL to the current or a given tab.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param string $tabSlug Slug of the tab to get the URL, blank for current tab.
 	 * @return string URL of the given tab.
 	 */

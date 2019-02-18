@@ -45,6 +45,10 @@ class XoFilterPluginSettings
 		$this->ActivationNotice->RegisterNotice(array(
 			'setDefaults' => $setDefaults
 		));
+
+		$this->Xo->Api->Router->AddRewrites();
+
+		flush_rewrite_rules();
 	}
 
 	function DeactivatePlugin() {
