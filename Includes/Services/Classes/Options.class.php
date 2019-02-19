@@ -104,7 +104,6 @@ class XoServiceOptions
 
 			// Routing Tab
 			'xo_routing_previews_enabled' => true,
-			'xo_404_page_id' => 0,
 
 			// Templates Tab
 			'xo_templates_reader_enabled' => true,
