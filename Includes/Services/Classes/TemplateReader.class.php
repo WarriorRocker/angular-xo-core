@@ -2,7 +2,7 @@
 
 /**
  * Service class used to parse templates for inclusion with Xo and WordPress.
- * 
+ *
  * @since 1.0.0
  */
 class XoServiceTemplateReader
@@ -73,6 +73,9 @@ class XoServiceTemplateReader
 	}
 
 	function GetAnnotatedTemplates() {
+		if (!$this->Xo->Services->Options->GetOption('xo_templates_reader_enabled', false))
+			return array();
+
 		if (!$this->annotatedTemplates) {
 			$cachingEnabled = $this->Xo->Services->Options->GetOption('xo_templates_cache_enabled', false);
 			$this->annotatedTemplates = $this->GetTemplates($cachingEnabled);

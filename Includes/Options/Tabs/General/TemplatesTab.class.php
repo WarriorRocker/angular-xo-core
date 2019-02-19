@@ -17,8 +17,23 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 			__('Templates Reader', 'xo'),
 			__('Used to set options for the Angular template reader.', 'xo'),
 			function ($section) {
+				$this->AddReaderSectionReaderEnabledSetting($section);
 				$this->AddReaderSectionCacheEnabledSetting($section);
 				$this->AddReaderSectionTemplatesPathSetting($section);
+			}
+		);
+	}
+
+	function AddReaderSectionReaderEnabledSetting($section) {
+		$this->AddSettingsField(
+			$section,
+			'xo_templates_reader_enabled',
+			__('Reader Enabled', 'xo'),
+			function ($option, $states, $value) {
+				return $this->GenerateInputCheckboxField(
+					$option, $states, $value,
+					__('Set to enable the template reader.', 'xo')
+				);
 			}
 		);
 	}

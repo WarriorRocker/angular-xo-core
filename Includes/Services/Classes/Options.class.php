@@ -107,6 +107,7 @@ class XoServiceOptions
 			'xo_404_page_id' => 0,
 
 			// Templates Tab
+			'xo_templates_reader_enabled' => true,
 			'xo_templates_cache_enabled' => true,
 			'xo_templates_cache' => array(),
 			'xo_templates_path' => '/src/app',
