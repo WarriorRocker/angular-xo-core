@@ -95,6 +95,7 @@ class XoOptions
 	function InitToolsPageTabs() {
 		$this->ToolsPage->AddTab('tools', __('Tools', 'xo'), 'XoOptionsTabTools');
 		$this->ToolsPage->AddTab('profile', __('Profile', 'xo'), 'XoOptionsTabProfile');
+		$this->ToolsPage->AddTab('export', __('Export', 'xo'), 'XoOptionsTabExport');
 	}
 
 	function Includes() {
@@ -130,6 +131,7 @@ class XoOptions
 	function IncludeToolsTabs() {
 		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ToolsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ProfileTab.class.php');
+		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ExportTab.class.php');
 	}
 
 	/**

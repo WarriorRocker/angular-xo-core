@@ -23,6 +23,10 @@ class XoServiceOptions
 
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
+		add_action('init', array($this, 'Init'), 10, 0);
+	}
+
+	function Init() {
 		$this->SetOverrides();
 	}
 
@@ -35,7 +39,7 @@ class XoServiceOptions
 	 */
 	function SetOverrides() {
 		if (!defined('XO_SETTINGS'))
-			return;
+		    return;
 
 		if (!$settings = json_decode(XO_SETTINGS, true))
 			return;
@@ -54,7 +58,11 @@ class XoServiceOptions
 	 * @return mixed Return value of the option.
 	 */
 	function GetOption($name, $value = false) {
-		$value = get_option($name, $value);
+		if (isset($this->overrides[$name])) {
+			$value = $this->overrides[$name];
+		} else {
+			$value = get_option($name, $value);
+		}
 
 		$value = apply_filters('xo/options/get/' . $name, $value);
 
@@ -100,6 +108,7 @@ class XoServiceOptions
 
 			// Templates Tab
 			'xo_templates_cache_enabled' => true,
+			'xo_templates_cache' => array(),
 			'xo_templates_path' => '/src/app',
 
 			// ACF Tab
@@ -107,6 +116,25 @@ class XoServiceOptions
 		);
 
 		return $defaults;
+	}
+
+	/**
+	 * Get all current settings in order: defaults, database, overrides.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array All current settings.
+	 */
+	function GetCurrentSettings() {
+		$settings = array();
+		$defaults = $this->GetDefaults();
+
+		foreach ($defaults as $option => $value)
+			$settings[$option] = $this->GetOption($option, $value);
+
+		$settings = apply_filters('xo/options/settings', $settings);
+
+		return $settings;
 	}
 
 	/**

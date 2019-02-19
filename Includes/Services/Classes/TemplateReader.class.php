@@ -96,7 +96,7 @@ class XoServiceTemplateReader
 	}
 
 	function GetTemplates($caching = true, $useCache = true) {
-		$templatesCache = json_decode($this->Xo->Services->Options->GetOption('xo_templates_cache', ''), true);
+		$templatesCache = $this->Xo->Services->Options->GetOption('xo_templates_cache', array());
 
 		if (($caching) && ($useCache) && (!empty($templatesCache)))
 		    return $templatesCache;
@@ -118,7 +118,7 @@ class XoServiceTemplateReader
 		}
 
 		if (($caching) && ((!$useCache) || ($templatesCache) || ($templates))) {
-			update_option('xo_templates_cache', json_encode($templates));
+			update_option('xo_templates_cache', $templates);
 			$this->UpdateTemplatesNotice->RegisterNotice();
 		}
 
