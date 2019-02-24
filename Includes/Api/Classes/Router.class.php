@@ -21,7 +21,7 @@ class XoApiClassRouter
 		$this->Xo = $Xo;
 
 		add_action('init', array($this, 'Init'), 10, 0);
-		add_action('template_redirect', array($this, 'ApiQuery'), 0, 0);
+		add_action('parse_request', array($this, 'ApiQuery'), 0, 0);
 	}
 
 	function Init() {

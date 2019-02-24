@@ -50,9 +50,42 @@ class XoFilterModRewrite
 	}
 
 	function UpdateRewrites(&$rules) {
+		$this->AddAccessControlHeaders($rules);
+
 		if ($this->UpdateEntryPointRules($rules)) {
 			$this->AddWpJsonRule($rules);
 			$this->AddXoApiRule($rules);
+		}
+	}
+
+	function AddAccessControlHeaders(&$rules) {
+		$mode = $this->Xo->Services->Options->GetOption('xo_api_access_control_mode', '');
+
+		if ($mode == 'default')
+			return;
+
+		if ($mode == 'all') {
+			$rules = implode("\n", array(
+				'<IfModule mod_headers.c>',
+				'Header add Access-Control-Allow-Origin "*"',
+				//'Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"',
+				//'Header add Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"',
+				'</IfModule>'
+			)) . "\n\n" . $rules;
+		} else if ($mode == 'list') {
+			$hosts = $this->Xo->Services->Options->GetOption('xo_access_control_allowed_hosts', '');
+
+			if (empty($hosts))
+				return;
+
+			$hostsFormatted = str_replace("\n", '|', $hosts);
+
+			$rules = implode("\n", array(
+				'<IfModule mod_headers.c>',
+				'SetEnvIf Origin "http(s)?://(www\.)?(' . $hostsFormatted . ')$" AccessControlAllowOrigin=$0$1',
+				'Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin',
+				'</IfModule>'
+			)) . "\n\n" . $rules;
 		}
 	}
 

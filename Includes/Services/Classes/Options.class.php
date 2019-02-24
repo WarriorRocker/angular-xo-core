@@ -101,6 +101,8 @@ class XoServiceOptions
 			// Api Tab
 			'xo_api_enabled' => true,
 			'xo_api_endpoint' => '/xo-api',
+			'xo_api_access_control_mode' => 'default',
+			'xo_access_control_allowed_hosts' => 'localhost:4200',
 
 			// Routing Tab
 			'xo_routing_previews_enabled' => true,
