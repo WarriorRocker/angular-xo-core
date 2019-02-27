@@ -8,13 +8,14 @@
 class XoOptionsTabExport extends XoOptionsAbstractFieldsTab
 {
 	public function Render() {
-		$this->AddGeneralSection();
+		$this->AddExportSettingsSection();
+		$this->AddExportAppConfigSection();
 	}
 
-	function AddGeneralSection() {
+	function AddExportSettingsSection() {
 		$this->GenerateSection(
-			__('General', 'xo'),
-			__('General export data.', 'xo')
+			__('Settings', 'xo'),
+			__('Settings which override options within Xo.', 'xo')
 		);
 
 		$this->GenerateTable(function () {
@@ -31,11 +32,40 @@ class XoOptionsTabExport extends XoOptionsAbstractFieldsTab
 					$value = "define('XO_SETTINGS', json_encode(" . $value . "));";
 
 					$this->GenerateTextareaField(
-						$name,
-						array(),
-						$value,
+						$name, array(), $value,
 						sprintf(
 							__('Copy the output below to your wp-config.php or functions.php file to fully override all %s settings.', 'xo'),
+							$this->Xo->name
+						),
+						20
+					);
+				}
+			);
+		});
+	}
+
+	function AddExportAppConfigSection() {
+		$this->GenerateSection(
+			__('Config', 'xo'),
+			__('Settings used to configure your Angular app.', 'xo')
+		);
+
+		$this->GenerateTable(function () {
+			$this->GenerateFieldRow(
+				'xo_config_export',
+				__('AppConfig Export', 'xo'),
+				function ($name) {
+					$XoApiConfigController = new XoApiControllerConfig($this->Xo);
+					$config = $XoApiConfigController->Get();
+
+					$value = json_encode($config->config, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
+					$value = 'var appConfig = ' . $value . ';';
+
+					$this->GenerateTextareaField(
+						$name, array(), $value,
+						sprintf(
+							__('Use the below output to set or manually modify the Xo appConfig global in your Angular app.', 'xo'),
 							$this->Xo->name
 						),
 						20
