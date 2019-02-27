@@ -19,9 +19,6 @@ class XoServiceIndexBuilder
 
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
-
-		add_action('xo/index/build/src', array($this, 'BuildSrcIndex'), 10, 0);
-		add_action('xo/index/build/dist', array($this, 'BuildDistIndex'), 10, 0);
 	}
 
 	function CheckAppConfigSrcEntrypoint() {
@@ -78,7 +75,7 @@ class XoServiceIndexBuilder
 
 		$this->AddWpFooter($output);
 
-		$output = apply_filters('xo/index/render/dist');
+		$output = apply_filters('xo/index/render/dist', $output);
 
 		if ($echo)
 			echo $output;
