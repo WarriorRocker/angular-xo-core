@@ -2,7 +2,7 @@
 
 /**
  * Service class used to generate an Xo/WordPress compatible index.
- * 
+ *
  * @since 1.0.0
  */
 class XoServiceIndexBuilder
@@ -12,6 +12,11 @@ class XoServiceIndexBuilder
 	 */
 	var $Xo;
 
+	/**
+	 * @var string
+	 */
+	var $appConfigEntrypoint = 'xo-config';
+
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 
@@ -19,11 +24,31 @@ class XoServiceIndexBuilder
 		add_action('xo/index/build/dist', array($this, 'BuildDistIndex'), 10, 0);
 	}
 
+	function CheckAppConfigSrcEntrypoint() {
+		if (!$output = $this->GetTemplateIndex('xo_index_dist'))
+			return false;
+
+		return $this->CheckAppConfigEntrypoint($output);
+	}
+
+	function CheckAppConfigDistEntrypoint() {
+		if (!$output = $this->GetTemplateIndex('xo_index_dist'))
+			return false;
+
+		return $this->CheckAppConfigEntrypoint($output);
+	}
+
+	function CheckAppConfigEntrypoint($output) {
+		return (strpos($output, '<script id="' . $this->appConfigEntrypoint . '"') !== false);
+	}
+
 	function BuildSrcIndex($echo = true) {
 		if (!$output = $this->GetTemplateIndex('xo_index_src'))
 			return false;
 
 		$this->AddAppConfig($output, false);
+
+		$output = apply_filters('xo/index/build/src', $output);
 
 		if ($echo)
 			echo $output;
@@ -36,6 +61,8 @@ class XoServiceIndexBuilder
 			return false;
 
 		$this->AddAppConfig($output);
+
+		$output = apply_filters('xo/index/build/dist', $output);
 
 		if ($echo)
 			echo $output;
@@ -51,6 +78,8 @@ class XoServiceIndexBuilder
 
 		$this->AddWpFooter($output);
 
+		$output = apply_filters('xo/index/render/dist');
+
 		if ($echo)
 			echo $output;
 
@@ -63,6 +92,8 @@ class XoServiceIndexBuilder
 			wp_head();
 			$wpHead = ob_get_clean();
 
+			$wpHead = apply_filters('xo/index/build/header', $wpHead);
+
 			$this->InsertBetween($output, $wpHead, $headPos);
 		}
 	}
@@ -73,35 +104,35 @@ class XoServiceIndexBuilder
 			wp_footer();
 			$wpFooter = ob_get_clean();
 
+			$wpFooter = apply_filters('xo/index/build/footer', $wpFooter);
+
 			$this->InsertBetween($output, $wpFooter, $bodyPos);
 		}
 	}
 
 	function AddAppConfig(&$output, $relative = true) {
-		$scriptId = 'xo-config';
-
-		if (!$config = apply_filters('xo/index/build/config', false)) {
-			$XoApiConfigController = new XoApiControllerConfig($this->Xo);
-			$config = $XoApiConfigController->Get();
-		}
-
-		if (!$config->success)
-			return false;
+		$XoApiConfigController = new XoApiControllerConfig($this->Xo);
+		$config = $XoApiConfigController->Get();
 
 		if ((!$relative) && (!empty($config->config['paths']))) {
 			if (!empty($config->config['paths']['apiUrl']))
 				$config->config['paths']['apiUrl'] = get_site_url() . $config->config['paths']['apiUrl'];
 		}
 
+		$config = apply_filters('xo/index/build/config', $config);
+
+		if (!$config->success)
+			return false;
+
 		$scriptReplace = implode("\n", array(
-			'<script id="' . $scriptId . '" type="text/javascript">',
+			'<script id="' . $this->appConfigEntrypoint . '" type="text/javascript">',
 			'/* <![CDATA[ */',
 			'var appConfig = ' . json_encode($config->config) . ';',
 			'/* ]]> */',
 			'</script>'
 		));
 
-		if ((($scriptStartPos = strpos($output, '<script id="' . $scriptId . '"')) !== false) &&
+		if ((($scriptStartPos = strpos($output, '<script id="' . $this->appConfigEntrypoint . '"')) !== false) &&
 			(($scriptEndPos = strpos($output, '</script>', $scriptStartPos)) !== false)) {
 			$this->InsertBetween($output, $scriptReplace, $scriptStartPos, $scriptEndPos + 9);
 			return true;
