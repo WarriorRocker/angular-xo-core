@@ -24,6 +24,25 @@ class XoOptionsTabProfile extends XoOptionsAbstractTab
 		$items[] = array(__('MySQL', 'xo'), mysqli_get_server_info($wpdb->dbh));
 		$items[] = array(__('PHP', 'xo'), phpversion());
 
+		$annotatedTemplates = $this->Xo->Services->TemplateReader->GetAnnotatedTemplates();
+		$items[] = array(__('Templates', 'xo'), (($annotatedTemplates) ? count($annotatedTemplates) : 0));
+
+		$distIndexFound = $this->Xo->Services->IndexBuilder->GetDistIndex();
+		$items[] = array(__('Dist Index', 'xo'), (($distIndexFound) ? __('Present', 'xo') : __('Not Found', 'xo')));
+
+		if ($distIndexFound) {
+			$distAppConfigFound = $this->Xo->Services->IndexBuilder->CheckAppConfigDistEntrypoint();
+			$items[] = array(__('Dist appConfig', 'xo'), (($distAppConfigFound) ? __('Present', 'xo') : __('Not Found', 'xo')));
+		}
+
+		$srcIndexFound = $this->Xo->Services->IndexBuilder->GetSrcIndex();
+		$items[] = array(__('Src Index', 'xo'), (($srcIndexFound) ? __('Present', 'xo') : __('Not Found', 'xo')));
+
+		if ($srcIndexFound) {
+			$srcAppConfigFound = $this->Xo->Services->IndexBuilder->CheckAppConfigSrcEntrypoint();
+			$items[] = array(__('Src appConfig', 'xo'), (($srcAppConfigFound) ? __('Present', 'xo') : __('Not Found', 'xo')));
+		}
+
 		$output = '';
 
 		foreach ($items as $item)
@@ -31,8 +50,4 @@ class XoOptionsTabProfile extends XoOptionsAbstractTab
 
 		echo $output;
 	}
-
-	//function AddTableRow(...$columns) {
-	//    foreach ($columns as $column)
-	//}
 }

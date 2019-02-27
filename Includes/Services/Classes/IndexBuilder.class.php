@@ -21,15 +21,29 @@ class XoServiceIndexBuilder
 		$this->Xo = $Xo;
 	}
 
-	function CheckAppConfigSrcEntrypoint() {
+	function GetSrcIndex() {
+		if (!$output = $this->GetTemplateIndex('xo_index_src'))
+			return false;
+
+		return $output;
+	}
+
+	function GetDistIndex() {
 		if (!$output = $this->GetTemplateIndex('xo_index_dist'))
+			return false;
+
+		return $output;
+	}
+
+	function CheckAppConfigSrcEntrypoint() {
+		if (!$output = $this->GetSrcIndex())
 			return false;
 
 		return $this->CheckAppConfigEntrypoint($output);
 	}
 
 	function CheckAppConfigDistEntrypoint() {
-		if (!$output = $this->GetTemplateIndex('xo_index_dist'))
+		if (!$output = $this->GetDistIndex())
 			return false;
 
 		return $this->CheckAppConfigEntrypoint($output);
@@ -40,7 +54,7 @@ class XoServiceIndexBuilder
 	}
 
 	function BuildSrcIndex($echo = true) {
-		if (!$output = $this->GetTemplateIndex('xo_index_src'))
+		if (!$output = $this->GetSrcIndex())
 			return false;
 
 		$this->AddAppConfig($output, false);
@@ -54,7 +68,7 @@ class XoServiceIndexBuilder
 	}
 
 	function BuildDistIndex($echo = true) {
-		if (!$output = $this->GetTemplateIndex('xo_index_dist'))
+		if (!$output = $this->GetDistIndex())
 			return false;
 
 		$this->AddAppConfig($output);
@@ -68,7 +82,7 @@ class XoServiceIndexBuilder
 	}
 
 	function RenderDistIndex($echo = true) {
-		if (!$output = $this->GetTemplateIndex('xo_index_dist'))
+		if (!$output = $this->GetDistIndex())
 			return false;
 
 		$this->AddWpHead($output);
