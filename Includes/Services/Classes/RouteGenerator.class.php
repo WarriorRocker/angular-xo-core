@@ -2,7 +2,7 @@
 
 /**
  * Service class used to generate Angular compatible Route configurations.
- * 
+ *
  * @since 1.0.0
  */
 class XoServiceRouteGenerator
@@ -16,11 +16,36 @@ class XoServiceRouteGenerator
 		$this->Xo = $Xo;
 	}
 
-	public function GetRoutes() {
+	/**
+	 * Get all available routes in an Angular Route compatible format.
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @param boolean $includeDraftsAndPreviews Optionally include draft and preview routes.
+	 * @return array Angular Routes.
+	 */
+	public function GetRoutes($includeDraftsAndPreviews = false) {
 		$routes = array();
 
+		// Check if drafts and previews should be included
+		if ($includeDraftsAndPreviews) {
+			// Add routes for page drafts
+			$this->AddRoutesForPageDrafts($routes);
+
+			// Add routes for page previews
+			$this->AddRoutesForPagePreviews($routes);
+
+			// Add routes for post drafts and previews
+			$this->AddRoutesForPostDraftsAndPreviews($routes);
+		}
+
+		// Add routes for pages
 		$this->AddRoutesForPages($routes);
+
+		// Add routes for custom post types
 		$this->AddRoutesForPosts($routes);
+
+		// Add route for the 404 page
 		$this->AddRouteFor404Page($routes);
 
 		$routes = apply_filters('xo/routes/get', $routes);
