@@ -13,14 +13,25 @@ class XoServiceIndexBuilder
 	var $Xo;
 
 	/**
+	 * Handle used to check and insert the App Config into the index.
+	 *
+	 * @since 1.0.0
+	 *
 	 * @var string
 	 */
-	var $appConfigEntrypoint = 'xo-config';
+	var $appConfigScriptId = 'xo-config';
 
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 	}
 
+	/**
+	 * Read and return a rendered index optionally including wp_head, wp_footer, and App Config.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean|string Rendered index output.
+	 */
 	function RenderDistIndex() {
 		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_dist', false))
 			return false;
@@ -51,30 +62,66 @@ class XoServiceIndexBuilder
 		return $output;
 	}
 
+	/**
+	 * Render and add wp_head to the index output before the closing HEAD tag.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $output Output stream.
+	 * @return boolean Whether wp_head was successfully added to the output stream.
+	 */
 	private function AddWpHead(&$output) {
-		if (($headPos = strpos($output, '</head>')) !== false) {
-			ob_start();
-			wp_head();
-			$wpHead = ob_get_clean();
+		$headPos = strpos($output, '</head>');
+		if ($headPos === false)
+			return false;
 
-			$wpHead = apply_filters('xo/index/build/header', $wpHead);
+		ob_start();
+		wp_head();
+		$wpHead = ob_get_clean();
 
-			$this->InsertBetween($output, $wpHead, $headPos);
-		}
+		$wpHead = apply_filters('xo/index/build/header', $wpHead);
+		if (empty($wpHead))
+			return false;
+
+		$this->InsertBetween($output, $wpHead, $headPos);
+
+		return true;
 	}
 
+	/**
+	 * Render and add wp_footer to the index output before the closing BODY tag.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $output Output stream.
+	 * @return boolean Whether wp_footer was successfully added to the output stream.
+	 */
 	private function AddWpFooter(&$output) {
-		if (($bodyPos = strpos($output, '</body>')) !== false) {
-			ob_start();
-			wp_footer();
-			$wpFooter = ob_get_clean();
+		$bodyPos = strpos($output, '</body>');
+		if ($bodyPos === false)
+			return false;
 
-			$wpFooter = apply_filters('xo/index/build/footer', $wpFooter);
+		ob_start();
+		wp_footer();
+		$wpFooter = ob_get_clean();
 
-			$this->InsertBetween($output, $wpFooter, $bodyPos);
-		}
+		$wpFooter = apply_filters('xo/index/build/footer', $wpFooter);
+		if (empty($wpFooter))
+			return false;
+
+		$this->InsertBetween($output, $wpFooter, $bodyPos);
+
+		return true;
 	}
 
+	/**
+	 * Generate and add App Config to the index output within the entrypoint tag if found.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $output Output stream.
+	 * @return boolean Whether App Config was successfully added to the output stream.
+	 */
 	private function AddAppConfig(&$output) {
 		$XoApiConfigController = new XoApiControllerConfig($this->Xo);
 		$config = $XoApiConfigController->Get();
@@ -84,7 +131,7 @@ class XoServiceIndexBuilder
 			return false;
 
 		$scriptReplace = implode("\n", array(
-			'<script id="' . $this->appConfigEntrypoint . '" type="text/javascript">',
+			'<script id="' . $this->appConfigScriptId . '" type="text/javascript">',
 			'/* <![CDATA[ */',
 			'var appConfig = ' . json_encode($config->config) . ';',
 			'/* ]]> */',
@@ -95,7 +142,7 @@ class XoServiceIndexBuilder
 		if (empty($scriptReplace))
 			return false;
 
-		if ((($scriptStartPos = strpos($output, '<script id="' . $this->appConfigEntrypoint . '"')) !== false) &&
+		if ((($scriptStartPos = strpos($output, '<script id="' . $this->appConfigScriptId . '"')) !== false) &&
 			(($scriptEndPos = strpos($output, '</script>', $scriptStartPos)) !== false)) {
 			$this->InsertBetween($output, $scriptReplace, $scriptStartPos, $scriptEndPos + 9);
 			return true;
@@ -104,6 +151,13 @@ class XoServiceIndexBuilder
 		return false;
 	}
 
+	/**
+	 * Add the App Config entrypoint to the src index if the tag is not already present.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean Whether the entrypoint was successfully found or added in the src index.
+	 */
 	function AddAppConfigEntrypoint() {
 		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_src', false))
 			return false;
@@ -118,7 +172,7 @@ class XoServiceIndexBuilder
 		if (empty($output))
 			return false;
 
-		$entrypointCheck = '<script id="' . $this->appConfigEntrypoint . '"';
+		$entrypointCheck = '<script id="' . $this->appConfigScriptId . '"';
 
 		$entrypointCheck = apply_filters('xo/index/check/entrypoint', $entrypointCheck);
 		if (empty($entrypointCheck))
@@ -131,7 +185,7 @@ class XoServiceIndexBuilder
 		if ($bodyPos === false)
 			return false;
 
-		$entrypointInsert = '<script id="' . $this->appConfigEntrypoint
+		$entrypointInsert = '<script id="' . $this->appConfigScriptId
 			. '" type="text/javascript"></script>' . "\n";
 
 		$entrypointInsert = apply_filters('xo/index/build/entrypoint', $entrypointInsert);
@@ -143,6 +197,13 @@ class XoServiceIndexBuilder
 		return $this->WriteIndex($indexFile, $output);
 	}
 
+	/**
+	 * Check whether the App Config entrypoint is found in the src index.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean Whether the App Config entrypoint is found in the src index.
+	 */
 	function CheckAppConfigEntrypoint() {
 		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_src', false))
 			return false;
@@ -157,7 +218,7 @@ class XoServiceIndexBuilder
 		if (empty($output))
 			return false;
 
-		$entrypointCheck = '<script id="' . $this->appConfigEntrypoint . '"';
+		$entrypointCheck = '<script id="' . $this->appConfigScriptId . '"';
 
 		$entrypointCheck = apply_filters('xo/index/check/entrypoint', $entrypointCheck);
 		if (empty($entrypointCheck))
@@ -166,6 +227,17 @@ class XoServiceIndexBuilder
 		return (strpos($output, $entrypointCheck) !== false);
 	}
 
+	/**
+	 * Insert some content string within another content string by start and end indexes.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $stream Stream string to modify passed by reference.
+	 * @param string $content Content to insert.
+	 * @param integer $start Starting index to insert from.
+	 * @param boolean|integer $end Index to append from the stream, false if same as start index.
+	 * @return void
+	 */
 	private function InsertBetween(&$stream, $content, $start, $end = false) {
 		if (!$end)
 			$end = $start;
@@ -173,6 +245,15 @@ class XoServiceIndexBuilder
 		$stream = substr($stream, 0, $start) . $content . substr($stream, $end);
 	}
 
+	/**
+	 * Write the index file with the given content.
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @param string $file Absolute path to the file to write.
+	 * @param string $content Content to write into the file.
+	 * @return boolean Whether the content was successfully written.
+	 */
 	private function WriteIndex($file, $content) {
 		if (!$handle = fopen($file, 'r+'))
 			return false;
