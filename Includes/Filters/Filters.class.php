@@ -47,11 +47,6 @@ class XoFilters
 	 */
 	var $NavMenus;
 
-	/**
-	 * @var XoFilterRebuildIndex
-	 */
-	var $RebuildIndex;
-
 	function __construct($Xo) {
 		$this->Xo = $Xo;
 
@@ -71,8 +66,6 @@ class XoFilters
 		$this->EditorOptions = new XoFilterEditorOptions($this->Xo);
 
 		$this->NavMenus = new XoFiltersNavMenus($this->Xo);
-
-		$this->RebuildIndex = new XoFilterRebuildIndex($this->Xo);
 	}
 
 	function Includes() {
@@ -88,7 +81,5 @@ class XoFilters
 		$this->Xo->RequireOnce('Includes/Filters/External/EditorOptions.class.php');
 
 		$this->Xo->RequireOnce('Includes/Filters/External/NavMenus.class.php');
-
-		$this->Xo->RequireOnce('Includes/Filters/External/RebuildIndex.class.php');
 	}
 }

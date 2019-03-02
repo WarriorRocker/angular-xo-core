@@ -9,6 +9,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 {
 	function Init() {
 		$this->InitGeneralSection();
+		$this->InitLiveIndexSection();
 	}
 
 	function InitGeneralSection() {
@@ -88,6 +89,61 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 			function ($oldValue, $newValue, $option) {
 				if ($oldValue !== $newValue)
 					flush_rewrite_rules();
+			}
+		);
+	}
+
+	function InitLiveIndexSection() {
+		$this->AddSettingsSection(
+			'index_live_index_section',
+			__('Live Index', 'xo'),
+			__('Manage the output when using the Live Redirect Mode.', 'xo'),
+			function ($section) {
+				$this->AddLiveIndexHeaderSection($section);
+				$this->AddLiveIndexFooterSection($section);
+				$this->AddLiveIndexConfigSection($section);
+			}
+		);
+	}
+
+	function AddLiveIndexHeaderSection($section) {
+		$this->AddSettingsField(
+			$section,
+			'xo_index_live_header',
+			__('Header', 'xo'),
+			function ($option, $states, $value) {
+				return $this->GenerateInputCheckboxField(
+					$option, $states, $value,
+					__('Render and add wp_head() before the closing HEAD tag.', 'xo')
+				);
+			}
+		);
+	}
+
+	function AddLiveIndexFooterSection($section) {
+		$this->AddSettingsField(
+			$section,
+			'xo_index_live_footer',
+			__('Footer', 'xo'),
+			function ($option, $states, $value) {
+				return $this->GenerateInputCheckboxField(
+					$option, $states, $value,
+					__('Render and add wp_footer() before the closing BODY tag.', 'xo')
+				);
+			}
+		);
+	}
+
+	function AddLiveIndexConfigSection($section) {
+		$this->AddSettingsField(
+			$section,
+			'xo_index_live_config',
+			__('App Config', 'xo'),
+			function ($option, $states, $value) {
+				return $this->GenerateInputCheckboxField(
+					$option, $states, $value,
+					__('Generate the App Config and add within the App Config Entrypoint if found.', 'xo')
+				);
 			}
 		);
 	}

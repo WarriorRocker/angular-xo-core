@@ -13,6 +13,7 @@ class XoOptionsTabTools extends XoOptionsAbstractTab
 
 	public function Render() {
 		$this->AddGeneralSection();
+		$this->AddGeneralSectionAppConfigEntrypoint();
 		$this->AddGeneralSectionRebuildTemplateCache();
 		$this->AddGeneralSectionResetDefaults();
 	}
@@ -20,6 +21,15 @@ class XoOptionsTabTools extends XoOptionsAbstractTab
 	function AddGeneralSection() {
 		echo '<h3>' . __('Editor Options', 'xo') . '</h3>' .
 			'<p>' . __('Some Tools.', 'xo') . '</p>';
+	}
+
+	function AddGeneralSectionAppConfigEntrypoint() {
+		$output = '<p><a href="' . $this->SettingsPage->GetTabUrl() .
+			'&action=add-entrypoint" class="button-primary">' .
+			__('Add App Config Entrypoint', 'xo') .
+			'</a></p>';
+
+		echo $output;
 	}
 
 	function AddGeneralSectionRebuildTemplateCache() {
@@ -54,6 +64,10 @@ class XoOptionsTabTools extends XoOptionsAbstractTab
 
 			case 'reset-defaults':
 				$this->Xo->Services->Options->ResetDefaults();
+				break;
+
+			case 'add-entrypoint':
+				$this->Xo->Services->IndexBuilder->AddAppConfigEntrypoint();
 				break;
 		}
 	}

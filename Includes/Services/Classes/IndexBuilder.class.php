@@ -21,83 +21,37 @@ class XoServiceIndexBuilder
 		$this->Xo = $Xo;
 	}
 
-	function GetSrcIndex() {
-		if (!$output = $this->GetTemplateIndex('xo_index_src'))
+	function RenderDistIndex() {
+		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_dist', false))
 			return false;
 
-		return $output;
-	}
-
-	function GetDistIndex() {
-		if (!$output = $this->GetTemplateIndex('xo_index_dist'))
+		$indexFile = get_template_directory() . $srcIndex;
+		if (!file_exists($indexFile))
 			return false;
 
-		return $output;
-	}
+		$output = file_get_contents($indexFile);
 
-	function CheckAppConfigSrcEntrypoint() {
-		if (!$output = $this->GetSrcIndex())
+		$output = apply_filters('xo/index/get/dist', $output);
+		if (empty($output))
 			return false;
 
-		return $this->CheckAppConfigEntrypoint($output);
-	}
+		if ($this->Xo->Services->Options->GetOption('xo_index_live_header', false))
+			$this->AddWpHead($output);
 
-	function CheckAppConfigDistEntrypoint() {
-		if (!$output = $this->GetDistIndex())
-			return false;
+		if ($this->Xo->Services->Options->GetOption('xo_index_live_footer', false))
+			$this->AddWpFooter($output);
 
-		return $this->CheckAppConfigEntrypoint($output);
-	}
-
-	function CheckAppConfigEntrypoint($output) {
-		return (strpos($output, '<script id="' . $this->appConfigEntrypoint . '"') !== false);
-	}
-
-	function BuildSrcIndex($echo = true) {
-		if (!$output = $this->GetSrcIndex())
-			return false;
-
-		$this->AddAppConfig($output, false);
-
-		$output = apply_filters('xo/index/build/src', $output);
-
-		if ($echo)
-			echo $output;
-
-		return $output;
-	}
-
-	function BuildDistIndex($echo = true) {
-		if (!$output = $this->GetDistIndex())
-			return false;
-
-		$this->AddAppConfig($output);
-
-		$output = apply_filters('xo/index/build/dist', $output);
-
-		if ($echo)
-			echo $output;
-
-		return $output;
-	}
-
-	function RenderDistIndex($echo = true) {
-		if (!$output = $this->GetDistIndex())
-			return false;
-
-		$this->AddWpHead($output);
-
-		$this->AddWpFooter($output);
+		if ($this->Xo->Services->Options->GetOption('xo_index_live_config', false))
+			$this->AddAppConfig($output);
 
 		$output = apply_filters('xo/index/render/dist', $output);
-
-		if ($echo)
-			echo $output;
+		if (empty($output))
+			return false;
 
 		return $output;
 	}
 
-	function AddWpHead(&$output) {
+	private function AddWpHead(&$output) {
 		if (($headPos = strpos($output, '</head>')) !== false) {
 			ob_start();
 			wp_head();
@@ -109,7 +63,7 @@ class XoServiceIndexBuilder
 		}
 	}
 
-	function AddWpFooter(&$output) {
+	private function AddWpFooter(&$output) {
 		if (($bodyPos = strpos($output, '</body>')) !== false) {
 			ob_start();
 			wp_footer();
@@ -121,18 +75,12 @@ class XoServiceIndexBuilder
 		}
 	}
 
-	function AddAppConfig(&$output, $relative = true) {
+	private function AddAppConfig(&$output) {
 		$XoApiConfigController = new XoApiControllerConfig($this->Xo);
 		$config = $XoApiConfigController->Get();
 
-		if ((!$relative) && (!empty($config->config['paths']))) {
-			if (!empty($config->config['paths']['apiUrl']))
-				$config->config['paths']['apiUrl'] = get_site_url() . $config->config['paths']['apiUrl'];
-		}
-
-		$config = apply_filters('xo/index/build/config', $config);
-
-		if (!$config->success)
+		$config = apply_filters('xo/index/get/config', $config);
+		if ((empty($config)) || (!$config->success))
 			return false;
 
 		$scriptReplace = implode("\n", array(
@@ -143,6 +91,10 @@ class XoServiceIndexBuilder
 			'</script>'
 		));
 
+		$scriptReplace = apply_filters('xo/index/build/config', $scriptReplace);
+		if (empty($scriptReplace))
+			return false;
+
 		if ((($scriptStartPos = strpos($output, '<script id="' . $this->appConfigEntrypoint . '"')) !== false) &&
 			(($scriptEndPos = strpos($output, '</script>', $scriptStartPos)) !== false)) {
 			$this->InsertBetween($output, $scriptReplace, $scriptStartPos, $scriptEndPos + 9);
@@ -152,22 +104,89 @@ class XoServiceIndexBuilder
 		return false;
 	}
 
-	public function GetTemplateIndex($option) {
-		if (!$index = $this->Xo->Services->Options->GetOption($option, false))
+	function AddAppConfigEntrypoint() {
+		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_src', false))
 			return false;
 
-		$file = get_template_directory() . $index;
-
-		if (!file_exists($file))
+		$indexFile = get_template_directory() . $srcIndex;
+		if (!file_exists($indexFile))
 			return false;
 
-		return file_get_contents($file);
+		$output = file_get_contents($indexFile);
+
+		$output = apply_filters('xo/index/get/src', $output);
+		if (empty($output))
+			return false;
+
+		$entrypointCheck = '<script id="' . $this->appConfigEntrypoint . '"';
+
+		$entrypointCheck = apply_filters('xo/index/check/entrypoint', $entrypointCheck);
+		if (empty($entrypointCheck))
+		    return false;
+
+		if (strpos($output, $entrypointCheck) !== false)
+		    return true;
+
+		$bodyPos = strpos($output, '</body>');
+		if ($bodyPos === false)
+			return false;
+
+		$entrypointInsert = '<script id="' . $this->appConfigEntrypoint
+			. '" type="text/javascript"></script>' . "\n";
+
+		$entrypointInsert = apply_filters('xo/index/build/entrypoint', $entrypointInsert);
+		if (empty($entrypointInsert))
+			return false;
+
+		$this->InsertBetween($output, $entrypointInsert, $bodyPos);
+
+		return $this->WriteIndex($indexFile, $output);
 	}
 
-	public function InsertBetween(&$stream, $content, $start, $end = false) {
+	function CheckAppConfigEntrypoint() {
+		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_src', false))
+			return false;
+
+		$indexFile = get_template_directory() . $srcIndex;
+		if (!file_exists($indexFile))
+			return false;
+
+		$output = file_get_contents($indexFile);
+
+		$output = apply_filters('xo/index/get/src', $output);
+		if (empty($output))
+			return false;
+
+		$entrypointCheck = '<script id="' . $this->appConfigEntrypoint . '"';
+
+		$entrypointCheck = apply_filters('xo/index/check/entrypoint', $entrypointCheck);
+		if (empty($entrypointCheck))
+			return false;
+
+		return (strpos($output, $entrypointCheck) !== false);
+	}
+
+	private function InsertBetween(&$stream, $content, $start, $end = false) {
 		if (!$end)
 			$end = $start;
 
 		$stream = substr($stream, 0, $start) . $content . substr($stream, $end);
+	}
+
+	private function WriteIndex($file, $content) {
+		if (!$handle = fopen($file, 'r+'))
+			return false;
+
+		flock($handle, LOCK_EX);
+		fseek($handle, 0);
+
+		if (fwrite($handle, $content))
+			ftruncate($handle, ftell($handle));
+
+		fflush($handle);
+		flock($handle, LOCK_UN);
+		fclose($handle);
+
+		return true;
 	}
 }

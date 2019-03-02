@@ -97,6 +97,9 @@ class XoServiceOptions
 			'xo_index_src' => '/src/index.html',
 			'xo_index_dist' => '/dist/index.html',
 			'xo_index_redirect_mode' => 'default',
+			'xo_index_live_header' => true,
+			'xo_index_live_footer' => true,
+			'xo_index_live_config' => true,
 
 			// Api Tab
 			'xo_api_enabled' => true,

@@ -6,4 +6,9 @@
  * 
  * @since 1.0.0
  */
-$Xo->Services->IndexBuilder->BuildDistIndex();
+$output = $Xo->Services->IndexBuilder->RenderDistIndex();
+
+if (empty($output))
+	die(__('Unable to render index.', 'xo'));
+
+echo $output;
