@@ -18,9 +18,9 @@ class XoServiceRouteGenerator
 
 	/**
 	 * Get all available routes in an Angular Route compatible format.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param boolean $includeDraftsAndPreviews Optionally include draft and preview routes.
 	 * @return array Angular Routes.
 	 */
@@ -53,7 +53,7 @@ class XoServiceRouteGenerator
 		return $routes;
 	}
 
-	public function AddRoutesForPages(&$routes) {
+	private function AddRoutesForPages(&$routes) {
 		$page404Id = intval($this->Xo->Services->Options->GetOption('xo_404_page_id', 0));
 
 		$posts = get_posts(array(
@@ -72,7 +72,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	public function AddRouteFor404Page(&$routes) {
+	private function AddRouteFor404Page(&$routes) {
 		if (($page404Id = intval($this->Xo->Services->Options->GetOption('xo_404_page_id', 0))) &&
 			($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($page404Id))) {
 			$url = wp_make_link_relative(get_permalink($page404Id));
@@ -82,7 +82,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	public function AddRoutesForPosts(&$routes) {
+	private function AddRoutesForPosts(&$routes) {
 		global $wp_post_types;
 
 		foreach ($wp_post_types as $post_type => $post_type_config) {
@@ -98,7 +98,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	public function AddRoutesForPageDrafts(&$routes) {
+	private function AddRoutesForPageDrafts(&$routes) {
 		$posts = get_posts(array(
 			'post_status' => 'draft',
 			'post_type' => 'page',
@@ -115,7 +115,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	public function AddRoutesForPagePreviews(&$routes) {
+	private function AddRoutesForPagePreviews(&$routes) {
 		$posts = get_posts(array(
 			'post_status' => 'publish',
 			'post_type' => 'page',
@@ -133,7 +133,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	public function AddRoutesForPostDraftsAndPreviews(&$routes) {
+	private function AddRoutesForPostDraftsAndPreviews(&$routes) {
 		global $wp_post_types;
 
 		foreach ($wp_post_types as $post_type => $post_type_config) {
