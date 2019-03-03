@@ -16,7 +16,7 @@ class Xo {
 	/**
 	 * @var string
 	 */
-	public $plugin = 'xo-angular/xo-angular.php';
+	public $plugin = 'xo-for-angular/xo-angular.php';
 
 	/**
 	 * @var array
