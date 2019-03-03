@@ -19,7 +19,14 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 		$this->InitErrorsSection();
 	}
 
-	function InitPreviewsSection() {
+	/**
+	 * Settings section for configuring page drafts and previews.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitPreviewsSection() {
 		$this->AddSettingsSection(
 			'routing_previews_section',
 			__('Previews Rewrites', 'xo'),
@@ -30,7 +37,16 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddPreviewsSectionPreviewsEnabledSetting($section) {
+	/**
+	 * Settings field for Previews Enabled.
+	 * Used when generating routes to include drafts and previews.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddPreviewsSectionPreviewsEnabledSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_routing_previews_enabled',
@@ -44,7 +60,14 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function InitErrorsSection() {
+	/**
+	 * Settings section for configuring how to handle various routing errors.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitErrorsSection() {
 		$this->AddSettingsSection(
 			'routing_errors_section',
 			__('Routing Errors', 'xo'),
@@ -55,7 +78,16 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddErrorsSection404PageSetting($section) {
+	/**
+	 * Settings field for 404 Page.
+	 * Used when generating routes to indicate a page which is shown for routes which have no match.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddErrorsSection404PageSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_404_page_id',

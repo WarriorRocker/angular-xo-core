@@ -18,7 +18,14 @@ class XoOptionsTabAcf extends XoOptionsAbstractSettingsTab
 		$this->InitAllowedSection();
 	}
 
-	function InitAllowedSection() {
+	/**
+	 * Settings section for configuring allowed ACF field groups.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitAllowedSection() {
 		$this->AddSettingsSection(
 			'acf_allowed_section',
 			__('Allowed Options', 'xo'),
@@ -29,7 +36,16 @@ class XoOptionsTabAcf extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddAllowedSectionAllowedGroupsSetting($section) {
+	/**
+	 * Settings field for Allowed Groups.
+	 * Used to allow specified ACF groups through the Xo API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddAllowedSectionAllowedGroupsSetting($section) {
 		$option = 'xo_acf_allowed_groups';
 		$value = $this->Xo->Services->Options->GetOption($option, array());
 		$states = $this->Xo->Services->Options->GetStates($option);

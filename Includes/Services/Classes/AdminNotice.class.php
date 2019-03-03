@@ -45,7 +45,7 @@ class XoServiceAdminNotice
 	 * 
 	 * @since 1.0.0
 	 * 
-	 * @param mixed $settings Additional data passed to the notice such as the expiration.
+	 * @param array $settings Additional data passed to the notice such as the expiration.
 	 */
 	function RegisterNotice($settings = array()) {
 		if (!isset($settings['dismissable']))

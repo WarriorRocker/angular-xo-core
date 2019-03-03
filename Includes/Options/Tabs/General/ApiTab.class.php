@@ -10,7 +10,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 	/**
 	 * @var XoServiceAdminNotice
 	 */
-	var $RewritesNeedUpdatingNotice;
+	private $RewritesNeedUpdatingNotice;
 
 	/**
 	 * Add the various settings sections for the Xo API tab.
@@ -71,7 +71,8 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 				);
 			},
 			function ($oldValue, $newValue, $option) {
-				$this->UpdatedApiSetting($oldValue, $newValue, $option);
+				if ($oldValue !== $newValue)
+					$this->RewritesNeedUpdatingNotice->RegisterNotice();
 			}
 		);
 	}
@@ -97,7 +98,8 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 				);
 			},
 			function ($oldValue, $newValue, $option) {
-				$this->UpdatedApiSetting($oldValue, $newValue, $option);
+				if ($oldValue !== $newValue)
+					$this->RewritesNeedUpdatingNotice->RegisterNotice();
 			}
 		);
 	}
@@ -200,13 +202,15 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function UpdatedApiSetting($oldValue, $newValue, $option) {
-		if ($oldValue !== $newValue) {
-			$this->RewritesNeedUpdatingNotice->RegisterNotice();
-		}
-	}
-
-	function RewritesNeedUpdatingNoticeRender($settings) {
+	/**
+	 * Render the rewrites need updating notice when registered.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $settings Additional data passed to the notice render.
+	 * @return string Output of the admin notice
+	 */
+	public function RewritesNeedUpdatingNoticeRender($settings) {
 		$output = '<p><strong>' . sprintf(
 			__('%s API settings updated, please %s now.', 'xo'),
 			$this->Xo->name,
@@ -220,7 +224,14 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		return $output;
 	}
 
-	function DoAction() {
+	/**
+	 * Handle additional actions on the API tab.
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @return void
+	 */
+	private function DoAction() {
 		if (empty($_GET['action']))
 			return;
 

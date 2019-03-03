@@ -18,7 +18,14 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 		$this->InitReaderSection();
 	}
 
-	function InitReaderSection() {
+	/**
+	 * Settings section for configuring various options for the Template Reader.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitReaderSection() {
 		$this->AddSettingsSection(
 			'templates_reader_section',
 			__('Templates Reader', 'xo'),
@@ -31,7 +38,16 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddReaderSectionReaderEnabledSetting($section) {
+	/**
+	 * Settings field for Reader Enabled.
+	 * Used to enable the Template Reader.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddReaderSectionReaderEnabledSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_templates_reader_enabled',
@@ -45,7 +61,16 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddReaderSectionCacheEnabledSetting($section) {
+	/**
+	 * Settings field for Cache Enabled.
+	 * Used to enable the caching of templates from the Template Reader.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddReaderSectionCacheEnabledSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_templates_cache_enabled',
@@ -63,7 +88,16 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddReaderSectionTemplatesPathSetting($section) {
+	/**
+	 * Settings field for Templates Path.
+	 * Used to set the base path for reading templates.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddReaderSectionTemplatesPathSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_templates_path',

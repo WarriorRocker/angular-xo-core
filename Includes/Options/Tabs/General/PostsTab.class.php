@@ -19,7 +19,14 @@ class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 		$this->InitPostTemplateSection();
 	}
 
-	function InitPostPageSection() {
+	/**
+	 * Settings section for configuring Post type roots.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitPostPageSection() {
 		$this->AddSettingsSection(
 			'post_page_section',
 			__('Post Pages', 'xo'),
@@ -37,7 +44,18 @@ class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddPostPageSettingsField($section, $post_type, $post_type_config) {
+	/**
+	 * Settings field for Post Page.
+	 * Used when generating nested routes based on a page serving as the root of a custom post type.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @param string $post_type Post type slug.
+	 * @param WP_Post_Type $post_type_config Post type object.
+	 * @return void
+	 */
+	private function AddPostPageSettingsField($section, $post_type, $post_type_config) {
 		$this->AddSettingsField(
 			$section,
 			'xo_' . $post_type . '_page_id',
@@ -55,7 +73,14 @@ class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function InitPostTemplateSection() {
+	/**
+	 * Settings section for configuring Post type templates.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitPostTemplateSection() {
 		$this->AddSettingsSection(
 			'post_template_section',
 			__('Post Templates', 'xo'),
@@ -73,7 +98,18 @@ class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddPostTemplateSettingsField($section, $post_type, $post_type_config) {
+	/**
+	 * Settings field for Post Template.
+	 * Used to set the template used for a single custom post type.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @param string $post_type Post type slug.
+	 * @param WP_Post_Type $post_type_config Post type object.
+	 * @return void
+	 */
+	private function AddPostTemplateSettingsField($section, $post_type, $post_type_config) {
 		$this->AddSettingsField(
 			$section,
 			'xo_' . $post_type . '_template',
