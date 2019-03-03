@@ -7,6 +7,13 @@
  */
 class XoOptionsTabExport extends XoOptionsAbstractFieldsTab
 {
+	/**
+	 * Add the various sections for the Exports tab.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function Render() {
 		$this->AddExportSettingsSection();
 		$this->AddExportAppConfigSection();

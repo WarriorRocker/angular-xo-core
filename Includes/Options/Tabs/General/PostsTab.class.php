@@ -7,6 +7,13 @@
  */
 class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 {
+	/**
+	 * Add the various settings sections for the Posts tab.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	function Init() {
 		$this->InitPostPageSection();
 		$this->InitPostTemplateSection();

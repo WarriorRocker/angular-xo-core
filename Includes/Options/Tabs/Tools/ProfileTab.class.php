@@ -7,6 +7,13 @@
  */
 class XoOptionsTabProfile extends XoOptionsAbstractTab
 {
+	/**
+	 * Add the various sections for the Profile tab.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function Render() {
 		$this->AddGeneralSection();
 	}

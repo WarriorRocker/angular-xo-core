@@ -12,6 +12,13 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 	 */
 	var $RewritesNeedUpdatingNotice;
 
+	/**
+	 * Add the various settings sections for the Xo API tab.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	function Init() {
 		$this->RewritesNeedUpdatingNotice = new XoServiceAdminNotice(
 			'angular-xo-rewrites-need-update-notice',
@@ -24,7 +31,14 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		$this->DoAction();
 	}
 
-	function InitGeneralSection() {
+	/**
+	 * Settings section for configuring API Endpoint and API Endable fields.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitGeneralSection() {
 		$this->AddSettingsSection(
 			'api_general_section',
 			__('General', 'xo'),
@@ -36,7 +50,16 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddGeneralSectionApiEnabledSetting($section) {
+	/**
+	 * Settings field for API Enabled.
+	 * Used to enable the Xo API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddGeneralSectionApiEnabledSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_api_enabled',
@@ -53,7 +76,16 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddGeneralSectionApiEndpointSetting($section) {
+	/**
+	 * Settings field for API Endpoint.
+	 * Used to set the endpoint for the Xo API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddGeneralSectionApiEndpointSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_api_endpoint',
@@ -70,7 +102,14 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function InitAccessControlSection() {
+	/**
+	 * Settings section for configuring API Access Control Mode and Hosts fields.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitAccessControlSection() {
 		$this->AddSettingsSection(
 			'api_access_control_section',
 			__('Access Control', 'xo'),
@@ -82,7 +121,16 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddAccessControlSectionModeSetting($section) {
+	/**
+	 * Settings field for Access Control Mode.
+	 * Used to set the access control mode for cross origin requests.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddAccessControlSectionModeSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_api_access_control_mode',
@@ -122,7 +170,16 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddAccessControlSectionAllowedHostsSetting($section) {
+	/**
+	 * Settings field for Access Control Allowed Hosts.
+	 * Used to set the the allowed hosts when using the List Access Control mode.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddAccessControlSectionAllowedHostsSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_access_control_allowed_hosts',

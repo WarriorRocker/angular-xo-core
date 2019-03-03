@@ -7,12 +7,26 @@
  */
 class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 {
+	/**
+	 * Add the various settings sections for the Index tab.
+	 * 
+	 * @since 1.0.0
+	 * 
+	 * @return void
+	 */
 	function Init() {
 		$this->InitGeneralSection();
 		$this->InitLiveIndexSection();
 	}
 
-	function InitGeneralSection() {
+	/**
+	 * Settings section for configuring Src and Dist Index and Redirect Mode fields.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitGeneralSection() {
 		$this->AddSettingsSection(
 			'index_general_section',
 			__('General', 'xo'),
@@ -25,7 +39,16 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddGeneralSectionSrcIndexSetting($section) {
+	/**
+	 * Settings field for Src Index.
+	 * Used when reading or modifying the Angular App's src index.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddGeneralSectionSrcIndexSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_src',
@@ -39,7 +62,16 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddGeneralSectionDistIndexSetting($section) {
+	/**
+	 * Settings field for Dist Index.
+	 * Used when reading or modifying the Angular App's dist index.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddGeneralSectionDistIndexSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_dist',
@@ -53,7 +85,16 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddGeneralSectionRedirectModeSetting($section) {
+	/**
+	 * Settings field for Redirect Mode.
+	 * Used to determine the way the Angular App's index should be loaded.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddGeneralSectionRedirectModeSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_redirect_mode',
@@ -93,7 +134,14 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function InitLiveIndexSection() {
+	/**
+	 * Settings section for configuring the output of the Live Redirect Mode.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	private function InitLiveIndexSection() {
 		$this->AddSettingsSection(
 			'index_live_index_section',
 			__('Live Index', 'xo'),
@@ -106,7 +154,16 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddLiveIndexHeaderSection($section) {
+	/**
+	 * Settings field for Header in Live Index.
+	 * Used to optionally include wp_head() in the index output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddLiveIndexHeaderSection($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_live_header',
@@ -120,7 +177,16 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddLiveIndexFooterSection($section) {
+	/**
+	 * Settings field for Footer in Live Index.
+	 * Used to optionally include wp_footer() in the index output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddLiveIndexFooterSection($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_live_footer',
@@ -134,7 +200,16 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 		);
 	}
 
-	function AddLiveIndexConfigSection($section) {
+	/**
+	 * Settings field for App Config in Live Index.
+	 * Used to optionally include the App Config in the index output.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @return void
+	 */
+	private function AddLiveIndexConfigSection($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_live_config',

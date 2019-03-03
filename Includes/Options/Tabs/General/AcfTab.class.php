@@ -7,6 +7,13 @@
  */
 class XoOptionsTabAcf extends XoOptionsAbstractSettingsTab
 {
+	/**
+	 * Add the various settings sections for the ACF tab.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	function Init() {
 		$this->InitAllowedSection();
 	}

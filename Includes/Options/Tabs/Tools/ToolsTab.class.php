@@ -7,6 +7,13 @@
  */
 class XoOptionsTabTools extends XoOptionsAbstractTab
 {
+	/**
+	 * Add the various sections for the Tools tab.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
 	public function Init() {
 		$this->DoAction();
 	}
