@@ -109,7 +109,7 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 		$curPage = ((!empty($params['currentPage'])) ? $params['currentPage'] : 1);
 		$perPage = intval(((!empty($params['postsPerPage']))
 			? $params['postsPerPage']
-			: get_option('posts_per_page')));
+			: $this->Xo->Services->Options->GetOption('posts_per_page')));
 		$offset = (($perPage) ? (($curPage - 1) * $perPage) : 0);
 		$orderBy = ((!empty($params['orderby'])) ? $params['orderby'] : '');
 
@@ -168,7 +168,7 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 
 		// Return an error if no posts were found
 		if (empty($postids))
-			return new XoApiAbstractPostsFilterResponse(false, __('Unable to locate posts.'));
+			return new XoApiAbstractPostsFilterResponse(false, __('Unable to locate posts.', 'xo'));
 
 		// Get the wordpress post objects for the collected post ids
 		$posts = get_posts(array(
