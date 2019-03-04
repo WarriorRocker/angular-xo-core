@@ -17,6 +17,15 @@ class XoApiAbstractMenu extends XoApiAbstractPost
 	public $classes;
 
 	/**
+	 * Target for the anchor link.
+	 * 
+	 * @since 1.0.1
+	 * 
+	 * @var string
+	 */
+	public $target;
+
+	/**
 	 * Generate a fully formed menu object.
 	 * 
 	 * @since 1.0.0
@@ -34,6 +43,7 @@ class XoApiAbstractMenu extends XoApiAbstractPost
 		$this->title = $menu->title;
 		$this->classes = $menu->classes;
 		$this->parent = $menu->menu_item_parent;
+		$this->target = $menu->target;
 
 		// Set the relative url of the menu
 		$this->url = wp_make_link_relative($menu->url);
