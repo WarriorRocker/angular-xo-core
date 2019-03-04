@@ -2,34 +2,34 @@
 
 /**
  * An abstract class that extends post and used to construct a fully formed menu object.
- * 
+ *
  * @since 1.0.0
  */
 class XoApiAbstractMenu extends XoApiAbstractPost
 {
 	/**
 	 * Additional css classes that may be used in the front-end.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @var string
 	 */
 	public $classes;
 
 	/**
 	 * Target for the anchor link.
-	 * 
+	 *
 	 * @since 1.0.1
-	 * 
+	 *
 	 * @var string
 	 */
 	public $target;
 
 	/**
 	 * Generate a fully formed menu object.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param WP_Post $menu The base menu object.
 	 * @param bool $terms Optionally include terms in menu object.
 	 * @param bool $meta Optionally include meta in menu object.
@@ -46,6 +46,10 @@ class XoApiAbstractMenu extends XoApiAbstractPost
 		$this->target = $menu->target;
 
 		// Set the relative url of the menu
-		$this->url = wp_make_link_relative($menu->url);
+		if ($this->target == '_blank') {
+			$this->url = $menu->url;
+		} else {
+			$this->url = wp_make_link_relative($menu->url);
+		}
 	}
 }
