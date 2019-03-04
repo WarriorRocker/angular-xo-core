@@ -107,11 +107,13 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 			? $params['postType']
 			: (($search) ? get_post_types(array('public' => true)) : 'post'));
 		$curPage = ((!empty($params['currentPage'])) ? $params['currentPage'] : 1);
-		$perPage = ((!empty($params['postsPerPage'])) ? intval($params['postsPerPage']) : -1);
+		$perPage = intval(((!empty($params['postsPerPage']))
+			? $params['postsPerPage']
+			: get_option('posts_per_page')));
 		$offset = (($perPage) ? (($curPage - 1) * $perPage) : 0);
 		$orderBy = ((!empty($params['orderby'])) ? $params['orderby'] : '');
 
-		// Construct base arguments for get posts
+		// Construct base arguments for get posts$default_posts_per_page = get_option( 'posts_per_page' );
 		$baseargs = array(
 			'post_status' => 'publish',
 			'post_type' => $postType,
@@ -145,36 +147,28 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 		$baseargs['meta_query'] = ((!empty($params['metaQuery'])) ? $params['metaQuery'] : null);
 
 		// Get posts from search
-		if (($search) && ($keywords = explode(' ', trim($search))) && (count($keywords)))
-			for ($i = (count($keywords) - 1); $i >= 0; $i--)
-				$postids = array_merge($postids, get_posts(array_merge($baseargs, array(
-					's' => $keywords[$i],
-					'post__not_in' => array_merge($excludeids, $postids)
-				))));
+		if ($search) {
+			$keywords = explode(' ', trim($search));
 
-		// Check if posts should be ordered by weight
-		if ($orderBy == 'weight') {
-			// Get all posts using the base args and reset fields to return full wordpress post object
-			$posts = get_posts(array_merge($baseargs, array(
-				'fields' => ''
-			)));
+			if (count($keywords)) {
+				for ($i = (count($keywords) - 1); $i >= 0; $i--) {
+					$postids = array_merge($postids, get_posts(array_merge($baseargs, array(
+						's' => $keywords[$i],
+						'post__not_in' => array_merge($excludeids, $postids)
+					))));
+				}
+			}
 
-			// Iterate through posts in the collection
-			$weighted = array();
-			foreach ($posts as $post)
-				// Set a new weighted value using menu order plus some randomness
-				$weighted[$post->ID] = ((min($post->menu_order, 10) / 10) + (mt_rand(0, 32767) / 32767));
-
-			// Sort the posts by the new weighted value
-			arsort($weighted);
-
-			// Add the new weighted post ids to collection
-			$postids = array_merge($postids, array_keys($weighted));
+		// Otherwise get all posts for the current parameters
 		} else {
 			$postids = array_merge($postids, get_posts(array_merge($baseargs, array(
 			    'post__not_in' => array_merge($excludeids, $postids)
 			))));
 		}
+
+		// Return an error if no posts were found
+		if (empty($postids))
+			return new XoApiAbstractPostsFilterResponse(false, __('Unable to locate posts.'));
 
 		// Get the wordpress post objects for the collected post ids
 		$posts = get_posts(array(
