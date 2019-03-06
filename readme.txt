@@ -33,5 +33,9 @@ Check out the full docs [here](https://angularxo.io) for tips on adding [Templat
 
 == Changelog ==
 
+= 1.0.1 =
+* Added link target to menu item output
+* Fix for posts filter api returning results when there is no match
+
 = 1.0.0 =
 * Xo for Angular initial release.
