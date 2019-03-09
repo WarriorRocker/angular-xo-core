@@ -143,8 +143,12 @@ class XoOptions
 	 * @return string Base64 encoded image data.
 	 */
 	public function GetImageAsSvgBase64($file) {
+		$svgFile = $this->Xo->GetFile($file);
+		if (!$svgFile)
+			return false;
+
 		ob_start();
-		$this->Xo->RequireOnce($file, false);
+		echo file_get_contents($svgFile);
 		$data = ob_get_clean();
 
 		return 'data:image/svg+xml;base64,' . base64_encode($data);
