@@ -85,16 +85,39 @@ class XoServiceRouteGenerator
 	private function AddRoutesForPosts(&$routes) {
 		global $wp_post_types;
 
+		// Iterate through all available post types
 		foreach ($wp_post_types as $post_type => $post_type_config) {
+			// Skip if the post type is not public or is a page
 			if ((!$post_type_config->public) || ($post_type == 'page'))
 				continue;
 
-			if ((!$template = $this->Xo->Services->Options->GetOption('xo_' . $post_type . '_template', false))
-				|| (!$attrs = $this->Xo->Services->TemplateReader->GetAnnotatedTemplate($template)))
-				continue;
+			// Check if the post type has a rewrite base
+			if (isset($post_type_config->rewrite['slug'])) {
+				// Get the template of the rewrite base
+				if ((!$template = $this->Xo->Services->Options->GetOption('xo_' . $post_type . '_template', false))
+				    || (!$attrs = $this->Xo->Services->TemplateReader->GetAnnotatedTemplate($template)))
+				    continue;
 
-			$rewrite = ((isset($post_type_config->rewrite['slug'])) ? $post_type_config->rewrite['slug'] : $post_type);
-			$routes[] = new XoApiAbstractRoute($rewrite, $attrs['loadChildren'], 'prefix');
+				// Generate route for a posts hub page which will handle individual post urls
+				$routes[] = new XoApiAbstractRoute($post_type_config->rewrite['slug'], $attrs['loadChildren'], 'prefix');
+			} else {
+				// Get all the published posts of a particular post type
+				$posts = get_posts(array(
+					'post_status' => 'publish',
+					'post_type' => $post_type,
+					'posts_per_page' => -1,
+					'fields' => 'ids'
+				));
+
+				// Iterate through the found posts
+				foreach ($posts as $postId) {
+					// Generate route for individual post pages which are routed individually
+					if ($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($postId)) {
+						$path = ltrim(wp_make_link_relative(get_permalink($postId)), '/');
+						$routes[] = new XoApiAbstractRoute($path, $attrs['loadChildren'], 'full');
+					}
+				}
+			}
 		}
 	}
 
