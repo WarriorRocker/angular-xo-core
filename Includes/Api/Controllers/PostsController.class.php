@@ -15,7 +15,7 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractPostsGetResponse
 	 */
-	function Get($params) {
+	public function Get($params) {
 		// Return an error if the url is missing
 		if ((empty($params['postId'])) && (empty($params['url'])))
 			return new XoApiAbstractPostsGetResponse(false, __('Missing post id or url.', 'xo'));
@@ -100,7 +100,7 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractPostsFilterResponse
 	 */
-	function Filter($params) {
+	public function Filter($params) {
 		// Collect search vars
 		$search = ((!empty($params['search'])) ? $params['search'] : null);
 		$postType = ((!empty($params['postType']))
@@ -204,6 +204,37 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 			$results,
 			count($results),
 			$total
+		);
+	}
+
+	/**
+	 * Retrieve the config for a given post type.
+	 *
+	 * @since 1.0.4
+	 *
+	 * @param mixed $params Request object
+	 * @return XoApiAbstractPostsConfigResponse
+	 */
+	public function Config($params) {
+		// Return an error if the post type is missing
+		if (empty($params['postType']))
+			return new XoApiAbstractPostsConfigResponse(false, __('Missing post id.', 'xo'));
+
+		// Get the post type config object
+		$postTypeConfig = get_post_type_object($params['postType']);
+
+		// Return an error if the post type is not found
+		if (empty($postTypeConfig))
+			return new XoApiAbstractPostsConfigResponse(false, __('Post type not found.', 'xo'));
+
+		// Return an error if the post type is not public
+		if (!$postTypeConfig->public)
+			return new XoApiAbstractPostsConfigResponse(false, __('Post type not found.', 'xo'));
+
+		// Return success and the post type config
+		return new XoApiAbstractPostsConfigResponse(
+			true, __('Successfully located post type config.', 'xo'),
+			$postTypeConfig
 		);
 	}
 }
