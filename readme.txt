@@ -3,7 +3,7 @@ Contributors: warriorrocker
 Tags: angular, angular cli, angular cms, single page application, routes, dynamic routing, controllers, resolvers, annotations
 Requires at least: 4.9
 Tested up to: 5.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 7.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -33,6 +33,9 @@ Check out the full docs [here](https://angularxo.io) for tips on adding [Templat
 
 == Changelog ==
 
+= 1.0.4 =
+* Add new API endpoint to retrieve post type config.
+
 = 1.0.3 =
 * Fix routes output for posts without rewrite base.
 
@@ -41,7 +44,7 @@ Check out the full docs [here](https://angularxo.io) for tips on adding [Templat
 
 = 1.0.1 =
 * Added link target to menu item output.
-* Fix for posts filter api returning results when there is no match.
+* Fix for posts filter API returning results when there is no match.
 
 = 1.0.0 =
 * Xo for Angular initial release.
