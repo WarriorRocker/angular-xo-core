@@ -99,7 +99,9 @@ class XoServiceRouteGenerator
 				    continue;
 
 				// Generate route for a posts hub page which will handle individual post urls
-				$routes[] = new XoApiAbstractRoute($post_type_config->rewrite['slug'], $attrs['loadChildren'], 'prefix');
+				$routes[] = new XoApiAbstractRoute($post_type_config->rewrite['slug'], $attrs['loadChildren'], 'prefix', array(
+					'postType' => $post_type
+				));
 			} else {
 				// Get all the published posts of a particular post type
 				$posts = get_posts(array(
