@@ -3,7 +3,7 @@ Contributors: warriorrocker
 Tags: angular, angular cli, angular cms, single page application, routes, dynamic routing, controllers, resolvers, annotations
 Requires at least: 4.9
 Tested up to: 5.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 7.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -33,12 +33,15 @@ Check out the full docs [here](https://angularxo.io) for tips on adding [Templat
 
 == Changelog ==
 
+= 1.0.3 =
+* Fix routes output for posts without rewrite base.
+
 = 1.0.2 =
-* Fix issue with SVG icon loading in admin options
+* Fix issue with SVG icon loading in admin options.
 
 = 1.0.1 =
-* Added link target to menu item output
-* Fix for posts filter api returning results when there is no match
+* Added link target to menu item output.
+* Fix for posts filter api returning results when there is no match.
 
 = 1.0.0 =
 * Xo for Angular initial release.
