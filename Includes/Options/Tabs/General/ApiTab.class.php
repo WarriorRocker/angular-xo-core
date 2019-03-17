@@ -185,7 +185,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 		$this->AddSettingsField(
 			$section,
 			'xo_access_control_allowed_hosts',
-			__('API Enabled', 'xo'),
+			__('Allowed Hosts', 'xo'),
 			function ($option, $states, $value) {
 				return $this->GenerateTextareaField(
 					$option, $states, $value,
