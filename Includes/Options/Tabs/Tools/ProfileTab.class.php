@@ -15,7 +15,11 @@ class XoOptionsTabProfile extends XoOptionsAbstractTab
 	 * @return void
 	 */
 	public function Render() {
+		echo '<div class="xo-form">';
+
 		$this->AddGeneralSection();
+
+		echo '</div>';
 	}
 
 	function AddGeneralSection() {

@@ -80,7 +80,7 @@ class XoOptionsAbstractAdminPage
 	function Render() {
 		$this->SetCurrentTab();
 
-		echo '<div class="wrap">';
+		echo '<div class="wrap xo-wrap">';
 
 		$this->RenderHeading();
 		$this->RenderTabs();
@@ -145,8 +145,11 @@ class XoOptionsAbstractAdminPage
 	 * @since 1.0.0
 	 */
 	function RenderHeading() {
-		if ($this->pageTitle)
-			echo '<h1>' . $this->pageTitle . '</h1>';
+		if (!$this->pageTitle)
+			return;
+
+		echo '<h1 class="xo-heading"><span class="xo-logo"></span>'
+			. '<span>' . $this->pageTitle . '</span></h1>';
 	}
 
 	/**

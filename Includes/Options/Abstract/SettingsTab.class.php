@@ -10,7 +10,7 @@ class XoOptionsAbstractSettingsTab extends XoOptionsAbstractFieldsTab
 	public function Render() {
 		settings_errors();
 
-		echo '<form method="post" action="options.php">';
+		echo '<form class="xo-form" method="post" action="options.php">';
 
 		settings_fields($this->tabPageSlug);
 		do_settings_sections($this->tabPageSlug);

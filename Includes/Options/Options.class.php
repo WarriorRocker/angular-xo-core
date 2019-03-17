@@ -42,13 +42,22 @@ class XoOptions
 
 		$this->InitToolsPage();
 		$this->InitToolsPageTabs();
+
+		add_action('admin_enqueue_scripts', array($this, 'AddAdminStyles'), 10, 0);
+	}
+
+	function AddAdminStyles() {
+		$adminCssFile = $this->Xo->GetFile('assets/css/admin.css', true);
+
+		if ($adminCssFile)
+			wp_enqueue_style('admin-styles', $adminCssFile);
 	}
 
 	function InitMainSettingsPage() {
 		$this->MainSettingsPage = new XoOptionsMenuPage(
 			$this->Xo,
 			'angular-xo',
-			$this->Xo->name,
+			__('General Options', 'xo'),
 			$this->Xo->name,
 			$this->Xo->name,
 			'manage_options',

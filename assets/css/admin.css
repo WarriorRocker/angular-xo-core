@@ -1,0 +1,87 @@
+#wpbody {
+}
+
+	#wpbody .xo-wrap {
+	}
+
+		#wpbody .xo-wrap h1 {
+			font-size: 2.3em;
+		}
+
+			#wpbody .xo-wrap h1 span {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			#wpbody .xo-wrap h1 .xo-logo {
+				width: 50px;
+				height: 50px;
+				margin-right: 10px;
+				background-image: url('../svg/angular-xo-color.svg');
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+			}
+
+		#wpbody .xo-wrap .xo-form {
+			background-color: #FFF;
+			padding: 5px 15px;
+			border-bottom: 1px #e5e5e5 solid;
+			border-left: 1px #e5e5e5 solid;
+			border-right: 1px #e5e5e5 solid;
+		}
+
+			#wpbody .xo-wrap .xo-form h2 {
+				font-size: 1.5em;
+				margin-bottom: .5em;
+			}
+
+			#wpbody .xo-wrap .xo-form .form-table {
+				margin-bottom: 50px;
+			}
+
+				#wpbody .xo-wrap .xo-form .form-table tr {
+					border: 1px #e5e5e5 solid;
+				}
+
+					#wpbody .xo-wrap .xo-form .form-table tr th {
+						padding-left: 10px;
+						width: 150px;
+					}
+
+					#wpbody .xo-wrap .xo-form .form-table tr td input {
+						padding: 5px 7px;
+					}
+
+					#wpbody .xo-wrap .xo-form .form-table tr td select {
+						height: auto;
+						padding: 4px 3px;
+					}
+
+@media screen and (max-width: 782px) {
+	#wpbody .xo-wrap .nav-tab-wrapper {
+		border-bottom: 1px solid #ccc;
+	}
+
+	#wpbody .xo-wrap .xo-form .form-table tr th {
+		width: auto;
+	}
+
+	#wpbody .xo-wrap .xo-form .form-table tr td {
+		padding-left: 10px;
+	}
+
+		#wpbody .xo-wrap .xo-form .form-table tr td input,
+		#wpbody .xo-wrap .xo-form .form-table tr td select {
+			margin-left: 0;
+		}
+
+			#wpbody .xo-wrap .xo-form .form-table tr td input[type=checkbox] {
+				margin-top: 1px;
+			}
+
+		#wpbody .xo-wrap .xo-form .form-table tr td select {
+			height: auto;
+			padding: 6px 3px;
+		}
+}

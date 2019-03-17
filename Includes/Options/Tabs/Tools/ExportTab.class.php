@@ -15,8 +15,12 @@ class XoOptionsTabExport extends XoOptionsAbstractFieldsTab
 	 * @return void
 	 */
 	public function Render() {
+		echo '<div class="xo-form">';
+
 		$this->AddExportSettingsSection();
 		$this->AddExportAppConfigSection();
+
+		echo '</div>';
 	}
 
 	function AddExportSettingsSection() {

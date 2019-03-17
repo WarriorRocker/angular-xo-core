@@ -19,10 +19,14 @@ class XoOptionsTabTools extends XoOptionsAbstractTab
 	}
 
 	public function Render() {
+		echo '<div class="xo-form">';
+
 		$this->AddGeneralSection();
 		$this->AddGeneralSectionAppConfigEntrypoint();
 		$this->AddGeneralSectionRebuildTemplateCache();
 		$this->AddGeneralSectionResetDefaults();
+
+		echo '</div>';
 	}
 
 	function AddGeneralSection() {
