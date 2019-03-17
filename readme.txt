@@ -35,6 +35,7 @@ Check out the full docs [here](https://angularxo.io) for tips on adding [Templat
 
 = 1.0.4 =
 * Add new API endpoint to retrieve post type config.
+* Update styles used in admin options.
 
 = 1.0.3 =
 * Fix routes output for posts without rewrite base.
