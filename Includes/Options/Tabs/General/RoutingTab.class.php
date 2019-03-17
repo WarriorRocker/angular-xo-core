@@ -54,7 +54,7 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 			function ($option, $states, $value) {
 				return $this->GenerateInputCheckboxField(
 					$option, $states, $value,
-					__('This will add a filter on preview_post_link and generate the appropriate routes.', 'xo')
+					__('Add post and page preview links to dynamic routes when logged in.', 'xo')
 				);
 			}
 		);

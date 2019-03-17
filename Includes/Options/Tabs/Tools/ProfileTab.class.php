@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  */
-class XoOptionsTabProfile extends XoOptionsAbstractTab
+class XoOptionsTabProfile extends XoOptionsAbstractFieldsTab
 {
 	/**
 	 * Add the various sections for the Profile tab.
@@ -25,6 +25,11 @@ class XoOptionsTabProfile extends XoOptionsAbstractTab
 	function AddGeneralSection() {
 		global $wp_version;
 		global $wpdb;
+
+		$this->GenerateSection(
+			__('Profile Information', 'xo'),
+			__('Additional profile and environment information useful for debugging.', 'xo')
+		);
 
 		$plugin = get_plugin_data(ABSPATH . 'wp-content/plugins/' . $this->Xo->plugin, false);
 

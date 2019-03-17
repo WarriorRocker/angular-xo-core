@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  */
-class XoOptionsTabTools extends XoOptionsAbstractTab
+class XoOptionsTabTools extends XoOptionsAbstractFieldsTab
 {
 	/**
 	 * Add the various sections for the Tools tab.
@@ -30,8 +30,10 @@ class XoOptionsTabTools extends XoOptionsAbstractTab
 	}
 
 	function AddGeneralSection() {
-		echo '<h3>' . __('Editor Options', 'xo') . '</h3>' .
-			'<p>' . __('Some Tools.', 'xo') . '</p>';
+		$this->GenerateSection(
+			__('Tools and Actions', 'xo'),
+			__('Additional tools and manual actions.', 'xo')
+		);
 	}
 
 	function AddGeneralSectionAppConfigEntrypoint() {

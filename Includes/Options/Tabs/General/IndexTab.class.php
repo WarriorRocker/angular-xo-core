@@ -79,7 +79,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 			function ($option, $states, $value) {
 				return $this->GenerateInputTextField(
 					$option, $states, $value,
-					__('The full path to the dist index relative to active template folder.', 'xo')
+					__('The full path to the dist index relative to the active template folder.', 'xo')
 				);
 			}
 		);
