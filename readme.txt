@@ -3,7 +3,7 @@ Contributors: warriorrocker
 Tags: angular, angular cli, angular cms, single page application, routes, dynamic routing, controllers, resolvers, annotations
 Requires at least: 4.9
 Tested up to: 5.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 Requires PHP: 7.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -32,6 +32,9 @@ Xo for Angular also provides an extensive customization API provided [here](http
 Check out the full docs [here](https://angularxo.io) for tips on adding [Template Annotations](https://angularxo.io/guides/templates), [Dynamic Routing](https://angularxo.io/guides/routing), [Resolvers](https://angularxo.io/guides/angular#post-resolvers), and much more!
 
 == Changelog ==
+
+= 1.0.6 =
+* Update admin option descriptions.
 
 = 1.0.5 =
 * Minor deployment fix.
