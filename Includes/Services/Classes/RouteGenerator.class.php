@@ -92,7 +92,7 @@ class XoServiceRouteGenerator
 				continue;
 
 			// Check if the post type has a rewrite base
-			if (isset($post_type_config->rewrite['slug'])) {
+			if (!empty($post_type_config->rewrite['slug'])) {
 				// Get the template of the rewrite base
 				if ((!$template = $this->Xo->Services->Options->GetOption('xo_' . $post_type . '_template', false))
 				    || (!$attrs = $this->Xo->Services->TemplateReader->GetAnnotatedTemplate($template)))
@@ -101,17 +101,6 @@ class XoServiceRouteGenerator
 				// Remove any tags from rewrite slug
 				$rewriteSlug = preg_replace('/(%)(.*?)(%)/', '', $post_type_config->rewrite['slug']);
 				$rewriteSlug = untrailingslashit($rewriteSlug);
-
-				//$postTaxonomies = array();
-				//$taxonomies = get_object_taxonomies($post_type, 'objects');
-				
-				//if ($taxonomies) {
-				//    foreach ($taxonomies as $taxonomy => $taxonomy_config) {
-				//        if ($taxonomy_config->public)
-				//            $taxonomies[] = $taxonomy;
-				//    }
-				//}
-				//exit;
 
 				// Generate route for a posts hub page which will handle individual post urls
 				$routes[] = new XoApiAbstractRoute($rewriteSlug, $attrs['loadChildren'], 'prefix', array(
