@@ -27,7 +27,7 @@ Alternatively to use the latest development version simply clone this repository
 
 Run this from the plugins folder.
 ```
-$git clone https://github.com/WarriorRocker/angular-xo-core.git xo-for-angular
+$ git clone https://github.com/WarriorRocker/angular-xo-core.git xo-for-angular
 ```
 
 ## Resources
