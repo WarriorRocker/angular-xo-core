@@ -8,6 +8,41 @@
 class XoApiControllerTerms extends XoApiAbstractIndexController
 {
 	/**
+	 * Get a taxonomy and term by url.
+	 *
+	 * @since 1.0.7
+	 *
+	 * @param mixed $params Request object
+	 * @return XoApiAbstractTermsGetResponse
+	 */
+	public function Get($params) {
+		// Return an error if the url is missing
+		if (empty($params['url']))
+			return new XoApiAbstractTermsGetResponse(false, __('Missing category url.', 'xo'));
+
+		// Get the taxonomy by parsing the requested url
+		$taxonomy = $this->GetTaxonomyByUrl($params['url']);
+
+		// Return an error if the taxonomy was not found
+		if (!$taxonomy)
+			return new XoApiAbstractTermsGetResponse(false, __('Unable to locate taxonomy.', 'xo'));
+
+		// Get the term within the found taxonomy by comparing the requested url
+		$term = $this->GetTermByTaxonomyAndUrl($taxonomy, $params['url']);
+
+		// Return an error if the term was not found
+		if (!$term)
+			return new XoApiAbstractTermsGetResponse(false, __('Unable to locate term.', 'xo'));
+
+		// Return success and the taxonomy and term objects
+		return new XoApiAbstractTermsGetResponse(
+			true, __('Successfully retrieved taxonomy and term.', 'xo'),
+			$taxonomy,
+			new XoApiAbstractTerm($term, true)
+		);
+	}
+
+	/**
 	 * Filter, search, or list terms by various properties similar to get_terms().
 	 *
 	 * @since 1.0.0
@@ -51,5 +86,55 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 			true, __('Successfully located terms taxonomy.', 'xo'),
 			$terms
 		);
+	}
+
+	/**
+	 * Summary of GetTaxonomyByUrl
+	 *
+	 * @since 1.0.7
+	 *
+	 * @param mixed $url
+	 * @return boolean|WP_Taxonomy
+	 */
+	private function GetTaxonomyByUrl($url) {
+		$taxonomies = get_taxonomies(array(), 'objects');
+
+		foreach ($taxonomies as $taxonomy_config) {
+			if (!$taxonomy_config->public)
+				continue;
+
+			if (empty($taxonomy_config->rewrite['slug']))
+				continue;
+
+			$taxonomyUrl = '/' . $taxonomy_config->rewrite['slug'] . '/';
+
+			if (strpos($url, $taxonomyUrl) === 0)
+				return $taxonomy_config;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Summary of GetTermByTaxonomyAndUrl
+	 * @param WP_Taxonomy $taxonomy
+	 * @param mixed $url
+	 * @return boolean|WP_Term
+	 */
+	private function GetTermByTaxonomyAndUrl(WP_Taxonomy $taxonomy, $url) {
+		$taxonomyTerms = get_terms(array(
+			'taxonomy' => $taxonomy->name
+		));
+
+		if ((is_wp_error($taxonomyTerms)) || (empty($taxonomyTerms)))
+			return false;
+
+		foreach ($taxonomyTerms as $term) {
+			$termUrl = wp_make_link_relative(get_term_link($term));
+			if ($url == $termUrl)
+				return $term;
+		}
+
+		return false;
 	}
 }

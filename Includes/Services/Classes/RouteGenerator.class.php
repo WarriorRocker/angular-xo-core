@@ -98,8 +98,23 @@ class XoServiceRouteGenerator
 				    || (!$attrs = $this->Xo->Services->TemplateReader->GetAnnotatedTemplate($template)))
 				    continue;
 
+				// Remove any tags from rewrite slug
+				$rewriteSlug = preg_replace('/(%)(.*?)(%)/', '', $post_type_config->rewrite['slug']);
+				$rewriteSlug = untrailingslashit($rewriteSlug);
+
+				//$postTaxonomies = array();
+				//$taxonomies = get_object_taxonomies($post_type, 'objects');
+				
+				//if ($taxonomies) {
+				//    foreach ($taxonomies as $taxonomy => $taxonomy_config) {
+				//        if ($taxonomy_config->public)
+				//            $taxonomies[] = $taxonomy;
+				//    }
+				//}
+				//exit;
+
 				// Generate route for a posts hub page which will handle individual post urls
-				$routes[] = new XoApiAbstractRoute($post_type_config->rewrite['slug'], $attrs['loadChildren'], 'prefix', array(
+				$routes[] = new XoApiAbstractRoute($rewriteSlug, $attrs['loadChildren'], 'prefix', array(
 					'postType' => $post_type
 				));
 			} else {
