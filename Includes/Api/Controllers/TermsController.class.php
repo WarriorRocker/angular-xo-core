@@ -36,9 +36,8 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 
 		// Return success and the taxonomy and term objects
 		return new XoApiAbstractTermsGetResponse(
-			true, __('Successfully retrieved taxonomy and term.', 'xo'),
-			$taxonomy,
-			new XoApiAbstractTerm($term, true)
+			true, __('Successfully located term.', 'xo'),
+			new XoApiAbstractTerm($term, true, true)
 		);
 	}
 
@@ -71,7 +70,7 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 		// Iterate through terms and retrieve fully formed term objects
 		$terms = array();
 		foreach ($taxonomyTerms as $term)
-			$terms[] = new XoApiAbstractTerm($term, true);
+			$terms[] = new XoApiAbstractTerm($term, true, true);
 
 		// Sort the terms by the given term meta key
 		if ($orderBy)
@@ -122,6 +121,8 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 	 * @return boolean|WP_Term
 	 */
 	private function GetTermByTaxonomyAndUrl(WP_Taxonomy $taxonomy, $url) {
+		$url = trailingslashit($url);
+
 		$taxonomyTerms = get_terms(array(
 			'taxonomy' => $taxonomy->name
 		));
@@ -130,8 +131,9 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 			return false;
 
 		foreach ($taxonomyTerms as $term) {
-			$termUrl = wp_make_link_relative(get_term_link($term));
-			if ($url == $termUrl)
+			$termUrl = trailingslashit(wp_make_link_relative(get_term_link($term)));
+
+			if (strpos($url, $termUrl) === 0)
 				return $term;
 		}
 
