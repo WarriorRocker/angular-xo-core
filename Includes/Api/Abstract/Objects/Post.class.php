@@ -146,8 +146,8 @@ class XoApiAbstractPost
 	 */
 	function __construct(WP_Post $post, $terms = false, $meta = false, $fields = false, $breadcrumbs = false) {
 		// Map base post object properties
-		$this->id = $post->ID;
-		$this->parent = $post->post_parent;
+		$this->id = intval($post->ID);
+		$this->parent = intval($post->post_parent);
 		$this->type = $post->post_type;
 		$this->slug = $post->post_name;
 		$this->title = $post->post_title;
