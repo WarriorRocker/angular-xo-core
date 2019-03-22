@@ -67,7 +67,7 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractPostsGetResponse
 	 */
-	function GetDraftOrPreview($params) {
+	public function GetDraftOrPreview($params) {
 		// Return an error if the user is not logged in or not an editor
 		if (!current_user_can('edit_others_pages'))
 		    return new XoApiAbstractPostsGetResponse(false, __('Current user is not an editor.', 'xo'));

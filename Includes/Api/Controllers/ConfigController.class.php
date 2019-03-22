@@ -14,7 +14,7 @@ class XoApiControllerConfig extends XoApiAbstractIndexController
 	 *
 	 * @return XoApiAbstractConfigGetResponse
 	 */
-	function Get() {
+	public function Get() {
 		$theme = wp_get_theme();
 
 		// Generate dynamic application config

@@ -49,7 +49,7 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractTermsFilterResponse
 	 */
-	function Filter($params) {
+	public function Filter($params) {
 		// Return an error if the taxonomy is missing
 		if (empty($params['taxonomy']))
 			return new XoApiAbstractTermsFilterResponse(false, __('Missing terms taxonomy.', 'xo'));

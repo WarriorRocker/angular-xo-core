@@ -15,7 +15,7 @@ class XoApiControllerMenus extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractMenusGetResponse
 	 */
-	function Get($params) {
+	public function Get($params) {
 		// Return an error if menu location name is missing
 		if (empty($params['menu']))
 			return new XoApiAbstractMenusGetResponse(false, __('Missing menu name.', 'xo'));

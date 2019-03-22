@@ -14,7 +14,7 @@ class XoApiControllerRoutes extends XoApiAbstractIndexController
 	 *
 	 * @return XoApiAbstractRoutesGetResponse
 	 */
-	function Get() {
+	public function Get() {
 		// Check if the currently logged in user can edit pages and previews are enabled
 		$previewsEnabled = ((current_user_can('edit_others_pages')) &&
 		   ($this->Xo->Services->Options->GetOption('xo_routing_previews_enabled', false)));

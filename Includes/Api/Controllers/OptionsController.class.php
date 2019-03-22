@@ -15,7 +15,7 @@ class XoApiControllerOptions extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractOptionsGetResponse
 	 */
-	function Get($params) {
+	public function Get($params) {
 		// Return an error if ACF is not present or activated
 		if ((!function_exists('acf_get_fields')) ||
 			(!function_exists('get_field')))
