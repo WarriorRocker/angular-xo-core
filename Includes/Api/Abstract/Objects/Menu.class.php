@@ -71,15 +71,6 @@ class XoApiAbstractMenu extends XoApiAbstractPost
 	public $modified;
 
 	/**
-	 * Content of the menu item mapped from post_content with the_content filter applied.
-	 *
-	 * @since 1.0.8
-	 *
-	 * @var string
-	 */
-	public $content;
-
-	/**
 	 * URL of the menu item or relative URL if using target="_blank" mapped from url.
 	 *
 	 * @since 1.0.8
@@ -107,7 +98,7 @@ class XoApiAbstractMenu extends XoApiAbstractPost
 	public $objectId;
 
 	/**
-	 * Additional css classes that may be used in the front-end.
+	 * Additional CSS classes that may be used in the front-end.
 	 *
 	 * @since 1.0.0
 	 *

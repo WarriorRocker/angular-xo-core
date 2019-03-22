@@ -8,7 +8,7 @@
 class XoApiControllerMenus extends XoApiAbstractIndexController
 {
 	/**
-	 * Get a navigation menu by location name
+	 * Get a navigation menu by location name.
 	 *
 	 * @since 1.0.0
 	 *
