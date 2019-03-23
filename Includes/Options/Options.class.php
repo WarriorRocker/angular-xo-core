@@ -10,31 +10,31 @@ class XoOptions
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * @var XoOptionsMenuPage
 	 */
-	var $MainSettingsPage;
+	public $MainSettingsPage;
 
 	/**
 	 * @var XoOptionsSubMenuPage
 	 */
-	var $GeneralSettingsPage;
+	public $GeneralSettingsPage;
 
 	/**
 	 * @var XoOptionsSubMenuPage
 	 */
-	var $ToolsPage;
+	public $ToolsPage;
 
-	function __construct($Xo) {
+	public function __construct($Xo) {
 		$this->Xo = $Xo;
 
 		$this->Includes();
 		$this->Init();
 	}
 
-	function Init() {
+	protected function Init() {
 		$this->InitGeneralSettingsPage();
 
 		$this->InitMainSettingsPage();
@@ -46,14 +46,14 @@ class XoOptions
 		add_action('admin_enqueue_scripts', array($this, 'AddAdminStyles'), 10, 0);
 	}
 
-	function AddAdminStyles() {
+	public function AddAdminStyles() {
 		$adminCssFile = $this->Xo->GetFile('assets/css/admin.css', true);
 
 		if ($adminCssFile)
 			wp_enqueue_style('admin-styles', $adminCssFile);
 	}
 
-	function InitMainSettingsPage() {
+	protected function InitMainSettingsPage() {
 		$this->MainSettingsPage = new XoOptionsMenuPage(
 			$this->Xo,
 			'angular-xo',
@@ -66,7 +66,7 @@ class XoOptions
 		);
 	}
 
-	function InitMainSettingsPageTabs() {
+	protected function InitMainSettingsPageTabs() {
 		$this->MainSettingsPage->AddTab('index', __('Index', 'xo'), 'XoOptionsTabIndex');
 		$this->MainSettingsPage->AddTab('api', __('API', 'xo'), 'XoOptionsTabApi');
 		$this->MainSettingsPage->AddTab('posts', __('Posts', 'xo'), 'XoOptionsTabPosts');
@@ -77,7 +77,7 @@ class XoOptions
 			$this->MainSettingsPage->AddTab('acf', __('ACF', 'xo'), 'XoOptionsTabAcf');
 	}
 
-	function InitGeneralSettingsPage() {
+	protected function InitGeneralSettingsPage() {
 		$this->GeneralSettingsPage = new XoOptionsSubMenuPage(
 			$this->Xo,
 			'angular-xo',
@@ -89,7 +89,7 @@ class XoOptions
 		);
 	}
 
-	function InitToolsPage() {
+	protected function InitToolsPage() {
 		$this->ToolsPage = new XoOptionsSubMenuPage(
 			$this->Xo,
 			'angular-xo-tools',
@@ -101,13 +101,13 @@ class XoOptions
 		);
 	}
 
-	function InitToolsPageTabs() {
+	protected function InitToolsPageTabs() {
 		$this->ToolsPage->AddTab('tools', __('Tools', 'xo'), 'XoOptionsTabTools');
 		$this->ToolsPage->AddTab('profile', __('Profile', 'xo'), 'XoOptionsTabProfile');
 		$this->ToolsPage->AddTab('export', __('Export', 'xo'), 'XoOptionsTabExport');
 	}
 
-	function Includes() {
+	protected function Includes() {
 		// Include abstract classes for admin pages and tabs
 		$this->IncludeAbstractClasses();
 
@@ -118,7 +118,7 @@ class XoOptions
 		$this->IncludeToolsTabs();
 	}
 
-	function IncludeAbstractClasses() {
+	protected function IncludeAbstractClasses() {
 		$this->Xo->RequireOnce('Includes/Options/Abstract/Tab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Abstract/FieldsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Abstract/SettingsTab.class.php');
@@ -128,7 +128,7 @@ class XoOptions
 		$this->Xo->RequireOnce('Includes/Options/Classes/SubMenuPage.class.php');
 	}
 
-	function IncludeGeneralTabs() {
+	protected function IncludeGeneralTabs() {
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/IndexTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/ApiTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/PostsTab.class.php');
@@ -137,7 +137,7 @@ class XoOptions
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/AcfTab.class.php');
 	}
 
-	function IncludeToolsTabs() {
+	protected function IncludeToolsTabs() {
 		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ToolsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ProfileTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/Tools/ExportTab.class.php');

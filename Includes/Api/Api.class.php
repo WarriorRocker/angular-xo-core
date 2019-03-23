@@ -55,6 +55,7 @@ class XoApi
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Objects/Menu.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Objects/Term.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Objects/Route.class.php');
+		$this->Xo->RequireOnce('Includes/Api/Abstract/Objects/SitemapEntry.class.php');
 	}
 
 	function IncludeAbstractResponses() {
@@ -62,7 +63,8 @@ class XoApi
 
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/IndexResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/ConfigResponse.class.php');
-		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/RoutesResponse.class.php');
+		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/RoutesGetResponse.class.php');
+		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/RoutesSitemapResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/PostsGetResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/PostsFilterResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/PostsConfigResponse.class.php');

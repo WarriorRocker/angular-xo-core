@@ -10,7 +10,7 @@ class XoServices
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * @var XoServiceOptions
@@ -30,34 +30,41 @@ class XoServices
 	/**
 	 * @var XoServiceIndexBuilder
 	 */
-	var $IndexBuilder;
+	public $IndexBuilder;
 
 	/**
 	 * @var XoServiceRouteGenerator
 	 */
-	var $RouteGenerator;
+	public $RouteGenerator;
 
-	function __construct($Xo) {
+	/**
+	 * @var XoServiceSitemapGenerator
+	 */
+	public $SitemapGenerator;
+
+	public function __construct($Xo) {
 		$this->Xo = $Xo;
 
 		$this->Includes();
 		$this->Init();
 	}
 
-	function Init() {
+	protected function Init() {
 		$this->Options = new XoServiceOptions($this->Xo);
 		$this->AngularJson = new XoServiceAngularJson();
 		$this->TemplateReader = new XoServiceTemplateReader($this->Xo);
 		$this->IndexBuilder = new XoServiceIndexBuilder($this->Xo);
 		$this->RouteGenerator = new XoServiceRouteGenerator($this->Xo);
+		$this->SitemapGenerator = new XoServiceSitemapGenerator($this->Xo);
 	}
 
-	function Includes() {
+	protected function Includes() {
 		$this->Xo->RequireOnce('Includes/Services/Classes/Options.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/AngularJson.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/TemplateReader.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/IndexBuilder.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/RouteGenerator.class.php');
+		$this->Xo->RequireOnce('Includes/Services/Classes/SitemapGenerator.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/AdminNotice.class.php');
 	}
 }

@@ -96,7 +96,9 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 	 * @return boolean|WP_Taxonomy
 	 */
 	private function GetTaxonomyByUrl($url) {
-		$taxonomies = get_taxonomies(array(), 'objects');
+		$taxonomies = get_taxonomies(array(
+			'public' => 1
+		), 'objects');
 
 		foreach ($taxonomies as $taxonomy_config) {
 			if (!$taxonomy_config->public)

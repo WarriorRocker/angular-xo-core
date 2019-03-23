@@ -10,9 +10,9 @@ class XoApiAbstractController
 	/**
 	 * @var Xo
 	 */
-	public $Xo;
+	protected $Xo;
 
-	function __construct(Xo $Xo) {
+	public function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 	}
 }
