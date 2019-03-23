@@ -25,7 +25,7 @@ class XoApiAbstractTermsFilterResponse extends XoApiAbstractResponse
 	 * @param mixed $message Human readable response from the API interaction.
 	 * @param XoApiAbstractTerm[] $terms Collection of fully formed term objects.
 	 */
-	function __construct($success, $message, $terms = false) {
+	public function __construct($success, $message, $terms = false) {
 		// Extend base response
 		parent::__construct($success, $message);
 

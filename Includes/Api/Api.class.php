@@ -62,16 +62,22 @@ class XoApi
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Response.class.php');
 
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/IndexResponse.class.php');
-		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/ConfigResponse.class.php');
+
+		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/ConfigGetResponse.class.php');
+
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/RoutesGetResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/RoutesSitemapResponse.class.php');
+
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/PostsGetResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/PostsFilterResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/PostsConfigResponse.class.php');
-		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/MenusResponse.class.php');
+
+		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/MenusGetResponse.class.php');
+
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/TermsGetResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/TermsFilterResponse.class.php');
-		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/OptionsResponse.class.php');
+
+		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/OptionsGetResponse.class.php');
 	}
 
 	protected function IncludeApiBaseServices() {

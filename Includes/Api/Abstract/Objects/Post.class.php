@@ -144,7 +144,7 @@ class XoApiAbstractPost
 	 * @param bool $fields Optionally include ACF fields in post object.
 	 * @param bool $breadcrumbs Optionally include breadcrumb items in post object.
 	 */
-	function __construct(WP_Post $post, $terms = false, $meta = false, $fields = false, $breadcrumbs = false) {
+	public function __construct(WP_Post $post, $terms = false, $meta = false, $fields = false, $breadcrumbs = false) {
 		// Map base post object properties
 		$this->id = intval($post->ID);
 		$this->parent = intval($post->post_parent);

@@ -25,7 +25,7 @@ class XoApiAbstractConfigGetResponse extends XoApiAbstractResponse
 	 * @param mixed $message Human readable response from the API interaction.
 	 * @param mixed $config The generated configuration object.
 	 */
-	function __construct($success, $message, $config = false) {
+	public function __construct($success, $message, $config = false) {
 		// Extend base response
 		parent::__construct($success, $message);
 

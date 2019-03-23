@@ -45,7 +45,7 @@ class XoApiAbstractPostsFilterResponse extends XoApiAbstractResponse
 	 * @param int $count The amount of posts returned by the given filters after pagination.
 	 * @param int $total The total amount of posts found by the given filters before pagination.
 	 */
-	function __construct($success, $message, $posts = false, $count = 0, $total = 0) {
+	public function __construct($success, $message, $posts = false, $count = 0, $total = 0) {
 		// Extend base response
 		parent::__construct($success, $message);
 

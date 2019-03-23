@@ -25,7 +25,7 @@ class XoApiAbstractRoutesGetResponse extends XoApiAbstractResponse
 	 * @param mixed $message Human readable response from the API interaction.
 	 * @param XoApiAbstractRoute[] $routes Collection of fully formed Angular Route objects.
 	 */
-	function __construct($success, $message, $routes = false) {
+	public function __construct($success, $message, $routes = false) {
 		// Extend base response
 		parent::__construct($success, $message);
 

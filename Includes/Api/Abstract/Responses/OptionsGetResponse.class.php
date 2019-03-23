@@ -25,7 +25,7 @@ class XoApiAbstractOptionsGetResponse extends XoApiAbstractResponse
 	 * @param mixed $message Human readable response from the API interaction.
 	 * @param array $fields Collection of fields for the given option group.
 	 */
-	function __construct($success, $message, $fields = false) {
+	public function __construct($success, $message, $fields = false) {
 		// Extend base response
 		parent::__construct($success, $message);
 

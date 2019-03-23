@@ -53,7 +53,7 @@ class XoApiAbstractRoute
 	 * @param string $pathMatch The pathMatch property of the Angular Route item.
 	 * @param mixed $data Additional data added to the data property of the Angular Route item.
 	 */
-	function __construct($path, $loadChildren, $pathMatch = 'prefix', $data = false) {
+	public function __construct($path, $loadChildren, $pathMatch = 'prefix', $data = false) {
 		// Map base route properties
 		$this->path = $path;
 		$this->loadChildren = $loadChildren;

@@ -25,7 +25,7 @@ class XoApiAbstractMenusGetResponse extends XoApiAbstractResponse
 	 * @param mixed $message Human readable response from the API interaction.
 	 * @param XoApiAbstractMenu[] $items Collection of fully formed menu items.
 	 */
-	function __construct($success, $message, $items = false) {
+	public function __construct($success, $message, $items = false) {
 		// Extend base response
 		parent::__construct($success, $message);
 

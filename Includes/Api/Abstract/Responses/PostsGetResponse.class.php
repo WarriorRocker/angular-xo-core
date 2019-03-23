@@ -25,7 +25,7 @@ class XoApiAbstractPostsGetResponse extends XoApiAbstractResponse
 	 * @param mixed $message Human readable response from the API interaction.
 	 * @param XoApiAbstractPost $post The fully formed post object.
 	 */
-	function __construct($success, $message, XoApiAbstractPost $post = NULL) {
+	public function __construct($success, $message, XoApiAbstractPost $post = NULL) {
 		// Extend base response
 		parent::__construct($success, $message);
 

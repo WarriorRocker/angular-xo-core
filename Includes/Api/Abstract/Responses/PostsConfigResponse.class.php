@@ -25,7 +25,7 @@ class XoApiAbstractPostsConfigResponse extends XoApiAbstractResponse
 	 * @param mixed $message Human readable response from the API interaction.
 	 * @param WP_Post_Type $config WordPress post type config object.
 	 */
-	function __construct($success, $message, $config = false) {
+	public function __construct($success, $message, $config = false) {
 		// Extend base response
 		parent::__construct($success, $message);
 

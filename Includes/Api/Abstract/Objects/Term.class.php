@@ -115,7 +115,7 @@ class XoApiAbstractTerm
 	 * @param bool $meta Optionally include meta in term object.
 	 * @param bool $fields Optionally include ACF fields in post object.
 	 */
-	function __construct(WP_Term $term, $meta = false, $fields = false) {
+	public function __construct(WP_Term $term, $meta = false, $fields = false) {
 		// Map base term object properties
 		$this->id = $term->term_id;
 		$this->parent = $term->parent;

@@ -42,7 +42,7 @@ class XoApiAbstractSitemapEntry
 	 * @param string $title Title text of the sitemap entry.
 	 * @param string $url Relative URL of the sitemap entry.
 	 */
-	function __construct($title = '', $url = '', $children = array()) {
+	public function __construct($title = '', $url = '', $children = array()) {
 		// Map base sitemap entry properties
 		$this->title = $title;
 		$this->url = $url;

@@ -25,7 +25,7 @@ class XoApiAbstractControllerIndexResponse extends XoApiAbstractResponse
 	 * @param mixed $message Human readable response from the API interaction.
 	 * @param mixed $controller Reflected controller info.
 	 */
-	function __construct($success, $message, $controller = false) {
+	public function __construct($success, $message, $controller = false) {
 		// Extend base response
 		parent::__construct($success, $message);
 

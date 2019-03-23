@@ -125,7 +125,7 @@ class XoApiAbstractMenu extends XoApiAbstractPost
 	 * @param bool $meta Optionally include meta in menu object.
 	 * @param bool $fields Optionally include ACF fields in menu object.
 	 */
-	function __construct(WP_Post $menu, $terms = false, $meta = false, $fields = false) {
+	public function __construct(WP_Post $menu, $terms = false, $meta = false, $fields = false) {
 		// Extend the fully formed post object
 		parent::__construct($menu, $terms, $meta, $fields);
 

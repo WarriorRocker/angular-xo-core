@@ -25,7 +25,7 @@ class XoApiAbstractTermsGetResponse extends XoApiAbstractResponse
 	 * @param string $message Human readable response from the API interaction.
 	 * @param XoApiAbstractTerm $total Fully formed term object.
 	 */
-	function __construct($success, $message, XoApiAbstractTerm $term = NULL) {
+	public function __construct($success, $message, XoApiAbstractTerm $term = NULL) {
 		// Extend base response
 		parent::__construct($success, $message);
 
