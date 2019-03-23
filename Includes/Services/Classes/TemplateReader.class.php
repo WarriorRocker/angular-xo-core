@@ -10,12 +10,12 @@ class XoServiceTemplateReader
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * @var XoServiceAdminNotice
 	 */
-	var $UpdateTemplatesNotice;
+	protected $UpdateTemplatesNotice;
 
 	/**
 	 * Path to the currently active theme folder.
@@ -24,7 +24,7 @@ class XoServiceTemplateReader
 	 *
 	 * @var string
 	 */
-	var $templateDir;
+	protected $templateDir;
 
 	/**
 	 * Relative path from the theme folder to search for template files.
@@ -33,7 +33,7 @@ class XoServiceTemplateReader
 	 *
 	 * @var string
 	 */
-	var $templatesPath;
+	protected $templatesPath;
 
 	/**
 	 * Array of file extensions which will be checked for annotations.
@@ -42,7 +42,7 @@ class XoServiceTemplateReader
 	 *
 	 * @var array
 	 */
-	var $templatesExtensions = array('ts');
+	protected $templatesExtensions = array('ts');
 
 	/**
 	 * Regex used to retrieve the body of an annotations comment block.
@@ -51,7 +51,7 @@ class XoServiceTemplateReader
 	 *
 	 * @var string
 	 */
-	var $commentBlockRegex = '/\/\*\*\s*?\n(.*?)\n\s*?\*\//is';
+	protected $commentBlockRegex = '/\/\*\*\s*?\n(.*?)\n\s*?\*\//is';
 
 	/**
 	 * Regex used to retrieve annotations by a key value relationship.
@@ -60,7 +60,7 @@ class XoServiceTemplateReader
 	 *
 	 * @var string
 	 */
-	var $annotationsRegex = '/(?: *\*+ *@Xo)(?P<key>\w+)(?: )(?P<value>[ \w!,]+)/';
+	protected $annotationsRegex = '/(?: *\*+ *@Xo)(?P<key>\w+)(?: )(?P<value>[ \w!,]+)/';
 
 	/**
 	 * Configuration array setting specific annotations to be treated as booleans or array. All others treated as string.
@@ -69,7 +69,7 @@ class XoServiceTemplateReader
 	 *
 	 * @var array
 	 */
-	var $annotationsFormats = array(
+	protected $annotationsFormats = array(
 		'disableEditor' => 'boolean',
 		'defaultTemplate' => 'boolean',
 		'postTypes' => 'array',
@@ -83,9 +83,9 @@ class XoServiceTemplateReader
 	 *
 	 * @var array
 	 */
-	var $annotatedTemplates = array();
+	protected $annotatedTemplates = array();
 
-	function __construct(Xo $Xo) {
+	public function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 
 		add_action('init', array($this, 'Init'), 10, 0);
@@ -103,7 +103,7 @@ class XoServiceTemplateReader
 	 *
 	 * @return void
 	 */
-	function Init() {
+	public function Init() {
 		$this->templateDir = get_template_directory();
 		$this->templatesPath = $this->Xo->Services->Options->GetOption('xo_templates_path', '');
 	}
@@ -116,7 +116,7 @@ class XoServiceTemplateReader
 	 * @param WP_Post|integer $post Post object or id.
 	 * @return array|boolean Annotated template data.
 	 */
-	function GetTemplateForPost($post) {
+	public function GetTemplateForPost($post) {
 		$this->GetAnnotatedTemplates();
 
 		if (!is_object($post))
@@ -147,7 +147,7 @@ class XoServiceTemplateReader
 	 *
 	 * @return array All templates and annotations.
 	 */
-	function GetAnnotatedTemplates() {
+	public function GetAnnotatedTemplates() {
 		if (!$this->Xo->Services->Options->GetOption('xo_templates_reader_enabled', false))
 			return array();
 
@@ -168,7 +168,7 @@ class XoServiceTemplateReader
 	 *
 	 * @return array|boolean Annotations for the given template.
 	 */
-	function GetAnnotatedTemplate($template) {
+	public function GetAnnotatedTemplate($template) {
 		$this->GetAnnotatedTemplates();
 
 		if (!empty($this->annotatedTemplates[$template]))
@@ -191,7 +191,7 @@ class XoServiceTemplateReader
 	 * @param mixed $useCache Whether to use the cache, if available.
 	 * @return array All templates and annotations.
 	 */
-	function GetTemplates($caching = true, $useCache = true) {
+	public function GetTemplates($caching = true, $useCache = true) {
 		$templatesCache = $this->Xo->Services->Options->GetOption('xo_templates_cache', array());
 
 		if (($caching) && ($useCache) && (!empty($templatesCache)))
@@ -230,7 +230,7 @@ class XoServiceTemplateReader
 	 *
 	 * @return array All possible template files.
 	 */
-	private function GetTemplateFiles() {
+	protected function GetTemplateFiles() {
 		$length = strlen($this->templateDir) + 1;
 		$files = array();
 
@@ -264,7 +264,7 @@ class XoServiceTemplateReader
 	 * @param string $template Path of the template relative to templateDir.
 	 * @return array|boolean Annotations.
 	 */
-	private function ParseTemplateCommentBlocks($template) {
+	protected function ParseTemplateCommentBlocks($template) {
 		$fileName = $this->templateDir . '/' . $template;
 
 		if ((file_exists($fileName))
@@ -290,7 +290,7 @@ class XoServiceTemplateReader
 	 * @param string $block Raw contents of the comment block.
 	 * @return array|boolean Formatted annotations.
 	 */
-	private function ParseTemplateCommentBlockAnnotations($template, $block) {
+	protected function ParseTemplateCommentBlockAnnotations($template, $block) {
 		if (preg_match_all($this->annotationsRegex, $block, $matchAttrs, PREG_SET_ORDER)) {
 			$attrs = array();
 
@@ -319,7 +319,7 @@ class XoServiceTemplateReader
 		return false;
 	}
 
-	function RenderUpdateTemplatesNotice() {
+	public function RenderUpdateTemplatesNotice() {
 		$output = '<p><strong>' . sprintf(
 			__('%s templates cache updated.', 'xo'),
 			$this->Xo->name

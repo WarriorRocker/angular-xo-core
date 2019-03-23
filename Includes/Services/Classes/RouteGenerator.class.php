@@ -10,9 +10,9 @@ class XoServiceRouteGenerator
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
-	function __construct(Xo $Xo) {
+	public function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 	}
 
@@ -53,7 +53,7 @@ class XoServiceRouteGenerator
 		return $routes;
 	}
 
-	private function AddRoutesForPages(&$routes) {
+	protected function AddRoutesForPages(&$routes) {
 		$page404Id = intval($this->Xo->Services->Options->GetOption('xo_404_page_id', 0));
 
 		$posts = get_posts(array(
@@ -72,7 +72,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	private function AddRouteFor404Page(&$routes) {
+	protected function AddRouteFor404Page(&$routes) {
 		if (($page404Id = intval($this->Xo->Services->Options->GetOption('xo_404_page_id', 0))) &&
 			($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($page404Id))) {
 			$url = wp_make_link_relative(get_permalink($page404Id));
@@ -82,7 +82,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	private function AddRoutesForPosts(&$routes) {
+	protected function AddRoutesForPosts(&$routes) {
 		global $wp_post_types;
 
 		// Iterate through all available post types
@@ -127,7 +127,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	private function AddRoutesForPageDrafts(&$routes) {
+	protected function AddRoutesForPageDrafts(&$routes) {
 		$posts = get_posts(array(
 			'post_status' => 'draft',
 			'post_type' => 'page',
@@ -144,7 +144,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	private function AddRoutesForPagePreviews(&$routes) {
+	protected function AddRoutesForPagePreviews(&$routes) {
 		$posts = get_posts(array(
 			'post_status' => 'publish',
 			'post_type' => 'page',
@@ -162,7 +162,7 @@ class XoServiceRouteGenerator
 		}
 	}
 
-	private function AddRoutesForPostDraftsAndPreviews(&$routes) {
+	protected function AddRoutesForPostDraftsAndPreviews(&$routes) {
 		global $wp_post_types;
 
 		foreach ($wp_post_types as $post_type => $post_type_config) {

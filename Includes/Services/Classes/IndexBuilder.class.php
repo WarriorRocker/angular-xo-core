@@ -10,7 +10,7 @@ class XoServiceIndexBuilder
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * Handle used to check and insert the App Config into the index.
@@ -19,9 +19,9 @@ class XoServiceIndexBuilder
 	 *
 	 * @var string
 	 */
-	var $appConfigScriptId = 'xo-config';
+	protected $appConfigScriptId = 'xo-config';
 
-	function __construct(Xo $Xo) {
+	public function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 	}
 
@@ -32,7 +32,7 @@ class XoServiceIndexBuilder
 	 *
 	 * @return boolean|string Rendered index output.
 	 */
-	function RenderDistIndex() {
+	public function RenderDistIndex() {
 		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_dist', false))
 			return false;
 
@@ -70,7 +70,7 @@ class XoServiceIndexBuilder
 	 * @param string $output Output stream.
 	 * @return boolean Whether wp_head was successfully added to the output stream.
 	 */
-	private function AddWpHead(&$output) {
+	protected function AddWpHead(&$output) {
 		$headPos = strpos($output, '</head>');
 		if ($headPos === false)
 			return false;
@@ -96,7 +96,7 @@ class XoServiceIndexBuilder
 	 * @param string $output Output stream.
 	 * @return boolean Whether wp_footer was successfully added to the output stream.
 	 */
-	private function AddWpFooter(&$output) {
+	protected function AddWpFooter(&$output) {
 		$bodyPos = strpos($output, '</body>');
 		if ($bodyPos === false)
 			return false;
@@ -122,7 +122,7 @@ class XoServiceIndexBuilder
 	 * @param string $output Output stream.
 	 * @return boolean Whether App Config was successfully added to the output stream.
 	 */
-	private function AddAppConfig(&$output) {
+	protected function AddAppConfig(&$output) {
 		$XoApiConfigController = new XoApiControllerConfig($this->Xo);
 		$config = $XoApiConfigController->Get();
 
@@ -158,7 +158,7 @@ class XoServiceIndexBuilder
 	 *
 	 * @return boolean Whether the entrypoint was successfully found or added in the src index.
 	 */
-	function AddAppConfigEntrypoint() {
+	public function AddAppConfigEntrypoint() {
 		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_src', false))
 			return false;
 
@@ -204,7 +204,7 @@ class XoServiceIndexBuilder
 	 *
 	 * @return boolean Whether the App Config entrypoint is found in the src index.
 	 */
-	function CheckAppConfigEntrypoint() {
+	public function CheckAppConfigEntrypoint() {
 		if (!$srcIndex = $this->Xo->Services->Options->GetOption('xo_index_src', false))
 			return false;
 
@@ -238,7 +238,7 @@ class XoServiceIndexBuilder
 	 * @param boolean|integer $end Index to append from the stream, false if same as start index.
 	 * @return void
 	 */
-	private function InsertBetween(&$stream, $content, $start, $end = false) {
+	protected function InsertBetween(&$stream, $content, $start, $end = false) {
 		if (!$end)
 			$end = $start;
 
@@ -247,14 +247,14 @@ class XoServiceIndexBuilder
 
 	/**
 	 * Write the index file with the given content.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param string $file Absolute path to the file to write.
 	 * @param string $content Content to write into the file.
 	 * @return boolean Whether the content was successfully written.
 	 */
-	private function WriteIndex($file, $content) {
+	protected function WriteIndex($file, $content) {
 		if (!$handle = fopen($file, 'r+'))
 			return false;
 

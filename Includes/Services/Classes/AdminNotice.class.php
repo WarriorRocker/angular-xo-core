@@ -14,7 +14,7 @@ class XoServiceAdminNotice
 	 *
 	 * @var string
 	 */
-	var $key;
+	protected $key;
 
 	/**
 	 * Callback for generating the body of the notice.
@@ -23,7 +23,7 @@ class XoServiceAdminNotice
 	 *
 	 * @var callable
 	 */
-	var $renderFn;
+	public $renderFn;
 
 	/**
 	 * Construct handler for a given admin notice.
@@ -33,7 +33,7 @@ class XoServiceAdminNotice
 	 * @param string $key The transient key used to track the display of the notice.
 	 * @param callable $renderFn Callback for generating the body of the notice.
 	 */
-	function __construct($key, callable $renderFn) {
+	public function __construct($key, callable $renderFn) {
 		$this->key = $key;
 		$this->renderFn = $renderFn;
 
@@ -47,7 +47,7 @@ class XoServiceAdminNotice
 	 * 
 	 * @param array $settings Additional data passed to the notice such as the expiration.
 	 */
-	function RegisterNotice($settings = array()) {
+	public function RegisterNotice($settings = array()) {
 		if (!isset($settings['dismissable']))
 			$settings['dismissable'] = true;
 
@@ -64,7 +64,7 @@ class XoServiceAdminNotice
 	 * 
 	 * @return void
 	 */
-	function ShowNotice() {
+	public function ShowNotice() {
 		if (!$settings = get_transient($this->key))
 			return;
 
@@ -85,7 +85,7 @@ class XoServiceAdminNotice
 	 * 
 	 * @return void
 	 */
-	function DismissNotice() {
+	public function DismissNotice() {
 		delete_transient($this->key);
 	}
 }

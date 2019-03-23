@@ -10,7 +10,7 @@ class XoServiceOptions
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * Collection of options which override defaults or database configurations.
@@ -19,14 +19,14 @@ class XoServiceOptions
 	 *
 	 * @var array
 	 */
-	var $overrides = array();
+	protected $overrides = array();
 
-	function __construct(Xo $Xo) {
+	public function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 		add_action('init', array($this, 'Init'), 10, 0);
 	}
 
-	function Init() {
+	public function Init() {
 		$this->SetOverrides();
 	}
 
@@ -37,7 +37,7 @@ class XoServiceOptions
 	 *
 	 * @return void
 	 */
-	function SetOverrides() {
+	public function SetOverrides() {
 		if (!defined('XO_SETTINGS'))
 		    return;
 
@@ -57,7 +57,7 @@ class XoServiceOptions
 	 * @param mixed $value Default value if the option was not found.
 	 * @return mixed Return value of the option.
 	 */
-	function GetOption($name, $value = false) {
+	public function GetOption($name, $value = false) {
 		if (isset($this->overrides[$name])) {
 			$value = $this->overrides[$name];
 		} else {
@@ -78,7 +78,7 @@ class XoServiceOptions
 	 * @param mixed $value Value to set for the given option.
 	 * @return bool Whether the option was updated.
 	 */
-	function SetOption($name, $value = false) {
+	public function SetOption($name, $value = false) {
 		$value = apply_filters('xo/options/set/' . $name, $value);
 
 		return update_option($name, $value);
@@ -91,7 +91,7 @@ class XoServiceOptions
 	 *
 	 * @return array
 	 */
-	function GetDefaultSettings() {
+	protected function GetDefaultSettings() {
 		$defaults = array(
 			// Index Tab
 			'xo_index_src' => '/src/index.html',
@@ -130,7 +130,7 @@ class XoServiceOptions
 	 *
 	 * @return array All current settings.
 	 */
-	function GetCurrentSettings() {
+	public function GetCurrentSettings() {
 		$settings = array();
 		$defaults = $this->GetDefaults();
 
@@ -149,7 +149,7 @@ class XoServiceOptions
 	 *
 	 * @return mixed The defaults filtered by xo/options/defaults.
 	 */
-	function GetDefaults() {
+	public function GetDefaults() {
 		$defaults = $this->GetDefaultSettings();
 
 		if ($config = $this->GetOptionsFromJson())
@@ -167,7 +167,7 @@ class XoServiceOptions
 	 *
 	 * @return bool Whether any options were set.
 	 */
-	function SetDefaults() {
+	public function SetDefaults() {
 		$defaults = $this->GetDefaults();
 
 		$setDefaults = false;
@@ -185,7 +185,7 @@ class XoServiceOptions
 	 *
 	 * @return bool Whether any options were set.
 	 */
-	function ResetDefaults() {
+	public function ResetDefaults() {
 		$defaults = $this->GetDefaults();
 
 		$setOptions = false;
@@ -204,7 +204,7 @@ class XoServiceOptions
 	 * @param string $option Name of the option.
 	 * @return array States of the given option.
 	 */
-	function GetStates($option) {
+	public function GetStates($option) {
 		$states = array();
 
 		if (isset($this->overrides[$option]))
@@ -222,7 +222,7 @@ class XoServiceOptions
 	 *
 	 * @return bool|string[]
 	 */
-	function GetOptionsFromJson() {
+	protected function GetOptionsFromJson() {
 		if (!$jsons = $this->Xo->Services->AngularJson->ParseConfig())
 			return false;
 
