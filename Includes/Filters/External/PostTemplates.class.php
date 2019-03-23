@@ -15,11 +15,11 @@ class XoFilterPostTemplates
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 
-		add_filter('template_include', array($this, 'TemplateInclude'), 1, 1);
-		add_action('admin_init', array($this, 'RegisterTemplateFilters'), 10, 0);
+		$this->Init();
 	}
 
-	function RegisterTemplateFilters() {
+	function Init() {
+		add_filter('template_include', array($this, 'TemplateInclude'), 1, 1);
 		add_filter('default_page_template_title', array($this, 'DefaultPageTemplateTitle'), 10, 2);
 		add_filter('theme_page_templates', array($this, 'ThemeTemplates'), 10, 4);
 	}
@@ -33,6 +33,7 @@ class XoFilterPostTemplates
 	}
 
 	function ThemeTemplates($templates, WP_Theme $theme, $post, $post_type) {
+		echo 'theme templates';
 		$annotatedTemplates = $this->Xo->Services->TemplateReader->GetAnnotatedTemplates();
 
 		foreach ($annotatedTemplates as $template => $attrs)
