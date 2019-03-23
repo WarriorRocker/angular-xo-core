@@ -10,21 +10,21 @@ class XoApi
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * @var XoApiClassRouter
 	 */
-	var $Router;
+	public $Router;
 
-	function __construct($Xo) {
+	public function __construct($Xo) {
 		$this->Xo = $Xo;
 
 		$this->Includes();
 		$this->Init();
 	}
 
-	function Init() {
+	protected function Init() {
 		$this->Router = new XoApiClassRouter($this->Xo);
 
 		$this->Router->AddController('config', 'XoApiControllerConfig');
@@ -36,7 +36,7 @@ class XoApi
 		$this->Router->AddController('comments', 'XoApiControllerComments');
 	}
 
-	function Includes() {
+	protected function Includes() {
 		// Include abstract interface classes used for fully formed objects
 		$this->IncludeAbstractObjects();
 
@@ -50,7 +50,7 @@ class XoApi
 		$this->IncludeApiControllers();
 	}
 
-	function IncludeAbstractObjects() {
+	protected function IncludeAbstractObjects() {
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Objects/Post.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Objects/Menu.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Objects/Term.class.php');
@@ -58,7 +58,7 @@ class XoApi
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Objects/SitemapEntry.class.php');
 	}
 
-	function IncludeAbstractResponses() {
+	protected function IncludeAbstractResponses() {
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Response.class.php');
 
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/IndexResponse.class.php');
@@ -74,12 +74,12 @@ class XoApi
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/OptionsResponse.class.php');
 	}
 
-	function IncludeApiBaseServices() {
+	protected function IncludeApiBaseServices() {
 		$this->Xo->RequireOnce('Includes/Api/Classes/Router.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Classes/Reflector.class.php');
 	}
 
-	function IncludeApiControllers() {
+	protected function IncludeApiControllers() {
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Controller.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/IndexController.class.php');
 

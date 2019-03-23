@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Provide endpoints for retrieving dynamic routes.
+ * Provide endpoints for retrieving dynamic routes and sitemap.
  *
  * @since 1.0.0
  */
