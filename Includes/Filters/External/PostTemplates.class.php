@@ -18,13 +18,13 @@ class XoFilterPostTemplates
 		$this->Init();
 	}
 
-	function Init() {
+	protected function Init() {
 		add_filter('template_include', array($this, 'TemplateInclude'), 1, 1);
 		add_filter('default_page_template_title', array($this, 'DefaultPageTemplateTitle'), 10, 2);
 		add_filter('theme_page_templates', array($this, 'ThemeTemplates'), 10, 4);
 	}
 
-	function TemplateInclude($template) {
+	public function TemplateInclude($template) {
 		if (($this->Xo->Services->Options->GetOption('xo_index_redirect_mode') == 'live')
 			&& ($file = $this->Xo->GetFile('Includes/Theme/ThemeIndex.php')))
 			return $file;
@@ -32,8 +32,7 @@ class XoFilterPostTemplates
 		return $template;
 	}
 
-	function ThemeTemplates($templates, WP_Theme $theme, $post, $post_type) {
-		echo 'theme templates';
+	public function ThemeTemplates($templates, WP_Theme $theme, $post, $post_type) {
 		$annotatedTemplates = $this->Xo->Services->TemplateReader->GetAnnotatedTemplates();
 
 		foreach ($annotatedTemplates as $template => $attrs)
