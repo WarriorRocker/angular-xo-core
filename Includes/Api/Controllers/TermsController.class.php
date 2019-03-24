@@ -20,15 +20,8 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 		if (empty($params['url']))
 			return new XoApiAbstractTermsGetResponse(false, __('Missing category url.', 'xo'));
 
-		// Get the taxonomy by parsing the requested url
-		$taxonomy = $this->GetTaxonomyByUrl($params['url']);
-
-		// Return an error if the taxonomy was not found
-		if (!$taxonomy)
-			return new XoApiAbstractTermsGetResponse(false, __('Unable to locate taxonomy.', 'xo'));
-
-		// Get the term within the found taxonomy by comparing the requested url
-		$term = $this->GetTermByTaxonomyAndUrl($taxonomy, $params['url']);
+		// Get the term by matching the url parts
+		$term = $this->Xo->Services->SitemapGenerator->GetTermByUrl($params['url']);
 
 		// Return an error if the term was not found
 		if (!$term)
@@ -74,7 +67,7 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 
 		// Sort the terms by the given term meta key
 		if ($orderBy)
-		    usort($terms, function ($cur, $next) use ($order, $orderBy) {
+		    usort($terms, function (XoApiAbstractTerm $cur, XoApiAbstractTerm $next) use ($order, $orderBy) {
 		        $orderCur = ((!empty($cur->meta[$orderBy])) ? intval($cur->meta[$orderBy]) : 0);
 				$orderNext = ((!empty($next->meta[$orderBy])) ? intval($next->meta[$orderBy]) : 0);
 		        return (($order == 'ASC') ? $orderCur > $orderNext : $orderCur < $orderNext);
@@ -85,60 +78,5 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 			true, __('Successfully located terms taxonomy.', 'xo'),
 			$terms
 		);
-	}
-
-	/**
-	 * Summary of GetTaxonomyByUrl
-	 *
-	 * @since 1.0.7
-	 *
-	 * @param mixed $url
-	 * @return boolean|WP_Taxonomy
-	 */
-	private function GetTaxonomyByUrl($url) {
-		$taxonomies = get_taxonomies(array(
-			'public' => 1
-		), 'objects');
-
-		foreach ($taxonomies as $taxonomy_config) {
-			if (!$taxonomy_config->public)
-				continue;
-
-			if (empty($taxonomy_config->rewrite['slug']))
-				continue;
-
-			$taxonomyUrl = '/' . $taxonomy_config->rewrite['slug'] . '/';
-
-			if (strpos($url, $taxonomyUrl) === 0)
-				return $taxonomy_config;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Summary of GetTermByTaxonomyAndUrl
-	 * @param WP_Taxonomy $taxonomy
-	 * @param mixed $url
-	 * @return boolean|WP_Term
-	 */
-	private function GetTermByTaxonomyAndUrl(WP_Taxonomy $taxonomy, $url) {
-		$url = trailingslashit($url);
-
-		$taxonomyTerms = get_terms(array(
-			'taxonomy' => $taxonomy->name
-		));
-
-		if ((is_wp_error($taxonomyTerms)) || (empty($taxonomyTerms)))
-			return false;
-
-		foreach ($taxonomyTerms as $term) {
-			$termUrl = trailingslashit(wp_make_link_relative(get_term_link($term)));
-
-			if (strpos($url, $termUrl) === 0)
-				return $term;
-		}
-
-		return false;
 	}
 }

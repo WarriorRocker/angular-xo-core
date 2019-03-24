@@ -101,13 +101,14 @@ class XoServiceSitemapGenerator
 	 * @param string $url Relative URL for which to generate breadcrumbs.
 	 * @return XoApiAbstractSitemapEntry[] Collection of sitemap entries.
 	 */
-	public function GenerateBreadcrumbsForUrl($url = '/') {
+	public function GenerateBreadcrumbsForUrl($url) {
 		$breadcrumbs = array();
 
 		$urlParts = explode('/', $url);
 
 		$currentUrl = '';
 		$taxonomy = false;
+
 		foreach ($urlParts as $urlPart) {
 			if (!$urlPart)
 				continue;
@@ -204,9 +205,9 @@ class XoServiceSitemapGenerator
 
 	/**
 	 * Get a taxonomy by comparing the given URL with the base rewrite slug.
-	 * 
+	 *
 	 * @since 1.1.0
-	 * 
+	 *
 	 * @param string $url URL base to search for registered taxonomies.
 	 * @return boolean|WP_Taxonomy Taxonomy found for the given URL.
 	 */
@@ -231,6 +232,47 @@ class XoServiceSitemapGenerator
 		return false;
 	}
 
+	/**
+	 * Get a term by comparing the given URL with a taxonomy and term slug.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $url URL base to search for terms.
+	 * @return boolean|WP_Term Term found for the given URL.
+	 */
+	public function GetTermByUrl($url) {
+		$urlParts = explode('/', $url);
+
+		$currentUrl = '';
+		$taxonomy = false;
+		$term = false;
+
+		foreach ($urlParts as $urlPart) {
+			if (!$urlPart)
+				continue;
+
+			$currentUrl .= '/' . $urlPart;
+
+			if (($taxonomy)
+				&& ($termGet = $this->GetTermByTaxonomyAndSlug($taxonomy, $urlPart))) {
+				$term = $termGet;
+			}
+
+			$taxonomy = $this->GetTaxonomyByUrl($currentUrl);
+		}
+
+		return $term;
+	}
+
+	/**
+	 * Get a term within a given taxonomy by comparing the requested slug.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param WP_Taxonomy $taxonomy Taxonomy to search for terms.
+	 * @param string $slug Slug of the term to search.
+	 * @return boolean|WP_Term Term found for the given slug.
+	 */
 	public function GetTermByTaxonomyAndSlug(WP_Taxonomy $taxonomy, $slug) {
 		$taxonomyTerms = get_terms(array(
 			'taxonomy' => $taxonomy->name,
