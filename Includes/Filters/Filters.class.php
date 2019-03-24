@@ -10,42 +10,42 @@ class XoFilters
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * @var XoFilterModRewrite
 	 */
-	var $ModRewrite;
+	public $ModRewrite;
 
 	/**
 	 * @var XoFilterPluginSettings
 	 */
-	var $PluginSettings;
+	public $PluginSettings;
 
 	/**
 	 * @var XoFilterPostStates
 	 */
-	var $PostStates;
+	public $PostStates;
 
 	/**
 	 * @var XoFilterPostTemplates
 	 */
-	var $PostTemplates;
+	public $PostTemplates;
 
 	/**
 	 * @var XoFilterPostPreview
 	 */
-	var $PostPreview;
+	public $PostPreview;
 
 	/**
 	 * @var XoFilterEditorOptions
 	 */
-	var $EditorOptions;
+	public $EditorOptions;
 
 	/**
 	 * @var XoFiltersNavMenus
 	 */
-	var $NavMenus;
+	public $NavMenus;
 
 	function __construct($Xo) {
 		$this->Xo = $Xo;
@@ -54,7 +54,7 @@ class XoFilters
 		$this->Init();
 	}
 
-	function Init() {
+	protected function Init() {
 		$this->ModRewrite = new XoFilterModRewrite($this->Xo);
 
 		$this->PluginSettings = new XoFilterPluginSettings($this->Xo);
@@ -68,7 +68,7 @@ class XoFilters
 		$this->NavMenus = new XoFiltersNavMenus($this->Xo);
 	}
 
-	function Includes() {
+	protected function Includes() {
 		$this->Xo->RequireOnce('Includes/Filters/External/ModRewrite.class.php');
 
 		$this->Xo->RequireOnce('Includes/Filters/External/PluginSettings.class.php');

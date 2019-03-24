@@ -32,6 +32,8 @@ class XoOptions
 
 		$this->Includes();
 		$this->Init();
+
+		add_action('admin_enqueue_scripts', array($this, 'AddAdminStyles'), 10, 0);
 	}
 
 	protected function Init() {
@@ -42,8 +44,6 @@ class XoOptions
 
 		$this->InitToolsPage();
 		$this->InitToolsPageTabs();
-
-		add_action('admin_enqueue_scripts', array($this, 'AddAdminStyles'), 10, 0);
 	}
 
 	public function AddAdminStyles() {

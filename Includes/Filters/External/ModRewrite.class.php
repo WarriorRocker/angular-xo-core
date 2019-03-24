@@ -10,14 +10,14 @@ class XoFilterModRewrite
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * @var XoServiceAdminNotice
 	 */
-	var $UpdateNotice;
+	protected $UpdateNotice;
 
-	function __construct(Xo $Xo) {
+	public function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 
 		$this->UpdateNotice = new XoServiceAdminNotice(
@@ -29,11 +29,11 @@ class XoFilterModRewrite
 		add_filter('mod_rewrite_rules', array($this, 'ModifyRewrites'), 20, 1);
 	}
 
-	function __destruct() {
+	public function __destruct() {
 		remove_filter('mod_rewrite_rules', array($this, 'ModifyRewrites'), 20);
 	}
 
-	function ModifyRewrites($rulesOriginal) {
+	public function ModifyRewrites($rulesOriginal) {
 		$rulesUpdated = $rulesOriginal;
 		$rulesHead = '# Modified by ' . $this->Xo->name. "\n";
 
@@ -49,7 +49,7 @@ class XoFilterModRewrite
 		return $rulesOriginal;
 	}
 
-	function UpdateRewrites(&$rules) {
+	protected function UpdateRewrites(&$rules) {
 		$this->AddAccessControlHeaders($rules);
 
 		if ($this->UpdateEntryPointRules($rules)) {
@@ -58,7 +58,7 @@ class XoFilterModRewrite
 		}
 	}
 
-	function AddAccessControlHeaders(&$rules) {
+	protected function AddAccessControlHeaders(&$rules) {
 		$mode = $this->Xo->Services->Options->GetOption('xo_api_access_control_mode', '');
 
 		if ($mode == 'default')
@@ -89,7 +89,7 @@ class XoFilterModRewrite
 		}
 	}
 
-	function UpdateEntryPointRules(&$rules) {
+	protected function UpdateEntryPointRules(&$rules) {
 		if ($this->Xo->Services->Options->GetOption('xo_index_redirect_mode') != 'offline')
 			return false;
 
@@ -113,7 +113,7 @@ class XoFilterModRewrite
 		return true;
 	}
 
-	function AddWpJsonRule(&$rules) {
+	protected function AddWpJsonRule(&$rules) {
 		if (($pos = strpos($rules, 'RewriteRule')) === false)
 			return;
 
@@ -124,7 +124,7 @@ class XoFilterModRewrite
 			substr($rules, $pos);
 	}
 
-	function AddXoApiRule(&$rules) {
+	protected function AddXoApiRule(&$rules) {
 		if (($pos = strpos($rules, 'RewriteRule')) === false)
 			return;
 
@@ -139,7 +139,7 @@ class XoFilterModRewrite
 			substr($rules, $pos);
 	}
 
-	function GetHomeRoot() {
+	protected function GetHomeRoot() {
 		$url = parse_url(home_url());
 
 		if (isset($url['path']))
@@ -148,7 +148,7 @@ class XoFilterModRewrite
 		return '/';
 	}
 
-	function AddIndentsToRules(&$rules) {
+	protected function AddIndentsToRules(&$rules) {
 		$level = 0;
 
 		$rules = array_map('trim', explode("\n", $rules));
@@ -172,7 +172,7 @@ class XoFilterModRewrite
 		$rules = implode("\n", $rules);
 	}
 
-	function RenderUpdateNotice($settings) {
+	public function RenderUpdateNotice($settings) {
 		$output = '<p><strong>' . sprintf(
 			__('%s rewrite rules updated.', 'xo'),
 			$this->Xo->name
