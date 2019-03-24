@@ -40,10 +40,7 @@ class XoServiceSitemapGenerator
 			// Iterate through all found posts
 			foreach ($posts as $post) {
 				// Generate a sitemap entry using the post title and relative URL
-				$sitemapEntries[] = new XoApiAbstractSitemapEntry(
-					$post->post_title,
-					wp_make_link_relative(get_permalink($post->ID))
-				);
+				$sitemapEntries[] = $this->GetSitemapEntryForPost($post);
 			}
 		}
 
@@ -85,10 +82,7 @@ class XoServiceSitemapGenerator
 			// Iterate through all found terms
 			foreach ($terms as $term) {
 				// Generate a sitemap entry using the term name and relative URL
-				$sitemapEntries[] = new XoApiAbstractSitemapEntry(
-					$term->name,
-					wp_make_link_relative(get_term_link($term))
-				);
+				$sitemapEntries[] = $this->GetSitemapEntryForTerm($term);
 			}
 		}
 
@@ -97,6 +91,75 @@ class XoServiceSitemapGenerator
 
 		// Return the generated sitemap entries
 		return $sitemapEntries;
+	}
+
+	/**
+	 * Generate sitemap entry breadcrumbs for each part of the given URL.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param string $url Relative URL for which to generate breadcrumbs.
+	 * @return XoApiAbstractSitemapEntry[] Collection of sitemap entries.
+	 */
+	public function GenerateBreadcrumbsForUrl($url = '/') {
+		$breadcrumbs = array();
+
+		$urlParts = explode('/', $url);
+
+		$currentUrl = '';
+		$taxonomy = false;
+		foreach ($urlParts as $urlPart) {
+			if (!$urlPart)
+				continue;
+
+			$currentUrl .= '/' . $urlPart;
+
+			if (($post = get_post(url_to_postid($currentUrl))) ||
+				($post = get_page_by_path($currentUrl))) {
+				$breadcrumbs[] = $this->GetSitemapEntryForPost($post);
+			} else if (($taxonomy) &&
+				($term = $this->GetTermByTaxonomyAndSlug($taxonomy, $urlPart))) {
+				$breadcrumbs[] = $this->GetSitemapEntryForTerm($term);
+			}
+
+			$taxonomy = $this->GetTaxonomyByUrl($currentUrl);
+		}
+
+		return $breadcrumbs;
+	}
+
+	/**
+	 * Get a post's sitemap entry with applied filters.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param WP_Post $post Post to build the sitemap entry.
+	 * @return XoApiAbstractSitemapEntry Sitemap entry for post.
+	 */
+	public function GetSitemapEntryForPost(WP_Post $post) {
+		$entry = new XoApiAbstractSitemapEntry(
+			$post->post_title,
+			wp_make_link_relative(get_permalink($post->ID))
+		);
+
+		return apply_filters('xo/sitemap/entry/post', $entry, $post);
+	}
+
+	/**
+	 * Get a term's sitemap entry with applied filters.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param WP_Term $term Term to build the sitemap entry.
+	 * @return XoApiAbstractSitemapEntry Sitemap entry for term.
+	 */
+	public function GetSitemapEntryForTerm(WP_Term $term) {
+		$entry = new XoApiAbstractSitemapEntry(
+			$term->name,
+			wp_make_link_relative(get_term_link($term))
+		);
+
+		return apply_filters('xo/sitemap/entry/term', $entry, $term);
 	}
 
 	/**
@@ -137,5 +200,46 @@ class XoServiceSitemapGenerator
 
 		// Return the current collection of sitemap parents
 		return $sitemapParents;
+	}
+
+	/**
+	 * Get a taxonomy by comparing the given URL with the base rewrite slug.
+	 * 
+	 * @since 1.1.0
+	 * 
+	 * @param string $url URL base to search for registered taxonomies.
+	 * @return boolean|WP_Taxonomy Taxonomy found for the given URL.
+	 */
+	public function GetTaxonomyByUrl($url) {
+		$taxonomies = get_taxonomies(array(
+			'public' => 1
+		), 'objects');
+
+		foreach ($taxonomies as $taxonomy_config) {
+			if (!$taxonomy_config->public)
+				continue;
+
+			if (empty($taxonomy_config->rewrite['slug']))
+				continue;
+
+			$taxonomyUrl = '/' . $taxonomy_config->rewrite['slug'];
+
+			if ($taxonomyUrl == $url)
+				return $taxonomy_config;
+		}
+
+		return false;
+	}
+
+	public function GetTermByTaxonomyAndSlug(WP_Taxonomy $taxonomy, $slug) {
+		$taxonomyTerms = get_terms(array(
+			'taxonomy' => $taxonomy->name,
+			'slug' => $slug
+		));
+
+		if ((is_wp_error($taxonomyTerms)) || (empty($taxonomyTerms)))
+			return false;
+
+		return $taxonomyTerms[0];
 	}
 }

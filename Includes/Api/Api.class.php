@@ -66,6 +66,7 @@ class XoApi
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/ConfigGetResponse.class.php');
 
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/RoutesGetResponse.class.php');
+		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/RoutesBreadcrumbsResponse.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/RoutesSitemapResponse.class.php');
 
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/PostsGetResponse.class.php');

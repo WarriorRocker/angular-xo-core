@@ -23,7 +23,7 @@ class XoApiAbstractRoutesSitemapResponse extends XoApiAbstractResponse
 	 *
 	 * @param bool $success Indicates a successful interaction with the API.
 	 * @param mixed $message Human readable response from the API interaction.
-	 * @param XoApiAbstractSitemapEntry[] $routes Collection of fully formed Angular Route objects.
+	 * @param XoApiAbstractSitemapEntry[] $routes Collection of fully formed sitemap entry objects.
 	 */
 	public function __construct($success, $message, $entries = array()) {
 		// Extend base response

@@ -34,6 +34,33 @@ class XoApiControllerRoutes extends XoApiAbstractIndexController
 	}
 
 	/**
+	 * Get breadcrumb sitemap entries for the given URL.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param mixed $params Request object
+	 * @return XoApiAbstractRoutesBreadcrumbsResponse
+	 */
+	public function Breadcrumbs($params) {
+		// Return an error if the url is missing
+		if (empty($params['url']))
+			return new XoApiAbstractRoutesBreadcrumbsResponse(false, __('Missing breadcrumbs url.', 'xo'));
+
+		// Get sitemap entries representing each component of the given URL
+		$sitemapEntries = $this->Xo->Services->SitemapGenerator->GenerateBreadcrumbsForUrl($params['url']);
+
+		// Return an error if no breadcrumb sitemap entries were generated
+		if (empty($sitemapEntries))
+			return new XoApiAbstractRoutesBreadcrumbsResponse(false, __('Unable to generate breadcrumbs.', 'xo'));
+
+		// Return success and generated breadcrumb sitemap entries
+		return new XoApiAbstractRoutesBreadcrumbsResponse(
+			true, __('Successfully retrieved breadcrumbs.', 'xo'),
+			$sitemapEntries
+		);
+	}
+
+	/**
 	 * Get sitemap entries for posts and terms.
 	 *
 	 * @since 1.0.9
@@ -49,6 +76,10 @@ class XoApiControllerRoutes extends XoApiAbstractIndexController
 
 		// Convert the flat sitemap entries to a nested collection
 		$sitemapEntries = $this->Xo->Services->SitemapGenerator->FlatSitemapToTree($sitemapEntries);
+
+		// Return an error if no sitemap entries were generated
+		if (empty($sitemapEntries))
+			return new XoApiAbstractRoutesSitemapResponse(false, __('Unable to generate sitemap.', 'xo'));
 
 		// Return success and generated sitemap entries
 		return new XoApiAbstractRoutesSitemapResponse(

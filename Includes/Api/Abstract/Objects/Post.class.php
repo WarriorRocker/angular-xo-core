@@ -125,26 +125,17 @@ class XoApiAbstractPost
 	public $fields;
 
 	/**
-	 * Optional set of breadcrumb items for the given post's URL.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var array
-	 */
-	public $breadcrumbs;
-
-	/**
 	 * Generate a fully formed post object.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @param WP_Post $post The base post object.
 	 * @param bool $terms Optionally include terms in post object.
 	 * @param bool $meta Optionally include meta in post object.
 	 * @param bool $fields Optionally include ACF fields in post object.
 	 * @param bool $breadcrumbs Optionally include breadcrumb items in post object.
 	 */
-	public function __construct(WP_Post $post, $terms = false, $meta = false, $fields = false, $breadcrumbs = false) {
+	public function __construct(WP_Post $post, $terms = false, $meta = false, $fields = false) {
 		// Map base post object properties
 		$this->id = intval($post->ID);
 		$this->parent = intval($post->post_parent);
@@ -172,17 +163,13 @@ class XoApiAbstractPost
 		// Optionally set the post meta
 		if ($meta)
 			$this->SetMeta();
-
-		// Optionally set the post breadcrumbs
-		if ($breadcrumbs)
-			$this->SetBreadcrumbs();
 	}
 
 	/**
 	 * Set the terms for each taxonomy that are applied to the given post.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return void
 	 */
 	public function SetTerms() {
@@ -196,9 +183,9 @@ class XoApiAbstractPost
 
 	/**
 	 * Set the meta that are set for the given post.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return void
 	 */
 	public function SetMeta() {
@@ -232,9 +219,9 @@ class XoApiAbstractPost
 
 	/**
 	 * Set the ACF fields that are set for the given post.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return void
 	 */
 	public function SetFields() {
@@ -244,31 +231,5 @@ class XoApiAbstractPost
 
 		// Get collection of ACF fields for the post
 		$this->fields = get_fields($this->id);
-	}
-
-	/**
-	 * Set the breadcrumb items for the given post.
-	 * 
-	 * @since 1.0.0
-	 * 
-	 * @return void
-	 */
-	public function SetBreadcrumbs() {
-		$this->breadcrumbs = array();
-
-		$parts = explode('/', $this->url);
-
-		$url = '';
-		foreach ($parts as $part) {
-			if (!$part)
-				continue;
-
-			$url .= '/' . $part;
-
-			if (($post = get_post(url_to_postid($url))) ||
-				($post = get_page_by_path($url))) {
-				$this->breadcrumbs[] = new XoApiAbstractPost($post);
-			}
-		}
 	}
 }

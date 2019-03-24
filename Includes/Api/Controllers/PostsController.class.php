@@ -55,7 +55,7 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 		// Return success and the fully formed post object
 		return new XoApiAbstractPostsGetResponse(
 			true, __('Successfully located post.', 'xo'),
-			new XoApiAbstractPost($post, true, true, true, true)
+			new XoApiAbstractPost($post, true, true, true)
 		);
 	}
 
