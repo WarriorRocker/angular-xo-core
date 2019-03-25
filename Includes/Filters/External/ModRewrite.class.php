@@ -90,23 +90,19 @@ class XoFilterModRewrite
 	}
 
 	protected function UpdateEntryPointRules(&$rules) {
-		if ($this->Xo->Services->Options->GetOption('xo_index_redirect_mode') != 'offline')
+		$entrypoint = apply_filters('xo/rewrite/entrypoint/index', '');
+		if (empty($entrypoint))
 			return false;
-
-		if (!$index = $this->Xo->Services->Options->GetOption('xo_index_dist', false))
-			return false;
-
-		$indexRel = wp_make_link_relative(get_bloginfo('template_url')) . $index;
 
 		$rules = str_replace(
 			'RewriteRule ^index\.php$ - [L]',
-			'RewriteRule ^/?$ ' . $indexRel . ' [L]',
+			'RewriteRule ^/?$ ' . $entrypoint . ' [L]',
 			$rules
 		);
 
 		$rules = str_replace(
 			'RewriteRule . '. $this->GetHomeRoot() . 'index.php [L]',
-			'RewriteRule . ' . $indexRel . ' [L]',
+			'RewriteRule . ' . $entrypoint . ' [L]',
 			$rules
 		);
 
