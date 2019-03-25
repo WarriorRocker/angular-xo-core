@@ -62,7 +62,7 @@ class XoApiClassRouter
 	 *
 	 * @return void
 	 */
-	protected function AddRewrites() {
+	public function AddRewrites() {
 		if ((!$this->Xo->Services->Options->GetOption('xo_api_enabled', false))
 			|| (!$apiEndpoint = $this->Xo->Services->Options->GetOption('xo_api_endpoint')))
 			return;
