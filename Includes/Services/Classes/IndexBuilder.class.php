@@ -41,21 +41,10 @@ class XoServiceIndexBuilder
 			return false;
 
 		$output = file_get_contents($indexFile);
-
-		$output = apply_filters('xo/index/get/dist', $output);
 		if (empty($output))
 			return false;
 
-		if ($this->Xo->Services->Options->GetOption('xo_index_live_header', false))
-			$this->AddWpHead($output);
-
-		if ($this->Xo->Services->Options->GetOption('xo_index_live_footer', false))
-			$this->AddWpFooter($output);
-
-		if ($this->Xo->Services->Options->GetOption('xo_index_live_config', false))
-			$this->AddAppConfig($output);
-
-		$output = apply_filters('xo/index/render/dist', $output);
+		$output = apply_filters('xo/index/dist/output', $output);
 		if (empty($output))
 			return false;
 
@@ -70,7 +59,7 @@ class XoServiceIndexBuilder
 	 * @param string $output Output stream.
 	 * @return boolean Whether wp_head was successfully added to the output stream.
 	 */
-	protected function AddWpHead(&$output) {
+	public function AddWpHeadToIndex(&$output) {
 		$headPos = strpos($output, '</head>');
 		if ($headPos === false)
 			return false;
@@ -96,7 +85,7 @@ class XoServiceIndexBuilder
 	 * @param string $output Output stream.
 	 * @return boolean Whether wp_footer was successfully added to the output stream.
 	 */
-	protected function AddWpFooter(&$output) {
+	public function AddWpFooterToIndex(&$output) {
 		$bodyPos = strpos($output, '</body>');
 		if ($bodyPos === false)
 			return false;
@@ -122,7 +111,7 @@ class XoServiceIndexBuilder
 	 * @param string $output Output stream.
 	 * @return boolean Whether App Config was successfully added to the output stream.
 	 */
-	protected function AddAppConfig(&$output) {
+	public function AddAppConfigToIndex(&$output) {
 		$XoApiConfigController = new XoApiControllerConfig($this->Xo);
 		$config = $XoApiConfigController->Get();
 
