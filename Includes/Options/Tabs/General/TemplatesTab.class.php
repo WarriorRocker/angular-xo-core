@@ -25,7 +25,7 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitReaderSection() {
+	protected function InitReaderSection() {
 		$this->AddSettingsSection(
 			'templates_reader_section',
 			__('Templates Reader', 'xo'),
@@ -47,7 +47,7 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddReaderSectionReaderEnabledSetting($section) {
+	protected function AddReaderSectionReaderEnabledSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_templates_reader_enabled',
@@ -70,7 +70,7 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddReaderSectionCacheEnabledSetting($section) {
+	protected function AddReaderSectionCacheEnabledSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_templates_cache_enabled',
@@ -97,7 +97,7 @@ class XoOptionsTabTemplates extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddReaderSectionTemplatesPathSetting($section) {
+	protected function AddReaderSectionTemplatesPathSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_templates_path',

@@ -26,7 +26,7 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitPreviewsSection() {
+	protected function InitPreviewsSection() {
 		$this->AddSettingsSection(
 			'routing_previews_section',
 			__('Previews Rewrites', 'xo'),
@@ -46,7 +46,7 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddPreviewsSectionPreviewsEnabledSetting($section) {
+	protected function AddPreviewsSectionPreviewsEnabledSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_routing_previews_enabled',
@@ -67,7 +67,7 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitErrorsSection() {
+	protected function InitErrorsSection() {
 		$this->AddSettingsSection(
 			'routing_errors_section',
 			__('Routing Errors', 'xo'),
@@ -87,7 +87,7 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddErrorsSection404PageSetting($section) {
+	protected function AddErrorsSection404PageSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_404_page_id',

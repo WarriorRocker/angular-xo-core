@@ -29,14 +29,14 @@ class XoOptionsTabTools extends XoOptionsAbstractFieldsTab
 		echo '</div>';
 	}
 
-	function AddGeneralSection() {
+	protected function AddGeneralSection() {
 		$this->GenerateSection(
 			__('Tools and Actions', 'xo'),
 			__('Additional tools and manual actions.', 'xo')
 		);
 	}
 
-	function AddGeneralSectionAppConfigEntrypoint() {
+	protected function AddGeneralSectionAppConfigEntrypoint() {
 		$output = '<p><a href="' . $this->tabPageUrl .
 			'&action=add-entrypoint" class="button-primary">' .
 			__('Add App Config Entrypoint', 'xo') .
@@ -45,7 +45,7 @@ class XoOptionsTabTools extends XoOptionsAbstractFieldsTab
 		echo $output;
 	}
 
-	function AddGeneralSectionRebuildTemplateCache() {
+	protected function AddGeneralSectionRebuildTemplateCache() {
 		$output = '<p><a href="' . $this->tabPageUrl .
 			'&action=rebuild-template-cache" class="button-primary">' .
 			__('Rebuild Templates Cache', 'xo') .
@@ -57,7 +57,7 @@ class XoOptionsTabTools extends XoOptionsAbstractFieldsTab
 		echo $output;
 	}
 
-	function AddGeneralSectionResetDefaults() {
+	protected function AddGeneralSectionResetDefaults() {
 		$output = '<p><a href="' . $this->tabPageUrl .
 		'&action=reset-defaults" class="button-primary">' .
 		__('Reset Defaults', 'xo') .
@@ -66,7 +66,7 @@ class XoOptionsTabTools extends XoOptionsAbstractFieldsTab
 		echo $output;
 	}
 
-	function DoAction() {
+	protected function DoAction() {
 		if (empty($_GET['action']))
 			return;
 

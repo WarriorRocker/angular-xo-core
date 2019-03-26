@@ -23,7 +23,7 @@ class XoOptionsTabExport extends XoOptionsAbstractFieldsTab
 		echo '</div>';
 	}
 
-	function AddExportSettingsSection() {
+	protected function AddExportSettingsSection() {
 		$this->GenerateSection(
 			__('Settings', 'xo'),
 			__('Settings which override options within Xo.', 'xo')
@@ -55,7 +55,7 @@ class XoOptionsTabExport extends XoOptionsAbstractFieldsTab
 		});
 	}
 
-	function AddExportAppConfigSection() {
+	protected function AddExportAppConfigSection() {
 		$this->GenerateSection(
 			__('Config', 'xo'),
 			__('Settings used to configure your Angular app.', 'xo')

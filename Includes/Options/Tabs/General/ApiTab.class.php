@@ -38,7 +38,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitGeneralSection() {
+	protected function InitGeneralSection() {
 		$this->AddSettingsSection(
 			'api_general_section',
 			__('General', 'xo'),
@@ -59,7 +59,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddGeneralSectionApiEnabledSetting($section) {
+	protected function AddGeneralSectionApiEnabledSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_api_enabled',
@@ -86,7 +86,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddGeneralSectionApiEndpointSetting($section) {
+	protected function AddGeneralSectionApiEndpointSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_api_endpoint',
@@ -111,7 +111,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitAccessControlSection() {
+	protected function InitAccessControlSection() {
 		$this->AddSettingsSection(
 			'api_access_control_section',
 			__('Access Control', 'xo'),
@@ -132,7 +132,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddAccessControlSectionModeSetting($section) {
+	protected function AddAccessControlSectionModeSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_api_access_control_mode',
@@ -181,7 +181,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddAccessControlSectionAllowedHostsSetting($section) {
+	protected function AddAccessControlSectionAllowedHostsSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_access_control_allowed_hosts',
@@ -226,12 +226,12 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 
 	/**
 	 * Handle additional actions on the API tab.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return void
 	 */
-	private function DoAction() {
+	protected function DoAction() {
 		if (empty($_GET['action']))
 			return;
 

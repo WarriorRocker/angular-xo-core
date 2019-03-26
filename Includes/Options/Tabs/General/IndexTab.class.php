@@ -9,9 +9,9 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 {
 	/**
 	 * Add the various settings sections for the Index tab.
-	 * 
+	 *
 	 * @since 1.0.0
-	 * 
+	 *
 	 * @return void
 	 */
 	function Init() {
@@ -26,7 +26,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitGeneralSection() {
+	protected function InitGeneralSection() {
 		$this->AddSettingsSection(
 			'index_general_section',
 			__('General', 'xo'),
@@ -48,7 +48,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddGeneralSectionSrcIndexSetting($section) {
+	protected function AddGeneralSectionSrcIndexSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_src',
@@ -71,7 +71,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddGeneralSectionDistIndexSetting($section) {
+	protected function AddGeneralSectionDistIndexSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_dist',
@@ -94,7 +94,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddGeneralSectionRedirectModeSetting($section) {
+	protected function AddGeneralSectionRedirectModeSetting($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_redirect_mode',
@@ -141,7 +141,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitLiveIndexSection() {
+	protected function InitLiveIndexSection() {
 		$this->AddSettingsSection(
 			'index_live_index_section',
 			__('Live Index', 'xo'),
@@ -163,7 +163,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddLiveIndexHeaderSection($section) {
+	protected function AddLiveIndexHeaderSection($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_live_header',
@@ -186,7 +186,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddLiveIndexFooterSection($section) {
+	protected function AddLiveIndexFooterSection($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_live_footer',
@@ -209,7 +209,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddLiveIndexConfigSection($section) {
+	protected function AddLiveIndexConfigSection($section) {
 		$this->AddSettingsField(
 			$section,
 			'xo_index_live_config',

@@ -25,7 +25,7 @@ class XoOptionsTabAcf extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitAllowedSection() {
+	protected function InitAllowedSection() {
 		$this->AddSettingsSection(
 			'acf_allowed_section',
 			__('Allowed Options', 'xo'),
@@ -45,7 +45,7 @@ class XoOptionsTabAcf extends XoOptionsAbstractSettingsTab
 	 * @param string $section Name of the section.
 	 * @return void
 	 */
-	private function AddAllowedSectionAllowedGroupsSetting($section) {
+	protected function AddAllowedSectionAllowedGroupsSetting($section) {
 		$option = 'xo_acf_allowed_groups';
 		$value = $this->Xo->Services->Options->GetOption($option, array());
 		$states = $this->Xo->Services->Options->GetStates($option);

@@ -16,7 +16,7 @@ class XoFilterLiveIndex
 	/**
 	 * Add live options such as wp_head and wp_footer to the output stream.
 	 *
-	 * @since 1.1.1
+	 * @since 1.2.0
 	 *
 	 * @param string $output Output stream.
 	 */

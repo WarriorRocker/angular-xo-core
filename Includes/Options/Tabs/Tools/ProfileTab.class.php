@@ -22,7 +22,7 @@ class XoOptionsTabProfile extends XoOptionsAbstractFieldsTab
 		echo '</div>';
 	}
 
-	function AddGeneralSection() {
+	protected function AddGeneralSection() {
 		global $wp_version;
 		global $wpdb;
 

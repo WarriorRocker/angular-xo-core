@@ -26,7 +26,7 @@ class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitPostPageSection() {
+	protected function InitPostPageSection() {
 		$this->AddSettingsSection(
 			'post_page_section',
 			__('Post Pages', 'xo'),
@@ -55,7 +55,7 @@ class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 	 * @param WP_Post_Type $post_type_config Post type object.
 	 * @return void
 	 */
-	private function AddPostPageSettingsField($section, $post_type, $post_type_config) {
+	protected function AddPostPageSettingsField($section, $post_type, $post_type_config) {
 		$this->AddSettingsField(
 			$section,
 			'xo_' . $post_type . '_page_id',
@@ -80,7 +80,7 @@ class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 	 *
 	 * @return void
 	 */
-	private function InitPostTemplateSection() {
+	protected function InitPostTemplateSection() {
 		$this->AddSettingsSection(
 			'post_template_section',
 			__('Post Templates', 'xo'),
@@ -109,7 +109,7 @@ class XoOptionsTabPosts extends XoOptionsAbstractSettingsTab
 	 * @param WP_Post_Type $post_type_config Post type object.
 	 * @return void
 	 */
-	private function AddPostTemplateSettingsField($section, $post_type, $post_type_config) {
+	protected function AddPostTemplateSettingsField($section, $post_type, $post_type_config) {
 		$this->AddSettingsField(
 			$section,
 			'xo_' . $post_type . '_template',
