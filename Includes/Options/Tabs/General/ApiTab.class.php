@@ -215,7 +215,7 @@ class XoOptionsTabApi extends XoOptionsAbstractSettingsTab
 			__('%s API settings updated, please %s now.', 'xo'),
 			$this->Xo->name,
 			sprintf(
-				'<a href="' . $this->SettingsPage->GetTabUrl()
+				'<a href="' . $this->tabPageUrl
 					. '&action=update-rewrites' . '">%s</a>',
 				__('update rewrites', 'xo')
 			)

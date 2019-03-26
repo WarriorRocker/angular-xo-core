@@ -37,7 +37,7 @@ class XoOptionsTabTools extends XoOptionsAbstractFieldsTab
 	}
 
 	function AddGeneralSectionAppConfigEntrypoint() {
-		$output = '<p><a href="' . $this->SettingsPage->GetTabUrl() .
+		$output = '<p><a href="' . $this->tabPageUrl .
 			'&action=add-entrypoint" class="button-primary">' .
 			__('Add App Config Entrypoint', 'xo') .
 			'</a></p>';
@@ -46,7 +46,7 @@ class XoOptionsTabTools extends XoOptionsAbstractFieldsTab
 	}
 
 	function AddGeneralSectionRebuildTemplateCache() {
-		$output = '<p><a href="' . $this->SettingsPage->GetTabUrl() .
+		$output = '<p><a href="' . $this->tabPageUrl .
 			'&action=rebuild-template-cache" class="button-primary">' .
 			__('Rebuild Templates Cache', 'xo') .
 			'</a></p>';
@@ -58,7 +58,7 @@ class XoOptionsTabTools extends XoOptionsAbstractFieldsTab
 	}
 
 	function AddGeneralSectionResetDefaults() {
-		$output = '<p><a href="' . $this->SettingsPage->GetTabUrl() .
+		$output = '<p><a href="' . $this->tabPageUrl .
 		'&action=reset-defaults" class="button-primary">' .
 		__('Reset Defaults', 'xo') .
 		'</a></p>';

@@ -10,7 +10,7 @@ class XoOptionsAbstractTab
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * Reference to the admin page hosting a given tab.
@@ -19,7 +19,16 @@ class XoOptionsAbstractTab
 	 *
 	 * @var XoOptionsAbstractAdminPage
 	 */
-	var $SettingsPage;
+	protected $SettingsPage;
+
+	/**
+	 * Url of the respective tab.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @var string
+	 */
+	protected $tabPageUrl;
 
 	/**
 	 * Slug of the respective tab.
@@ -28,21 +37,24 @@ class XoOptionsAbstractTab
 	 *
 	 * @var string
 	 */
-	var $tabPageSlug;
+	protected $tabPageSlug;
 
 	/**
 	 * Generate a basic tab.
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param Xo $Xo Reference to Xo main class.
 	 * @param XoOptionsAbstractAdminPage $SettingsPage Reference to the containing admin page.
-	 * @param string $slug Slug URL slug used when referencing the tab.
+	 * @param string $slug Slug of the respective tab.
 	 */
-	function __construct(XoOptionsAbstractAdminPage $SettingsPage, $slug) {
-		$this->Xo = $SettingsPage->Xo;
-
+	public function __construct(Xo $Xo, XoOptionsAbstractAdminPage $SettingsPage, $slug) {
+		$this->Xo = $Xo;
 		$this->SettingsPage = $SettingsPage;
-		$this->tabPageSlug = $this->SettingsPage->pageSlug . '-' . $slug;
+
+		$this->tabPageUrl = $SettingsPage->GetTabUrl($slug);
+		$this->tabPageSlug = $SettingsPage->GetTabPageSlug($slug);
+
 		$this->Init();
 	}
 
@@ -51,11 +63,11 @@ class XoOptionsAbstractTab
 	 *
 	 * @since 1.0.0
 	 */
-	public function Init() { }
+	protected function Init() { }
 
 	/**
 	 * Overridable function called when the tab is rendered.
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	public function Render() { }
