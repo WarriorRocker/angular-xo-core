@@ -197,8 +197,10 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 		$this->slug = $post->post_name;
 		$this->title = $post->post_title;
 		$this->order = $post->menu_order;
-		$this->date = $post->post_date;
-		$this->modified = $post->post_modified;
+
+		// Set dates converted to timestamps
+		$this->date = get_post_datetime($post, 'date')->getTimeStamp() * 1000;
+		$this->modified = get_post_datetime($post, 'modified')->getTimeStamp() * 1000;
 
 		// Set the post content using the_content filter
 		$this->content = apply_filters('the_content', $post->post_content);
