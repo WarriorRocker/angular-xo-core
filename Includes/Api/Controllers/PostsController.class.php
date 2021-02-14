@@ -59,7 +59,7 @@ class XoApiControllerPosts extends XoApiAbstractController
 
 		register_rest_route($this->restBase, '/filter', [
 			[
-				'methods' => 'POST',
+				'methods' => ['GET', 'POST'],
 				'callback' => [$this, 'Filter'],
 				'permission_callback' => '__return_true'
 			]
