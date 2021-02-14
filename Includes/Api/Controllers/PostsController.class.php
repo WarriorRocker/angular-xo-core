@@ -103,6 +103,14 @@ class XoApiControllerPosts extends XoApiAbstractController
 			$post = get_post($params['id']);
 		}
 
+		// Attempt to find the post by matching WP Rewrite
+		if ((!$post) || (is_wp_error($post))) {
+			$query_vars = $this->Xo->Services->Rewrites->GetWpQueryForURL($params['url']);
+			if (!empty($query_vars['pagename'])) {
+				$post = get_page_by_path($query_vars['pagename']);
+			}
+		}
+
 		// Return an error if the post was not found
 		if ((!$post) || (is_wp_error($post)))
 			return new XoApiAbstractPostsGetResponse(false, __('Unable to locate post.', 'xo'));
