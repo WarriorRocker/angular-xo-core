@@ -218,18 +218,18 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 	public function Config($params) {
 		// Return an error if the post type is missing
 		if (empty($params['postType']))
-			return new XoApiAbstractPostsConfigResponse(false, __('Missing post id.', 'xo'));
+			return new XoApiAbstractPostsConfigResponse(false, __('Missing post type.', 'xo'));
 
 		// Get the post type config object
 		$postTypeConfig = get_post_type_object($params['postType']);
 
 		// Return an error if the post type is not found
 		if (empty($postTypeConfig))
-			return new XoApiAbstractPostsConfigResponse(false, __('Post type not found.', 'xo'));
+			return new XoApiAbstractPostsConfigResponse(false, sprintf(__('Post type %s not found.', 'xo'), $params['postType']));
 
 		// Return an error if the post type is not public
 		if (!$postTypeConfig->public)
-			return new XoApiAbstractPostsConfigResponse(false, __('Post type not found.', 'xo'));
+			return new XoApiAbstractPostsConfigResponse(false, sprintf(__('Post type %s is not public.', 'xo'), $params['postType']));
 
 		// Return success and the post type config
 		return new XoApiAbstractPostsConfigResponse(
