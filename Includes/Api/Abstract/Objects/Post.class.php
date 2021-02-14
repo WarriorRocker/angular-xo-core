@@ -147,27 +147,31 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param WP_Post $post The base post object.
-	 * @param bool $terms Optionally include terms in post object.
+	 * @param WP_Post|int $post The base post object.
+	 * @param mixed $terms Optionally include terms in post object.
 	 * @param bool $meta Optionally include meta in post object.
-	 * @param bool $fields Optionally include ACF fields in post object.
-	 * @param bool $breadcrumbs Optionally include breadcrumb items in post object.
+	 * @param mixed $fields Optionally include ACF fields in post object.
 	 */
 	public function __construct(WP_Post $post, $terms = false, $meta = false, $fields = false) {
+		// Obtain the post object
+		if (is_numeric($post)) {
+			$post = get_post($post);
+		}
+
 		// Set base post properties
 		$this->SetBaseProperties($post);
 
 		// Optionally set the post terms
 		if ($terms)
-			$this->SetTerms();
+			$this->SetTerms($terms);
 
 		// Optionally set the post fields
 		if ($fields)
-			$this->SetFields();
+			$this->SetFields($fields);
 
 		// Optionally set the post meta
 		if ($meta)
-			$this->SetMeta();
+			$this->SetMeta($meta);
 	}
 
 	/**

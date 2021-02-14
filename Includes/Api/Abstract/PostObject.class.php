@@ -20,23 +20,35 @@ class XoApiAbstractPostObject
 	 *
 	 * @return void
 	 */
-	public function SetTerms() {
+	public function SetTerms($terms) {
 		//todo: this needs public/user taxonomy filtering
 		$ignore = ['yst_prominent_words'];
-		//print_r(wp_get_object_terms($this->id));
-		//print_r(get_object_taxonomies($this->type));exit;
-		// Get all terms for all taxonomies of the given post
-		$terms = wp_get_object_terms($this->id, get_object_taxonomies($this->type));
-		//print_r($terms);exit;
+		$taxonomies = is_bool($terms) ? get_object_taxonomies($this->type) : $terms;
 
-		// Iterate through terms and structure the return format
-		foreach ($terms as $term) {
-			//print_r($term->taxonomy);exit;
-			if (!in_array($term->taxonomy, $ignore)) {
-				$this->terms[$term->taxonomy][] = new XoApiAbstractTerm(get_term($term), true, true);
+		foreach ($taxonomies as $taxonomy) {
+			if (in_array($taxonomy, $ignore)) {
+				continue;
+			}
+
+			// Get all terms for given the taxonomy of the given post
+			$terms = wp_get_object_terms($this->id, $taxonomy);
+
+			// Iterate through terms and structure the return format
+			foreach ($terms as $term) {
+				$this->terms[$term->taxonomy][] = new XoApiAbstractTerm(get_term($term));
+			}
+
+			// If Yoast is installed attempt to set the primary category first
+			if (class_exists('WPSEO_Primary_Term')) {
+				$wpseo_primary_term = new WPSEO_Primary_Term($taxonomy, $this->id);
+				if ($wpseo_primary_term) {
+					$primary_term = $wpseo_primary_term->get_primary_term();
+					usort($this->terms[$term->taxonomy], function ($a, $b) use ($primary_term) {
+						return $b->id == $primary_term ? 1 : 0;
+					});
+				}
 			}
 		}
-			//$this->terms[$term->taxonomy][$term->slug] = $term->name;
 	}
 
 	/**
@@ -46,7 +58,7 @@ class XoApiAbstractPostObject
 	 *
 	 * @return void
 	 */
-	public function SetMeta() {
+	public function SetMeta($meta) {
 		// Get all meta options for the post
 		if (!$meta = get_post_meta($this->id))
 			return;
@@ -78,12 +90,18 @@ class XoApiAbstractPostObject
 	 *
 	 * @return void
 	 */
-	public function SetFields() {
+	public function SetFields($fields) {
 		// Return empty array if ACF is unavailable
 		if (!function_exists('get_fields'))
 			return;
 
 		// Get collection of ACF fields for the post
-		$this->fields = get_fields($this->id);
+		if (is_bool($fields)) {
+			$this->fields = get_fields($this->id);
+		} else {
+			foreach ($fields as $field) {
+				$this->fields[$field] = get_field($field, $this->id);
+			}
+		}
 	}
 }

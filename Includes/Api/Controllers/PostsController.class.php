@@ -196,6 +196,11 @@ class XoApiControllerPosts extends XoApiAbstractController
 		$offset = (($perPage) ? (($curPage - 1) * $perPage) : 0);
 		$orderBy = ((!empty($params['orderby'])) ? $params['orderby'] : '');
 
+		// Collect return object vars
+		$terms = isset($params['terms']) ? $params['terms'] : false;
+		$meta = isset($params['meta']) ? $params['meta'] : false;
+		$fields = isset($params['fields']) ? $params['fields'] : false;
+
 		// Construct base arguments for get posts$default_posts_per_page = get_option( 'posts_per_page' );
 		$baseargs = array(
 			'post_status' => 'publish',
@@ -269,7 +274,7 @@ class XoApiControllerPosts extends XoApiAbstractController
 		// Iterate through posts and get the fully formed post objects
 		$results = array();
 		foreach ($posts as $post)
-			$results[] = new XoApiAbstractPost($post, true, true, true);
+			$results[] = new XoApiAbstractPost($post, $terms, $meta, $fields);
 
 		// Apply filters
 		$results = apply_filters('xo/api/posts/filter', $results);

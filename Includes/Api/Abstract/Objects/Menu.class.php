@@ -139,9 +139,9 @@ class XoApiAbstractMenu extends XoApiAbstractPostObject
 	 * @since 1.0.0
 	 *
 	 * @param WP_Post $menu The base menu object.
-	 * @param bool $terms Optionally include terms in menu object.
-	 * @param bool $meta Optionally include meta in menu object.
-	 * @param bool $fields Optionally include ACF fields in menu object.
+	 * @param mixed $terms Optionally include terms in menu object.
+	 * @param mixed $meta Optionally include meta in menu object.
+	 * @param mixed $fields Optionally include ACF fields in menu object.
 	 */
 	public function __construct(WP_Post $menu, $terms = false, $meta = false, $fields = false) {
 		// Set base menu properties
@@ -149,15 +149,15 @@ class XoApiAbstractMenu extends XoApiAbstractPostObject
 
 		// Optionally set the menu terms
 		if ($terms)
-			$this->SetTerms();
+			$this->SetTerms($terms);
 
 		// Optionally set the menu fields
 		if ($fields)
-			$this->SetFields();
+			$this->SetFields($fields);
 
 		// Optionally set the menu meta
 		if ($meta)
-			$this->SetMeta();
+			$this->SetMeta($meta);
 	}
 
 	/**
