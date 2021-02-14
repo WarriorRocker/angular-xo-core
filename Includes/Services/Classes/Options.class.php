@@ -124,7 +124,7 @@ class XoServiceOptions
 
 			// Prerender Middleware Tab
 			'xo_prerender_middleware_enabled' => false,
-			'xo_prerender_service_endpoint' => '',
+			'xo_prerender_service_endpoint' => 'https://service.prerender.io',
 			'xo_prerender_token' => '',
 			'xo_prerender_user_agents' => array(
 				'baiduspider',

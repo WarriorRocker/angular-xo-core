@@ -18,20 +18,10 @@ class XoOptionsTabPrerender extends XoOptionsAbstractFieldsTab
 
 	public function Render() {
 		$session = $this->Xo->Services->Options->GetOption('xo_prerender_session', array());
-		$token = $this->Xo->Services->Options->GetOption('xo_prerender_token', false);
+		$user = $session ? $this->Xo->Services->Prerender->GetUser($session) : false;
 
-		print_r(array($session, $token));
-		echo '<hr>';
-
-		if ($session) {
-
-			$user = $this->Xo->Services->Prerender->GetUser($session);
-			print_r($user);
-			if ($user)
-				echo 'Token => ' . $user->token;
-
-			//$this->Xo->Services->Prerender->GenerateMiddleware($user->token);
-
+		if ($user) {
+			$this->AddPrerenderInfoSection($user);
 			$this->AddRemovePrerenderSection();
 		} else {
 			$this->AddPrerenderLoginSection();
@@ -72,6 +62,41 @@ class XoOptionsTabPrerender extends XoOptionsAbstractFieldsTab
 				submit_button(__('Login to Prerender', 'xo'));
 			}
 		);
+	}
+
+	function AddPrerenderInfoSection($user) {
+		$this->GenerateSection(
+			__('Prerender Account', 'xo'),
+			__('Information related to your Prerender account.', 'xo')
+		);
+
+		if (isset($user['planName'])) {
+			$this->GenerateInfoField(
+				__('Plan Name', 'xo'),
+				$user['planName']
+			);
+		}
+
+		if (isset($user['trackingCodeInstalled'])) {
+			$this->GenerateInfoField(
+				__('Token Detected', 'xo'),
+				($user['trackingCodeInstalled'] ? __('Yes', 'xo') : __('No', 'xo'))
+			);
+		}
+
+		if (isset($user['numPagesCached'])) {
+			$this->GenerateInfoField(
+				__('Cached Pages', 'xo'),
+				$user['numPagesCached']
+			);
+		}
+
+		if (isset($user['cacheFreshness'])) {
+			$this->GenerateInfoField(
+				__('Cache Freshness', 'xo'),
+				sprintf(__('%s days', 'xo'), $user['cacheFreshness'])
+			);
+		}
 	}
 
 	function AddRemovePrerenderSection() {
@@ -115,8 +140,8 @@ class XoOptionsTabPrerender extends XoOptionsAbstractFieldsTab
 
 			$user = $this->Xo->Services->Prerender->GetUser($session);
 
-			if ($user) {
-				$this->Xo->Services->Options->SetOption('xo_prerender_token', $user->token);
+			if (!empty($user['token'])) {
+				$this->Xo->Services->Options->SetOption('xo_prerender_token', $user['token']);
 			}
 
 			$this->PrerenderLoginNotice->RegisterNotice();
@@ -134,6 +159,5 @@ class XoOptionsTabPrerender extends XoOptionsAbstractFieldsTab
 
 	function RemovePrerender() {
 		delete_option('xo_prerender_session');
-		delete_option('xo_prerender_token');
 	}
 }

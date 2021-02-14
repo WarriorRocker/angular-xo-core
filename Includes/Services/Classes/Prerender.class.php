@@ -82,14 +82,14 @@ class XoServicePrerender
 			|| ($response['response']['message'] != 'OK'))
 			return false;
 
-		$cookies = array('session', 'session.sig');
-		$result = array();
-		foreach ($response['cookies'] as $cookie)
-			if (in_array($cookie->name, $cookies))
-				$result[$cookie->name] = $cookie->value;
+		$cookies = [];
+		foreach ($response['cookies'] as $cookie) {
+			$cookies[$cookie->name] = $cookie->value;
+		}
 
-		if (count($cookies) == count($result))
-			return $result;
+		if (!empty($cookies)) {
+			return $cookies;
+		}
 
 		return false;
 	}
@@ -103,7 +103,7 @@ class XoServicePrerender
 			|| ($response['response']['message'] != 'OK'))
 			return false;
 
-		return json_decode($response['body']);
+		return json_decode($response['body'], true);
 	}
 
 	public function GetCachedPages($session) {
@@ -115,7 +115,7 @@ class XoServicePrerender
 			|| ($response['response']['message'] != 'OK'))
 			return false;
 
-		print_r(json_decode($response['body']));
+		print_r(json_decode($response['body'], true));
 	}
 
 	function GenerateSessionCookies($session) {

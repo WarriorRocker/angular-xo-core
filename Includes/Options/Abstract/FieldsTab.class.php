@@ -258,4 +258,8 @@ class XoOptionsAbstractFieldsTab extends XoOptionsAbstractTab
 
 		return $output;
 	}
+
+	function GenerateInfoField($label, $value) {
+		echo '<p><strong>' . $label . '</strong> => ' . $value . '</p>';
+	}
 }
