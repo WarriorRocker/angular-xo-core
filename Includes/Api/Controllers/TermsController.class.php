@@ -33,10 +33,18 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 		if (!$term)
 			return new XoApiAbstractTermsGetResponse(false, __('Unable to locate term.', 'xo'));
 
-		// Return success and the taxonomy and term objects
+		// Obtain the fully formed term object
+		$term = new XoApiAbstractTerm($term, true, true);
+
+		// Apply filters
+		$term = apply_filters('xo/api/terms/get', $term);
+		$term = apply_filters('xo/api/terms/get/id=' . $term->id, $term);
+		$term = apply_filters('xo/api/terms/get/taxonomy=' . $post->taxonomy, $term);
+
+		// Return success and fully formed term object
 		return new XoApiAbstractTermsGetResponse(
 			true, __('Successfully located term.', 'xo'),
-			new XoApiAbstractTerm($term, true, true)
+			$term
 		);
 	}
 

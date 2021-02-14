@@ -52,10 +52,18 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 		if ($post->post_status != 'publish')
 			return new XoApiAbstractPostsGetResponse(false, __('The selected post is not published.', 'xo'));
 
+		// Obtain the fully formed post object
+		$post = new XoApiAbstractPost($post, true, true, true);
+
+		// Apply filters
+		$post = apply_filters('xo/api/posts/get', $post);
+		$post = apply_filters('xo/api/posts/get/id=' . $post->id, $post);
+		$post = apply_filters('xo/api/posts/get/type=' . $post->type, $post);
+
 		// Return success and the fully formed post object
 		return new XoApiAbstractPostsGetResponse(
 			true, __('Successfully located post.', 'xo'),
-			new XoApiAbstractPost($post, true, true, true)
+			$post
 		);
 	}
 
