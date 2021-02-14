@@ -28,22 +28,22 @@ class XoServiceRouteGenerator
 		$routes = array();
 
 		// Check if drafts and previews should be included
-		if ($includeDraftsAndPreviews) {
-			// Add routes for page drafts
-			$this->AddRoutesForPageDrafts($routes);
+		// if ($includeDraftsAndPreviews) {
+		// 	// Add routes for page drafts
+		// 	$this->AddRoutesForPageDrafts($routes);
 
-			// Add routes for page previews
-			$this->AddRoutesForPagePreviews($routes);
+		// 	// Add routes for page previews
+		// 	$this->AddRoutesForPagePreviews($routes);
 
-			// Add routes for post drafts and previews
-			$this->AddRoutesForPostDraftsAndPreviews($routes);
-		}
+		// 	// Add routes for post drafts and previews
+		// 	$this->AddRoutesForPostDraftsAndPreviews($routes);
+		// }
 
 		// Add routes for pages
 		$this->AddRoutesForPages($routes);
 
 		// Add routes for custom post types
-		$this->AddRoutesForPosts($routes);
+		// $this->AddRoutesForPosts($routes);
 
 		// Add route for the 404 page
 		$this->AddRouteFor404Page($routes);

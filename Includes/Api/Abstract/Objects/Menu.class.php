@@ -128,7 +128,14 @@ class XoApiAbstractMenu extends XoApiAbstractPost
 	public function __construct(WP_Post $menu, $terms = false, $meta = false, $fields = false) {
 		// Extend the fully formed post object
 		parent::__construct($menu, $terms, $meta, $fields);
+	}
 
+	/**
+	 * Set the base properties for the given menu.
+	 * 
+	 * @since 2.0.0
+	 */
+	public function SetBaseProperties(WP_Post $menu) {
 		// Map base menu object properties
 		$this->title = $menu->title;
 		$this->type = $menu->type;

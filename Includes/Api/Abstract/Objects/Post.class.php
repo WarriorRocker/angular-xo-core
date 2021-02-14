@@ -136,6 +136,28 @@ class XoApiAbstractPost
 	 * @param bool $breadcrumbs Optionally include breadcrumb items in post object.
 	 */
 	public function __construct(WP_Post $post, $terms = false, $meta = false, $fields = false) {
+		// Set base post properties
+		$this->SetBaseProperties($post);
+
+		// Optionally set the post terms
+		if ($terms)
+			$this->SetTerms();
+
+		// Optionally set the post fields
+		if ($fields)
+			$this->SetFields();
+
+		// Optionally set the post meta
+		if ($meta)
+			$this->SetMeta();
+	}
+
+	/**
+	 * Set the base properties for the given post.
+	 * 
+	 * @since 2.0.0
+	 */
+	public function SetBaseProperties(WP_Post $post) {
 		// Map base post object properties
 		$this->id = intval($post->ID);
 		$this->parent = intval($post->post_parent);
@@ -151,18 +173,6 @@ class XoApiAbstractPost
 
 		// Set the relative URL of the post using get_permalink and wp_make_link_relative
 		$this->url = wp_make_link_relative(get_permalink($post->ID));
-
-		// Optionally set the post terms
-		if ($terms)
-			$this->SetTerms();
-
-		// Optionally set the post fields
-		if ($fields)
-			$this->SetFields();
-
-		// Optionally set the post meta
-		if ($meta)
-			$this->SetMeta();
 	}
 
 	/**
