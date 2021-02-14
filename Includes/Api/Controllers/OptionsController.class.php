@@ -43,7 +43,7 @@ class XoApiControllerOptions extends XoApiAbstractIndexController
 
 		// Iterate through the individual fields within the option group
 		foreach ($group as $field)
-			$fields[$field['key']] = get_field($field['key'], 'option');
+			$fields[$field['name']] = get_field($field['name'], 'option');
 
 		// Return success and fields for the requested option group
 		return new XoApiAbstractOptionsGetResponse(
