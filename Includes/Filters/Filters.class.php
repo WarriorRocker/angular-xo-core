@@ -13,11 +13,6 @@ class XoFilters
 	protected $Xo;
 
 	/**
-	 * @var XoFilterModRewrite
-	 */
-	public $ModRewrite;
-
-	/**
 	 * @var XoFilterPluginSettings
 	 */
 	public $PluginSettings;
@@ -65,8 +60,6 @@ class XoFilters
 	}
 
 	protected function Init() {
-		$this->ModRewrite = new XoFilterModRewrite($this->Xo);
-
 		$this->PluginSettings = new XoFilterPluginSettings($this->Xo);
 
 		$this->PostStates = new XoFilterPostStates($this->Xo);
@@ -83,8 +76,6 @@ class XoFilters
 	}
 
 	protected function Includes() {
-		$this->Xo->RequireOnce('Includes/Filters/External/ModRewrite.class.php');
-
 		$this->Xo->RequireOnce('Includes/Filters/External/PluginSettings.class.php');
 
 		$this->Xo->RequireOnce('Includes/Filters/External/PostStates.class.php');

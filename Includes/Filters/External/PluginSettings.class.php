@@ -52,7 +52,6 @@ class XoFilterPluginSettings
 	}
 
 	function DeactivatePlugin() {
-		$this->Xo->Filters->ModRewrite->__destruct();
 		flush_rewrite_rules();
 	}
 
