@@ -21,12 +21,22 @@ class XoApiAbstractPostObject
 	 * @return void
 	 */
 	public function SetTerms() {
+		//todo: this needs public/user taxonomy filtering
+		$ignore = ['yst_prominent_words'];
+		//print_r(wp_get_object_terms($this->id));
+		//print_r(get_object_taxonomies($this->type));exit;
 		// Get all terms for all taxonomies of the given post
 		$terms = wp_get_object_terms($this->id, get_object_taxonomies($this->type));
+		//print_r($terms);exit;
 
 		// Iterate through terms and structure the return format
-		foreach ($terms as $term)
-			$this->terms[$term->taxonomy][$term->slug] = $term->name;
+		foreach ($terms as $term) {
+			//print_r($term->taxonomy);exit;
+			if (!in_array($term->taxonomy, $ignore)) {
+				$this->terms[$term->taxonomy][] = new XoApiAbstractTerm(get_term($term), true, true);
+			}
+		}
+			//$this->terms[$term->taxonomy][$term->slug] = $term->name;
 	}
 
 	/**
