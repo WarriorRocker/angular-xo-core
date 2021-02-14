@@ -22,12 +22,12 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 		if (empty($params['url']))
 			return new XoApiAbstractTermsGetResponse(false, __('Missing category url.', 'xo'));
 
-		// $vars = $this->Xo->Services->Rewrites->GetWpQueryForURL($params['url']);
-		// print_r($vars);
-		// exit;
+		$query_vars = $this->Xo->Services->Rewrites->GetWpQueryForURL($params['url']);
 
-		// Get the term by matching the url parts
-		$term = $this->Xo->Services->SitemapGenerator->GetTermByUrl($params['url']);
+		$term_slug = $query_vars['category_name'];
+		$term_taxonomy = (!empty($query_vars['taxonomy']) ? $query_vars['taxonomy'] : 'category');
+
+		$term = get_term_by('slug', $term_slug, $term_taxonomy);
 
 		// Return an error if the term was not found
 		if (!$term)

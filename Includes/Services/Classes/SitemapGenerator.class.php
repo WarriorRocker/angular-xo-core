@@ -233,38 +233,6 @@ class XoServiceSitemapGenerator
 	}
 
 	/**
-	 * Get a term by comparing the given URL with a taxonomy and term slug.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param string $url URL base to search for terms.
-	 * @return boolean|WP_Term Term found for the given URL.
-	 */
-	public function GetTermByUrl($url) {
-		$urlParts = explode('/', $url);
-
-		$currentUrl = '';
-		$taxonomy = false;
-		$term = false;
-
-		foreach ($urlParts as $urlPart) {
-			if (!$urlPart)
-				continue;
-
-			$currentUrl .= '/' . $urlPart;
-
-			if (($taxonomy)
-				&& ($termGet = $this->GetTermByTaxonomyAndSlug($taxonomy, $urlPart))) {
-				$term = $termGet;
-			}
-
-			$taxonomy = $this->GetTaxonomyByUrl($currentUrl);
-		}
-
-		return $term;
-	}
-
-	/**
 	 * Get a term within a given taxonomy by comparing the requested slug.
 	 *
 	 * @since 1.1.0
