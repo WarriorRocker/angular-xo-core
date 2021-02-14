@@ -259,9 +259,6 @@ class XoServiceIndexBuilder
 
 		$cacheRequests = apply_filters('xo/index/cache/requests', array());
 
-		if (empty($cacheRequests))
-			return false;
-
 		$apiCache = array();
 
 		foreach ($cacheRequests as $cacheRequest) {
@@ -279,6 +276,8 @@ class XoServiceIndexBuilder
 
 			$apiCache[$requestKey] = $response;
 		}
+
+		$apiCache = apply_filters('xo/index/cache/responses', $apiCache);
 
 		return $apiCache;
 	}
@@ -358,7 +357,7 @@ class XoServiceIndexBuilder
 	/**
 	 * @since 2.0.0
 	 */
-	protected function GenerateRequestKey($path, $request) {
+	public function GenerateRequestKey($path, $request) {
 		$requestParams = ((!empty($request)) ? json_encode($request, JSON_UNESCAPED_SLASHES) : false);
 		return $path . (($requestParams) ? ':' . $requestParams : '');
 	}
