@@ -17,19 +17,31 @@ class XoApiControllerConfig extends XoApiAbstractIndexController
 	public function Get() {
 		$theme = wp_get_theme();
 
+
 		// Generate dynamic application config
-		$config = array(
-			'app' => array(
+		$config = [
+			'app' => [
 				'title' => get_bloginfo('name'),
 				'url' => get_site_url(),
 				'version' => $theme->get('Version'),
 				'debug' => WP_DEBUG
-			),
-			'paths' => array(
+			],
+			'paths' => [
 				'apiUrl' => $this->Xo->Services->Options->GetOption('xo_api_endpoint'),
-				'templateUrl' => wp_make_link_relative(get_bloginfo('template_url'))
-			)
-		);
+				'templateUrl' => wp_make_link_relative(get_bloginfo('template_url')),
+				'adminUrl' => wp_make_link_relative(admin_url())
+			],
+			'user' => false
+		];
+
+		$user = wp_get_current_user();
+
+		if ($user->exists()) {
+			$config['user'] = [
+				'id' => $user->data->ID,
+				'canEditPosts' => $user->has_cap('edit_posts')
+			];
+		}
 
 		return new XoApiAbstractConfigGetResponse(
 			true, __('Successfully generated config.', 'xo'),
