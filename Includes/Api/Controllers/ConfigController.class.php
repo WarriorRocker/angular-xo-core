@@ -17,14 +17,14 @@ class XoApiControllerConfig extends XoApiAbstractController
 	public function Get() {
 		$theme = wp_get_theme();
 
-
 		// Generate dynamic application config
 		$config = [
 			'app' => [
 				'title' => get_bloginfo('name'),
 				'url' => get_site_url(),
 				'version' => $theme->get('Version'),
-				'debug' => WP_DEBUG
+				'debug' => WP_DEBUG,
+				'nonce' => wp_create_nonce('wp_rest')
 			],
 			'paths' => [
 				'templateUrl' => wp_make_link_relative(get_bloginfo('template_url')),

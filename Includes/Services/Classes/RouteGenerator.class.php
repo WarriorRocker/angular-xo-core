@@ -28,16 +28,16 @@ class XoServiceRouteGenerator
 		$routes = array();
 
 		// Check if drafts and previews should be included
-		// if ($includeDraftsAndPreviews) {
-		// 	// Add routes for page drafts
-		// 	$this->AddRoutesForPageDrafts($routes);
+		if ($includeDraftsAndPreviews) {
+			// Add routes for page drafts
+			$this->AddRoutesForPageDrafts($routes);
 
-		// 	// Add routes for page previews
-		// 	$this->AddRoutesForPagePreviews($routes);
+			// Add routes for page previews
+			$this->AddRoutesForPagePreviews($routes);
 
-		// 	// Add routes for post drafts and previews
-		// 	$this->AddRoutesForPostDraftsAndPreviews($routes);
-		// }
+			// Add routes for post drafts and previews
+			// $this->AddRoutesForPostDraftsAndPreviews($routes);
+		}
 
 		// Add routes for pages
 		$this->AddRoutesForPages($routes);
@@ -139,7 +139,7 @@ class XoServiceRouteGenerator
 		foreach ($posts as $postId) {
 		    if ($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($postId)) {
 				$routes[] = new XoApiAbstractRoute('xo-page-preview-' . $postId, $attrs['lazyPath'], 'full', array(
-					'postId' => $postId
+					'id' => $postId
 				));
 			}
 		}
@@ -157,7 +157,7 @@ class XoServiceRouteGenerator
 			if (($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($postId)) &&
 				(wp_get_post_autosave($postId, get_current_user_id()))) {
 				$routes[] = new XoApiAbstractRoute('xo-page-preview-' . $postId, $attrs['lazyPath'], 'full', array(
-					'postId' => $postId
+					'id' => $postId
 				));
 			}
 		}

@@ -28,7 +28,7 @@ class XoApiControllerPosts extends XoApiAbstractController
 			]
 		]);
 
-		register_rest_route($this->restBase, '/get/(?P<id>\d+)', [
+		register_rest_route($this->restBase, '/get/(?P<id>[\\d]+)', [
 			[
 				'methods' => 'GET',
 				'callback' => [$this, 'Get'],
@@ -36,7 +36,20 @@ class XoApiControllerPosts extends XoApiAbstractController
 			]
 		]);
 
-		register_rest_route($this->restBase, '/preview/(?P<id>\d+)', [
+		register_rest_route($this->restBase, '/preview', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'GetDraftOrPreview'],
+				'permission_callback' => '__return_true',
+				'args' => [
+					'id' => [
+						'required' => true
+					]
+				]
+			]
+		]);
+
+		register_rest_route($this->restBase, '/preview/(?P<id>[\\d]+)', [
 			[
 				'methods' => 'GET',
 				'callback' => [$this, 'GetDraftOrPreview'],
@@ -124,7 +137,7 @@ class XoApiControllerPosts extends XoApiAbstractController
 	public function GetDraftOrPreview(WP_REST_Request $params) {
 		// Return an error if the user is not logged in or not an editor
 		if (!current_user_can('edit_others_pages'))
-		    return new XoApiAbstractPostsGetResponse(false, __('Current user is not an editor.', 'xo'));
+			return new XoApiAbstractPostsGetResponse(false, __('Current user is not an editor.', 'xo'));
 
 		// Return an error if the postId is missing
 		if (empty($params['id']))
@@ -245,6 +258,9 @@ class XoApiControllerPosts extends XoApiAbstractController
 		$results = array();
 		foreach ($posts as $post)
 			$results[] = new XoApiAbstractPost($post, true, true, true);
+
+		// Apply filters
+		$results = apply_filters('xo/api/posts/filter', $results);
 
 		// Get a count of the total available posts
 		$total = 0;
