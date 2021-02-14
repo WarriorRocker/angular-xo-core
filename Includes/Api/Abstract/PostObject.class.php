@@ -39,11 +39,11 @@ class XoApiAbstractPostObject
 			}
 
 			// If Yoast is installed attempt to set the primary category first
-			if (class_exists('WPSEO_Primary_Term')) {
+			if (!empty($this->terms[$taxonomy]) && class_exists('WPSEO_Primary_Term')) {
 				$wpseo_primary_term = new WPSEO_Primary_Term($taxonomy, $this->id);
 				if ($wpseo_primary_term) {
 					$primary_term = $wpseo_primary_term->get_primary_term();
-					usort($this->terms[$term->taxonomy], function ($a, $b) use ($primary_term) {
+					usort($this->terms[$taxonomy], function ($a, $b) use ($primary_term) {
 						return $b->id == $primary_term ? 1 : 0;
 					});
 				}
