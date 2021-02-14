@@ -55,7 +55,7 @@ class XoFilterLiveIndex
 		$addRequests = array();
 
 		$addRequests[] = array(
-			'path' => '/routes/get'
+			'path' => '/xo/v1/routes/get'
 		);
 
 		$this->Xo->Services->IndexBuilder->AddApiCacheMenuRequests($addRequests);

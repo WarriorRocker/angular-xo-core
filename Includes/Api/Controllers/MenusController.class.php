@@ -5,8 +5,38 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerMenus extends XoApiAbstractIndexController
+class XoApiControllerMenus extends XoApiAbstractController
 {
+	protected $restBase = 'xo/v1/menus';
+
+	public function __construct(Xo $Xo) {
+		parent::__construct($Xo);
+		add_action('rest_api_init', [$this, 'RegisterRoutes'], 10, 0);
+	}
+
+	public function RegisterRoutes() {
+		register_rest_route($this->restBase, '/get', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Get'],
+				'permission_callback' => '__return_true',
+				'args' => [
+					'menu' => [
+						'required' => true
+					]
+				]
+			]
+		]);
+
+		register_rest_route($this->restBase, '/get/(?P<menu>\d+)', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Get'],
+				'permission_callback' => '__return_true'
+			]
+		]);
+	}
+
 	/**
 	 * Get a navigation menu by location name.
 	 *
@@ -15,7 +45,7 @@ class XoApiControllerMenus extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractMenusGetResponse
 	 */
-	public function Get($params) {
+	public function Get(WP_REST_Request $params) {
 		// Return an error if menu location name is missing
 		if (empty($params['menu']))
 			return new XoApiAbstractMenusGetResponse(false, __('Missing menu name.', 'xo'));

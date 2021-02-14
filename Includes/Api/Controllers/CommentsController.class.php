@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerComments extends XoApiAbstractIndexController
+class XoApiControllerComments extends XoApiAbstractController
 {
 	/**
 	 * Experimental filter for comments.

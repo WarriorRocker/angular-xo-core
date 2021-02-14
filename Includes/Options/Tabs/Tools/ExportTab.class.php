@@ -66,8 +66,7 @@ class XoOptionsTabExport extends XoOptionsAbstractFieldsTab
 				'xo_config_export',
 				__('AppConfig Export', 'xo'),
 				function ($name) {
-					$XoApiConfigController = new XoApiControllerConfig($this->Xo);
-					$config = $XoApiConfigController->Get();
+					$config = $this->Xo->Api->Config->Get();
 
 					$value = json_encode($config->config, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 

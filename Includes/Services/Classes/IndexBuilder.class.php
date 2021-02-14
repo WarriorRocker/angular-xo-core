@@ -128,8 +128,7 @@ class XoServiceIndexBuilder
 	 * @return boolean Whether App Config was successfully added to the output stream.
 	 */
 	public function AddAppConfigToIndex(&$output) {
-		$XoApiConfigController = new XoApiControllerConfig($this->Xo);
-		$config = $XoApiConfigController->Get();
+		$config = $this->Xo->Api->Config->Get();
 
 		$config = apply_filters('xo/index/get/config', $config);
 		if ((empty($config)) || (!$config->success))
@@ -273,7 +272,7 @@ class XoServiceIndexBuilder
 			$requestKey = $this->GenerateRequestKey($path, $request);
 
 			if (!$response)
-				$response = $this->Xo->Api->Router->ApiQueryByPath($path, $request);
+				$response = $this->Xo->Api->RestRequest('GET', $path, $request);
 
 			if (!$response)
 				continue;
@@ -297,7 +296,7 @@ class XoServiceIndexBuilder
 				continue;
 
 			$requests[] = array(
-				'path' => '/menus/get',
+				'path' => '/xo/v1/menus/get',
 				'request' => array(
 					'menu' => $menu
 				)
@@ -320,7 +319,7 @@ class XoServiceIndexBuilder
 				continue;
 
 			$requests[] = array(
-				'path' => '/options/get',
+				'path' => '/xo/v1/options/get',
 				'request' => array(
 					'name' => $key
 				)
@@ -335,7 +334,7 @@ class XoServiceIndexBuilder
 		$relUrl = strtok($_SERVER['REQUEST_URI'], '?');
 
 		$requests[] = array(
-			'path' => '/posts/get',
+			'path' => '/xo/v1/posts/get',
 			'request' => array(
 				'url' => $relUrl
 			)
@@ -349,7 +348,7 @@ class XoServiceIndexBuilder
 		$relUrl = strtok($_SERVER['REQUEST_URI'], '?');
 
 		$requests[] = [
-			'path' => '/terms/get',
+			'path' => '/xo/v1/terms/get',
 			'request' => [
 				'url' => $relUrl
 			]

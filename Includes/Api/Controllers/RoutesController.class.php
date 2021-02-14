@@ -5,8 +5,25 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerRoutes extends XoApiAbstractIndexController
+class XoApiControllerRoutes extends XoApiAbstractController
 {
+	protected $restBase = 'xo/v1/routes';
+
+	public function __construct(Xo $Xo) {
+		parent::__construct($Xo);
+		add_action('rest_api_init', [$this, 'RegisterRoutes'], 10, 0);
+	}
+
+	public function RegisterRoutes() {
+		register_rest_route($this->restBase, '/get', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Get'],
+				'permission_callback' => '__return_true'
+			]
+		]);
+	}
+
 	/**
 	 * Get the dynamic route configuration.
 	 *

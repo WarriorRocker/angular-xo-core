@@ -45,19 +45,12 @@ class XoFilterPluginSettings
 		$this->ActivationNotice->RegisterNotice(array(
 			'setDefaults' => $setDefaults
 		));
-
-		$this->Xo->Api->Router->AddRewrites();
-
-		flush_rewrite_rules();
 	}
 
 	function DeactivatePlugin() {
-		flush_rewrite_rules();
 	}
 
 	function RenderActivationNotice($settings) {
-		flush_rewrite_rules();
-
 		$output = '<p><strong>' . sprintf(
 			__('Thanks for choosing %s.', 'xo'),
 			$this->Xo->name

@@ -5,8 +5,54 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerPosts extends XoApiAbstractIndexController
+class XoApiControllerPosts extends XoApiAbstractController
 {
+	protected $restBase = 'xo/v1/posts';
+
+	public function __construct(Xo $Xo) {
+		parent::__construct($Xo);
+		add_action('rest_api_init', [$this, 'RegisterRoutes'], 10, 0);
+	}
+
+	public function RegisterRoutes() {
+		register_rest_route($this->restBase, '/get', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Get'],
+				'permission_callback' => '__return_true',
+				'args' => [
+					'url' => [
+						'required' => true
+					]
+				]
+			]
+		]);
+
+		register_rest_route($this->restBase, '/get/(?P<id>\d+)', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Get'],
+				'permission_callback' => '__return_true'
+			]
+		]);
+
+		register_rest_route($this->restBase, '/preview/(?P<id>\d+)', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'GetDraftOrPreview'],
+				'permission_callback' => '__return_true'
+			]
+		]);
+
+		register_rest_route($this->restBase, '/filter', [
+			[
+				'methods' => 'POST',
+				'callback' => [$this, 'Filter'],
+				'permission_callback' => '__return_true'
+			]
+		]);
+	}
+
 	/**
 	 * Get a post using either the relative URL or postId.
 	 *
@@ -15,9 +61,9 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractPostsGetResponse
 	 */
-	public function Get($params) {
+	public function Get(WP_REST_Request $params) {
 		// Return an error if the url is missing
-		if ((empty($params['postId'])) && (empty($params['url'])))
+		if ((empty($params['id'])) && (empty($params['url'])))
 			return new XoApiAbstractPostsGetResponse(false, __('Missing post id or url.', 'xo'));
 
 		$post = false;
@@ -41,7 +87,7 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 			if (!$post)
 				$post = get_page_by_path($params['url']);
 		} else {
-			$post = get_post($params['postId']);
+			$post = get_post($params['id']);
 		}
 
 		// Return an error if the post was not found
@@ -75,28 +121,36 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractPostsGetResponse
 	 */
-	public function GetDraftOrPreview($params) {
+	public function GetDraftOrPreview(WP_REST_Request $params) {
 		// Return an error if the user is not logged in or not an editor
 		if (!current_user_can('edit_others_pages'))
 		    return new XoApiAbstractPostsGetResponse(false, __('Current user is not an editor.', 'xo'));
 
 		// Return an error if the postId is missing
-		if (empty($params['postId']))
+		if (empty($params['id']))
 			return new XoApiAbstractPostsGetResponse(false, __('Missing post id.', 'xo'));
 
 		// Return an error if the post could not be found
-		if ((!$post = get_post($params['postId'])) || (is_wp_error($post)))
+		if ((!$post = get_post($params['id'])) || (is_wp_error($post)))
 			return new XoApiAbstractPostsGetResponse(false, __('Unable to locate post.', 'xo'));
 
 		// Return an error if the post does not have an autosave
 		if (($post->post_status == 'publish') &&
-			(!$post = wp_get_post_autosave($params['postId'], get_current_user_id())))
+			(!$post = wp_get_post_autosave($params['id'], get_current_user_id())))
 			return new XoApiAbstractPostsGetResponse(false, __('Unable to locate post autosave.', 'xo'));
+
+		// Obtain the fully formed post object
+		$post = new XoApiAbstractPost($post, true, true, true);
+
+		// Apply filters
+		$post = apply_filters('xo/api/posts/get', $post);
+		$post = apply_filters('xo/api/posts/get/id=' . $post->id, $post);
+		$post = apply_filters('xo/api/posts/get/type=' . $post->type, $post);
 
 		// Return success and the fully formed post object
 		return new XoApiAbstractPostsGetResponse(
 			true, __('Successfully located post.', 'xo'),
-			new XoApiAbstractPost($post, true, true, true)
+			$post
 		);
 	}
 
@@ -108,7 +162,7 @@ class XoApiControllerPosts extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractPostsFilterResponse
 	 */
-	public function Filter($params) {
+	public function Filter(WP_REST_Request $params) {
 		// Collect search vars
 		$search = ((!empty($params['search'])) ? $params['search'] : null);
 		$postType = ((!empty($params['postType']))

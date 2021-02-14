@@ -13,9 +13,34 @@ class XoApi
 	protected $Xo;
 
 	/**
-	 * @var XoApiClassRouter
+	 * @var XoApiControllerConfig
 	 */
-	public $Router;
+	public $Config;
+
+	/**
+	 * @var XoApiControllerRoutes
+	 */
+	public $Routes;
+
+	/**
+	 * @var XoApiControllerPosts
+	 */
+	public $Posts;
+
+	/**
+	 * @var XoApiControllerTerms
+	 */
+	public $Terms;
+
+	/**
+	 * @var XoApiControllerMenus
+	 */
+	public $Menus;
+
+	/**
+	 * @var XoApiControllerOptions
+	 */
+	public $Options;
 
 	public function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
@@ -25,9 +50,14 @@ class XoApi
 	}
 
 	protected function Init() {
-		$this->Router = new XoApiClassRouter($this->Xo);
+		$this->Config = new XoApiControllerConfig($this->Xo);
+		$this->Routes = new XoApiControllerRoutes($this->Xo);
+		$this->Posts = new XoApiControllerPosts($this->Xo);
+		$this->Terms = new XoApiControllerTerms($this->Xo);
+		$this->Menus = new XoApiControllerMenus($this->Xo);
+		$this->Options = new XoApiControllerOptions($this->Xo);
 
-		$this->AddDefaultControllers();
+		//$this->AddDefaultControllers();
 	}
 
 	protected function AddDefaultControllers() {
@@ -46,9 +76,6 @@ class XoApi
 
 		// Include abstract interface classes use for API responses
 		$this->IncludeAbstractResponses();
-
-		// Include the base services required by the Xo API
-		$this->IncludeApiBaseServices();
 
 		// Include the standard API controllers
 		$this->IncludeApiControllers();
@@ -86,14 +113,8 @@ class XoApi
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Responses/OptionsGetResponse.class.php');
 	}
 
-	protected function IncludeApiBaseServices() {
-		$this->Xo->RequireOnce('Includes/Api/Classes/Router.class.php');
-		$this->Xo->RequireOnce('Includes/Api/Classes/Reflector.class.php');
-	}
-
 	protected function IncludeApiControllers() {
 		$this->Xo->RequireOnce('Includes/Api/Abstract/Controller.class.php');
-		$this->Xo->RequireOnce('Includes/Api/Abstract/IndexController.class.php');
 
 		$this->Xo->RequireOnce('Includes/Api/Controllers/ConfigController.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Controllers/RoutesController.class.php');
@@ -102,5 +123,20 @@ class XoApi
 		$this->Xo->RequireOnce('Includes/Api/Controllers/OptionsController.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Controllers/MenusController.class.php');
 		$this->Xo->RequireOnce('Includes/Api/Controllers/CommentsController.class.php');
+	}
+
+	public function RestRequest($method = 'GET', $endpoint = '', $query = [], $body = []) {
+		$request = new WP_REST_Request($method, $endpoint);
+	
+		if (!empty($query))
+			$request->set_query_params($query);
+	
+		if (!empty($body))
+			$request->set_body_params($body);
+	
+		$response = rest_do_request($request);
+		$server = rest_get_server();
+	
+		return $server->response_to_data($response, false);
 	}
 }

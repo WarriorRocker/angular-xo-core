@@ -5,8 +5,38 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerOptions extends XoApiAbstractIndexController
+class XoApiControllerOptions extends XoApiAbstractController
 {
+	protected $restBase = 'xo/v1/options';
+
+	public function __construct(Xo $Xo) {
+		parent::__construct($Xo);
+		add_action('rest_api_init', [$this, 'RegisterRoutes'], 10, 0);
+	}
+
+	public function RegisterRoutes() {
+		register_rest_route($this->restBase, '/get', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Get'],
+				'permission_callback' => '__return_true',
+				'args' => [
+					'name' => [
+						'required' => true
+					]
+				]
+			]
+		]);
+
+		register_rest_route($this->restBase, '/get/(?P<name>\d+)', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Get'],
+				'permission_callback' => '__return_true'
+			]
+		]);
+	}
+
 	/**
 	 * Get an option group by name.
 	 *
@@ -15,7 +45,7 @@ class XoApiControllerOptions extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractOptionsGetResponse
 	 */
-	public function Get($params) {
+	public function Get(WP_REST_Request $params) {
 		// Return an error if ACF is not present or activated
 		if ((!function_exists('acf_get_fields')) ||
 			(!function_exists('get_field')))

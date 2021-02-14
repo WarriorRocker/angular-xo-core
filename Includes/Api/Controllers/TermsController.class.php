@@ -5,8 +5,38 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerTerms extends XoApiAbstractIndexController
+class XoApiControllerTerms extends XoApiAbstractController
 {
+	protected $restBase = 'xo/v1/terms';
+
+	public function __construct(Xo $Xo) {
+		parent::__construct($Xo);
+		add_action('rest_api_init', [$this, 'RegisterRoutes'], 10, 0);
+	}
+
+	public function RegisterRoutes() {
+		register_rest_route($this->restBase, '/get', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Get'],
+				'permission_callback' => '__return_true',
+				'args' => [
+					'url' => [
+						'required' => true
+					]
+				]
+			]
+		]);
+
+		register_rest_route($this->restBase, '/filter', [
+			[
+				'methods' => 'POST',
+				'callback' => [$this, 'Filter'],
+				'permission_callback' => '__return_true'
+			]
+		]);
+	}
+
 	/**
 	 * Get a taxonomy and term by url.
 	 *
@@ -15,7 +45,7 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractTermsGetResponse
 	 */
-	public function Get($params) {
+	public function Get(WP_REST_Request $params) {
 		global $wp_rewrite;
 
 		// Return an error if the url is missing
@@ -39,7 +69,7 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 		// Apply filters
 		$term = apply_filters('xo/api/terms/get', $term);
 		$term = apply_filters('xo/api/terms/get/id=' . $term->id, $term);
-		$term = apply_filters('xo/api/terms/get/taxonomy=' . $post->taxonomy, $term);
+		$term = apply_filters('xo/api/terms/get/taxonomy=' . $term->taxonomy, $term);
 
 		// Return success and fully formed term object
 		return new XoApiAbstractTermsGetResponse(
@@ -56,7 +86,7 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 	 * @param mixed $params Request object
 	 * @return XoApiAbstractTermsFilterResponse
 	 */
-	public function Filter($params) {
+	public function Filter(WP_REST_Request $params) {
 		// Return an error if the taxonomy is missing
 		if (empty($params['taxonomy']))
 			return new XoApiAbstractTermsFilterResponse(false, __('Missing terms taxonomy.', 'xo'));

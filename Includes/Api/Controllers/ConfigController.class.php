@@ -5,7 +5,7 @@
  *
  * @since 1.0.0
  */
-class XoApiControllerConfig extends XoApiAbstractIndexController
+class XoApiControllerConfig extends XoApiAbstractController
 {
 	/**
 	 * Get the main site configuration.
@@ -27,7 +27,7 @@ class XoApiControllerConfig extends XoApiAbstractIndexController
 				'debug' => WP_DEBUG
 			],
 			'paths' => [
-				'apiUrl' => $this->Xo->Services->Options->GetOption('xo_api_endpoint'),
+				'apiUrl' => wp_make_link_relative(rest_url()) . 'xo/v1',
 				'templateUrl' => wp_make_link_relative(get_bloginfo('template_url')),
 				'adminUrl' => wp_make_link_relative(admin_url()),
 				'restUrl' => wp_make_link_relative(rest_url())
