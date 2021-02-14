@@ -68,10 +68,6 @@ class XoApiAbstractPostObject
 			// Only return the option if name not starting with an underscore indicating private or internal data
 			if (($addMeta) && (substr($key, 0, 1) != '_'))
 				$this->meta[$key] = $value[0];
-
-			// Get the attached post thumbnail if found
-			// if (substr($key, strlen($key) - 13) == '_thumbnail_id')
-			// 	$this->meta[$key] = wp_get_attachment_url($value[0]);
 		}
 	}
 
