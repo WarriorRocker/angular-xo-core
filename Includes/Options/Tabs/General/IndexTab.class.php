@@ -102,8 +102,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 			function ($option, $states, $value) {
 				$choices = array(
 					'default' => __('Default', 'xo'),
-					'live' => __('Live', 'xo'),
-					'offline' => __('Offline', 'xo')
+					'live' => __('Live', 'xo')
 				);
 
 				$descriptions = array(
@@ -117,19 +116,10 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 						__('<strong>%s</strong> - %s', 'xo'),
 						__('Live', 'xo'),
 						__('Attempt to parse the Dist Index and redirect template requests if successful.', 'xo')
-					),
-					sprintf(
-						__('<strong>%s</strong> - %s', 'xo'),
-						__('Offline', 'xo'),
-						__('Advanced mode which redirects all front-end requests directly to the Dist Index.', 'xo')
 					)
 				);
 
 				return $this->GenerateSelectField($option, $states, $choices, false, $value, $descriptions);
-			},
-			function ($oldValue, $newValue, $option) {
-				if ($oldValue !== $newValue)
-					flush_rewrite_rules();
 			}
 		);
 	}
@@ -150,6 +140,7 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 				$this->AddLiveIndexHeaderSection($section);
 				$this->AddLiveIndexFooterSection($section);
 				$this->AddLiveIndexConfigSection($section);
+				$this->AddLiveIndexRequestsSection($section);
 			}
 		);
 	}
@@ -218,6 +209,20 @@ class XoOptionsTabIndex extends XoOptionsAbstractSettingsTab
 				return $this->GenerateInputCheckboxField(
 					$option, $states, $value,
 					__('Generate the App Config and add within the App Config Entrypoint if found.', 'xo')
+				);
+			}
+		);
+	}
+
+	protected function AddLiveIndexRequestsSection($section) {
+		$this->AddSettingsField(
+			$section,
+			'xo_index_live_requests',
+			__('API Requests', 'xo'),
+			function ($option, $states, $value) {
+				return $this->GenerateInputCheckboxField(
+					$option, $states, $value,
+					__('Add common and page specific API data to the returned index.', 'xo')
 				);
 			}
 		);

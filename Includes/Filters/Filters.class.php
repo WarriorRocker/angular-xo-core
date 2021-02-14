@@ -52,11 +52,6 @@ class XoFilters
 	 */
 	public $LiveIndex;
 
-	/**
-	 * @var XoFilterEntrypoints
-	 */
-	public $Entrypoints;
-
 	function __construct($Xo) {
 		$this->Xo = $Xo;
 
@@ -77,8 +72,6 @@ class XoFilters
 		$this->NavMenus = new XoFiltersNavMenus($this->Xo);
 
 		$this->LiveIndex = new XoFilterLiveIndex($this->Xo);
-
-		$this->Entrypoints = new XoFilterEntrypoints($this->Xo);
 	}
 
 	protected function Includes() {
@@ -94,7 +87,5 @@ class XoFilters
 		$this->Xo->RequireOnce('Includes/Filters/External/NavMenus.class.php');
 
 		$this->Xo->RequireOnce('Includes/Filters/Internal/LiveIndex.class.php');
-
-		$this->Xo->RequireOnce('Includes/Filters/Internal/Entrypoints.class.php');
 	}
 }
