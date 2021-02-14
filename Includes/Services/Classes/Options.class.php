@@ -100,6 +100,11 @@ class XoServiceOptions
 			'xo_index_live_header' => false,
 			'xo_index_live_footer' => false,
 			'xo_index_live_config' => true,
+			'xo_index_live_requests' => true,
+
+			// Cache Tab
+			'xo_index_menu_items' => array(),
+			'xo_index_acf_groups' => array(),
 
 			// Api Tab
 			'xo_api_enabled' => true,
@@ -115,7 +120,30 @@ class XoServiceOptions
 			'xo_templates_path' => '/src/app',
 
 			// ACF Tab
-			'xo_acf_allowed_groups' => array()
+			'xo_acf_allowed_groups' => array(),
+
+			// Prerender Middleware Tab
+			'xo_prerender_middleware_enabled' => false,
+			'xo_prerender_service_endpoint' => '',
+			'xo_prerender_token' => '',
+			'xo_prerender_user_agents' => array(
+				'baiduspider',
+				'googlebot',
+				'googlebot-mobile',
+				'bingbot',
+				'facebookexternalhit',
+				'twitterbot',
+				'rogerbot',
+				'linkedinbot',
+				'embedly',
+				'quora link preview',
+				'showyoubot',
+				'outbrain',
+				'pinterest',
+				'slackbot',
+				'vkShare',
+				'w3c_validator'
+			)
 		);
 
 		return $defaults;

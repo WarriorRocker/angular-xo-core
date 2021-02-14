@@ -7,7 +7,7 @@ class XoFilterPostUpdate
 	 */
 	protected $Xo;
 
-	function __construct(XoPro $Xo) {
+	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 
 		// add_action('save_post', array($this, 'SavePost'), 20, 1); // [beta] Disable Xo File Cache

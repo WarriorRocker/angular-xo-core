@@ -47,6 +47,11 @@ class XoServices
 	 */
 	public $SitemapGenerator;
 
+	/**
+	 * @var XoServicePrerender
+	 */
+	public $Prerender;
+
 	public function __construct($Xo) {
 		$this->Xo = $Xo;
 
@@ -56,12 +61,13 @@ class XoServices
 
 	protected function Init() {
 		$this->Options = new XoServiceOptions($this->Xo);
-		$this->Rewrits = new XoServiceRewrites();
+		$this->Rewrites = new XoServiceRewrites();
 		$this->AngularJson = new XoServiceAngularJson();
 		$this->TemplateReader = new XoServiceTemplateReader($this->Xo);
 		$this->IndexBuilder = new XoServiceIndexBuilder($this->Xo);
 		$this->RouteGenerator = new XoServiceRouteGenerator($this->Xo);
 		$this->SitemapGenerator = new XoServiceSitemapGenerator($this->Xo);
+		$this->Prerender = new XoServicePrerender($this->Xo);
 	}
 
 	protected function Includes() {
@@ -72,6 +78,7 @@ class XoServices
 		$this->Xo->RequireOnce('Includes/Services/Classes/IndexBuilder.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/RouteGenerator.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/SitemapGenerator.class.php');
+		$this->Xo->RequireOnce('Includes/Services/Classes/Prerender.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/AdminNotice.class.php');
 	}
 }

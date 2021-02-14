@@ -52,6 +52,22 @@ class XoServiceIndexBuilder
 	}
 
 	/**
+	 * @since 2.0.0
+	 */
+	public function RenderPrerenderResponse() {
+		global $wp;
+		$url = home_url(add_query_arg([], $wp->request));
+
+		$output = $this->Xo->Services->Prerender->GetPrerenderOutput($url);
+
+		$output = apply_filters('xo/index/prerender/output', $output);
+		if (empty($output))
+			return false;
+
+		return $output;
+	}
+
+	/**
 	 * Render and add wp_head to the index output before the closing HEAD tag.
 	 *
 	 * @since 1.0.0
@@ -120,7 +136,7 @@ class XoServiceIndexBuilder
 			return false;
 
 		$scriptReplace = implode("\n", array(
-			'<script id="' . $this->appConfigScriptId . '" type="text/javascript">',
+			'<script id="' . $this->appConfigScriptId . '">',
 			'/* <![CDATA[ */',
 			'var appConfig = ' . json_encode($config->config) . ';',
 			'/* ]]> */',
@@ -174,8 +190,7 @@ class XoServiceIndexBuilder
 		if ($bodyPos === false)
 			return false;
 
-		$entrypointInsert = '<script id="' . $this->appConfigScriptId
-			. '" type="text/javascript"></script>' . "\n";
+		$entrypointInsert = '<script id="' . $this->appConfigScriptId . '"></script>' . "\n";
 
 		$entrypointInsert = apply_filters('xo/index/build/entrypoint', $entrypointInsert);
 		if (empty($entrypointInsert))
@@ -214,6 +229,139 @@ class XoServiceIndexBuilder
 			return false;
 
 		return (strpos($output, $entrypointCheck) !== false);
+	}
+
+	/**
+	 * @since 2.0.0
+	 */
+	public function AddApiCacheToIndex(&$output) {
+		if ((($scriptStartPos = strpos($output, '<script id="' . $this->appConfigScriptId . '"')) === false)
+			|| (($scriptEndPos = strpos($output, '</script>', $scriptStartPos)) === false))
+			return false;
+
+		if (!$apiCache = $this->GenerateApiCache())
+			return false;
+
+		$scriptInsert = implode("\n", array(
+			'/* <![CDATA[ */',
+			'var apiCache = ' . json_encode($apiCache) . ';',
+			'/* ]]> */'
+		));
+
+		return $this->InsertBetween($output, $scriptInsert, $scriptEndPos);
+	}
+
+	/**
+	 * @since 2.0.0
+	 */
+	protected function GenerateApiCache() {
+		if (!($this->Xo->Services->Options->GetOption('xo_index_live_requests', false)))
+			return false;
+
+		$cacheRequests = apply_filters('xo/index/cache/requests', array());
+
+		if (empty($cacheRequests))
+			return false;
+
+		$apiCache = array();
+
+		foreach ($cacheRequests as $cacheRequest) {
+			$path = $cacheRequest['path'];
+			$request = ((empty($cacheRequest['request'])) ? false : $cacheRequest['request']);
+			$response = false;
+
+			$requestKey = $this->GenerateRequestKey($path, $request);
+
+			if (!$response)
+				$response = $this->Xo->Api->Router->ApiQueryByPath($path, $request);
+
+			if (!$response)
+				continue;
+
+			$apiCache[$requestKey] = $response;
+		}
+
+		return $apiCache;
+	}
+
+	/**
+	 * @since 2.0.0
+	 */
+	public function AddApiCacheMenuRequests(&$requests) {
+		if ((!$menus = $this->Xo->Services->Options->GetOption('xo_index_menu_items', array())) ||
+			(empty($menus)))
+			return false;
+
+		foreach ($menus as $menu => $enabled) {
+			if (!$enabled)
+				continue;
+
+			$requests[] = array(
+				'path' => '/menus/get',
+				'request' => array(
+					'menu' => $menu
+				)
+			);
+		}
+
+		return true;
+	}
+
+	/**
+	 * @since 2.0.0
+	 */
+	public function AddApiCacheOptionGroupRequests(&$requests) {
+		if ((!$groups = $this->Xo->Services->Options->GetOption('xo_index_acf_groups', array())) ||
+			(empty($groups)))
+			return;
+
+		foreach ($groups as $key => $enabled) {
+			if (!$enabled)
+				continue;
+
+			$requests[] = array(
+				'path' => '/options/get',
+				'request' => array(
+					'name' => $key
+				)
+			);
+		}
+	}
+
+	/**
+	 * @since 2.0.0
+	 */
+	public function AddApiCachePostRequests(&$requests) {
+		$relUrl = strtok($_SERVER['REQUEST_URI'], '?');
+
+		$requests[] = array(
+			'path' => '/posts/get',
+			'request' => array(
+				'url' => $relUrl
+			)
+		);
+	}
+
+	/**
+	 * @since 2.0.0
+	 */
+	public function AddApiCacheTermRequests(&$requests) {
+		$relUrl = strtok($_SERVER['REQUEST_URI'], '?');
+
+		$requests[] = [
+			'path' => '/terms/get',
+			'request' => [
+				'url' => $relUrl
+			]
+		];
+	}
+
+	/**
+	 * @since 2.0.0
+	 */
+	protected function GenerateRequestKey($path, $request) {
+		$requestParams = ((!empty($request)) ? json_encode($request, JSON_UNESCAPED_SLASHES) : false);
+		return $path . (($requestParams) ? ':' . $requestParams : '');
 	}
 
 	/**
