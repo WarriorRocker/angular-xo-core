@@ -35,10 +35,25 @@ class XoApiControllerMenus extends XoApiAbstractIndexController
 		foreach ($menuItems as $menuItem)
 			$items[] = new XoApiAbstractMenu($menuItem, true, true, true);
 
+		// Iterate through fully formed menu items and organize by parent/child
+		$sortedItems = $this->GetNestedMenuItems($items);
+
 		// Return success and the fully formed menu item objects
 		return new XoApiAbstractMenusGetResponse(
 			true, __('Successfully retrieved menu.', 'xo'),
-			$items
+			$sortedItems
 		);
+	}
+
+	protected function GetNestedMenuItems(array $items, $parentId = 0) {
+		$nestedItems = array_values(array_filter($items, function ($item) use ($parentId) {
+			return $item->parent == $parentId;
+		}));
+
+		foreach ($nestedItems as $item) {
+			$item->children = $this->GetNestedMenuItems($items, $item->id);
+		}
+	
+		return $nestedItems;
 	}
 }
