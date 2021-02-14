@@ -15,47 +15,37 @@ class XoFilters
 	/**
 	 * @var XoFilterModRewrite
 	 */
-	public $ModRewrite;
+	var $ModRewrite;
 
 	/**
 	 * @var XoFilterPluginSettings
 	 */
-	public $PluginSettings;
+	var $PluginSettings;
 
 	/**
 	 * @var XoFilterPostStates
 	 */
-	public $PostStates;
+	var $PostStates;
 
 	/**
 	 * @var XoFilterPostTemplates
 	 */
-	public $PostTemplates;
+	var $PostTemplates;
 
 	/**
 	 * @var XoFilterPostPreview
 	 */
-	public $PostPreview;
+	var $PostPreview;
 
 	/**
 	 * @var XoFilterEditorOptions
 	 */
-	public $EditorOptions;
+	var $EditorOptions;
 
 	/**
 	 * @var XoFiltersNavMenus
 	 */
-	public $NavMenus;
-
-	/**
-	 * @var XoFilterLiveIndex
-	 */
-	public $LiveIndex;
-
-	/**
-	 * @var XoFilterEntrypoints
-	 */
-	public $Entrypoints;
+	var $NavMenus;
 
 	function __construct($Xo) {
 		$this->Xo = $Xo;
@@ -64,7 +54,7 @@ class XoFilters
 		$this->Init();
 	}
 
-	protected function Init() {
+	function Init() {
 		$this->ModRewrite = new XoFilterModRewrite($this->Xo);
 
 		$this->PluginSettings = new XoFilterPluginSettings($this->Xo);
@@ -76,13 +66,9 @@ class XoFilters
 		$this->EditorOptions = new XoFilterEditorOptions($this->Xo);
 
 		$this->NavMenus = new XoFiltersNavMenus($this->Xo);
-
-		$this->LiveIndex = new XoFilterLiveIndex($this->Xo);
-
-		$this->Entrypoints = new XoFilterEntrypoints($this->Xo);
 	}
 
-	protected function Includes() {
+	function Includes() {
 		$this->Xo->RequireOnce('Includes/Filters/External/ModRewrite.class.php');
 
 		$this->Xo->RequireOnce('Includes/Filters/External/PluginSettings.class.php');
@@ -95,9 +81,5 @@ class XoFilters
 		$this->Xo->RequireOnce('Includes/Filters/External/EditorOptions.class.php');
 
 		$this->Xo->RequireOnce('Includes/Filters/External/NavMenus.class.php');
-
-		$this->Xo->RequireOnce('Includes/Filters/Internal/LiveIndex.class.php');
-
-		$this->Xo->RequireOnce('Includes/Filters/Internal/Entrypoints.class.php');
 	}
 }

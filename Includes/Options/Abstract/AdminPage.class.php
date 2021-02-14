@@ -19,7 +19,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @var string
 	 */
-	protected $pageTitle;
+	public $pageTitle;
 
 	/**
 	 * The slug of the admin page.
@@ -28,7 +28,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @var string
 	 */
-	protected $pageSlug;
+	public $pageSlug;
 
 	/**
 	 * A derived url of the current page. Useful for linking within a page such as tabs.
@@ -37,7 +37,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @var string
 	 */
-	protected $baseUrl;
+	public $baseUrl;
 
 	/**
 	 * Slug of the currently active tab.
@@ -46,7 +46,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @var string
 	 */
-	protected $currentSlug;
+	public $currentSlug;
 
 	/**
 	 * Configuration of the currently active tab.
@@ -55,7 +55,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @var array
 	 */
-	protected $currentTab;
+	public $currentTab;
 
 	/**
 	 * Collection of tabs registered for the current admin page.
@@ -64,9 +64,9 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @var array
 	 */
-	protected $tabs = array();
+	public $tabs = array();
 
-	public function __construct(Xo $Xo) {
+	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 
 		add_action('admin_init', array($this, 'InitTabs'), 10, 0);
@@ -77,7 +77,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @since 1.0.0
 	 */
-	public function Render() {
+	function Render() {
 		$this->SetCurrentTab();
 
 		echo '<div class="wrap xo-wrap">';
@@ -111,12 +111,12 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @since 1.0.0
 	 */
-	public function InitTabs() {
+	function InitTabs() {
 		$this->SetCurrentTab();
 
 		foreach ($this->tabs as &$tab)
 			if (!empty($tab['class']))
-				$tab['classInstance'] = new $tab['class']($this->Xo, $this, $tab['slug']);
+				$tab['classInstance'] = new $tab['class']($this, $tab['slug']);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @since 1.0.0
 	 */
-	protected function SetCurrentTab() {
+	function SetCurrentTab() {
 		if ((!empty($_GET['tab']))
 			&& (isset($this->tabs[$_GET['tab']]))) {
 			$this->currentSlug = $_GET['tab'];
@@ -144,7 +144,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @since 1.0.0
 	 */
-	protected function RenderHeading() {
+	function RenderHeading() {
 		if (!$this->pageTitle)
 			return;
 
@@ -157,7 +157,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @since 1.0.0
 	 */
-	protected function RenderTabs() {
+	function RenderTabs() {
 		if (count($this->tabs) < 2)
 			return;
 
@@ -178,7 +178,7 @@ class XoOptionsAbstractAdminPage
 	 *
 	 * @since 1.0.0
 	 */
-	protected function RenderCurrentTab() {
+	function RenderCurrentTab() {
 		if ($this->currentTab)
 			$this->currentTab['classInstance']->Render();
 	}
@@ -191,19 +191,7 @@ class XoOptionsAbstractAdminPage
 	 * @param string $tabSlug Slug of the tab to get the URL, blank for current tab.
 	 * @return string URL of the given tab.
 	 */
-	public function GetTabUrl($tabSlug = '') {
+	function GetTabUrl($tabSlug = '') {
 		return admin_url($this->baseUrl . '&tab=' . (($tabSlug) ? $tabSlug : $this->currentSlug));
-	}
-
-	/**
-	 * Helper function to get the slug used to uniquely identify a tab within a page.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @param string $tabSlug Slug of the tab, blank for current tab.
-	 * @return string Slug of the current page and tab.
-	 */
-	public function GetTabPageSlug($tabSlug = '') {
-		return $this->pageSlug . '-' . (($tabSlug) ? $tabSlug : $this->currentSlug);
 	}
 }

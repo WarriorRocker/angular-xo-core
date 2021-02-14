@@ -10,7 +10,7 @@ class XoFilterPostStates
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	function __construct(Xo $Xo) {
 		$this->Xo = $Xo;

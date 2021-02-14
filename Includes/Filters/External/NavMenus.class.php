@@ -10,7 +10,7 @@ class XoFiltersNavMenus
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	var $options = array(
 		array(

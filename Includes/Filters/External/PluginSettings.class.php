@@ -10,7 +10,7 @@ class XoFilterPluginSettings
 	/**
 	 * @var Xo
 	 */
-	var $Xo;
+	protected $Xo;
 
 	/**
 	 * @var XoServiceAdminNotice
