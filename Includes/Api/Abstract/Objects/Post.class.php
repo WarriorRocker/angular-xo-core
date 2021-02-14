@@ -35,6 +35,15 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 	public $type;
 
 	/**
+	 * Status of the post mapped from post_status.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @var string
+	 */
+	public $status;
+
+	/**
 	 * Url slug of the post mapped from post_name.
 	 *
 	 * @since 1.0.0
@@ -184,6 +193,7 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 		$this->id = intval($post->ID);
 		$this->parent = intval($post->post_parent);
 		$this->type = $post->post_type;
+		$this->status = $post->post_status;
 		$this->slug = $post->post_name;
 		$this->title = $post->post_title;
 		$this->order = $post->menu_order;
