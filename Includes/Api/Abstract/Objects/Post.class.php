@@ -89,6 +89,15 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 	public $content;
 
 	/**
+	 * Excerpt of the post mapped from post_excerpt with the_excerpt filter applied.
+	 * 
+	 * @since 2.0.0
+	 * 
+	 * @var string
+	 */
+	public $excerpt;
+
+	/**
 	 * Relative URL of the post using get_permalink and wp_make_link_relative.
 	 *
 	 * @since 1.0.0
@@ -179,6 +188,9 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 
 		// Set the post content using the_content filter
 		$this->content = apply_filters('the_content', $post->post_content);
+
+		// Set the post excerpt using the_excerpt filter
+		$this->excerpt = apply_filters('the_excerpt', $post->post_excerpt);
 
 		// Set the relative URL of the post using get_permalink and wp_make_link_relative
 		$this->url = str_replace('/./', '/', wp_make_link_relative(get_permalink($post->ID)));
