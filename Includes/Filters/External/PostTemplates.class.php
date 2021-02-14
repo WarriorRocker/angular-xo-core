@@ -25,9 +25,19 @@ class XoFilterPostTemplates
 	}
 
 	public function TemplateInclude($template) {
-		if (($this->Xo->Services->Options->GetOption('xo_index_redirect_mode') == 'live')
-			&& ($file = $this->Xo->GetFile('Includes/Services/Entrypoints/ThemeIndex.php')))
-			return $file;
+		$mode = $this->Xo->Services->Options->GetOption('xo_index_redirect_mode');
+
+		if ($mode == 'live') {
+			if ($this->Xo->Services->Prerender->ShouldShowPrerender()) {
+				$file = $this->Xo->GetFile('Includes/Services/Entrypoints/Prerender.php');
+				if ($file) return $file;
+			}
+			else {
+				$file = $this->Xo->GetFile('Includes/Services/Entrypoints/ThemeIndex.php');
+				if ($file) return $file;
+			}
+
+		}
 
 		return $template;
 	}

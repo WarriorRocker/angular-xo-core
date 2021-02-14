@@ -33,6 +33,11 @@ class XoFilters
 	public $PostPreview;
 
 	/**
+	 * @var XoFilterPostUpdate
+	 */
+	public $PostUpdate;
+
+	/**
 	 * @var XoFilterEditorOptions
 	 */
 	public $EditorOptions;
@@ -65,6 +70,7 @@ class XoFilters
 		$this->PostStates = new XoFilterPostStates($this->Xo);
 		$this->PostTemplates = new XoFilterPostTemplates($this->Xo);
 		$this->PostPreview = new XoFilterPostPreview($this->Xo);
+		$this->PostUpdate = new XoFilterPostUpdate($this->Xo);
 
 		$this->EditorOptions = new XoFilterEditorOptions($this->Xo);
 
