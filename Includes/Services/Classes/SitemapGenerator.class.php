@@ -195,7 +195,7 @@ class XoServiceSitemapGenerator
 
 		// Check if the parents collection has entries
 		if ($sitemapParents)
-		    usort($sitemapParents, function (XoApiAbstractSitemapEntry$a, XoApiAbstractSitemapEntry$b) {
+		    usort($sitemapParents, function (XoApiAbstractSitemapEntry $a, XoApiAbstractSitemapEntry $b) {
 		        return strcmp($a->url, $b->url);
 		    });
 

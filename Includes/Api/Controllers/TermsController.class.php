@@ -16,9 +16,15 @@ class XoApiControllerTerms extends XoApiAbstractIndexController
 	 * @return XoApiAbstractTermsGetResponse
 	 */
 	public function Get($params) {
+		global $wp_rewrite;
+
 		// Return an error if the url is missing
 		if (empty($params['url']))
 			return new XoApiAbstractTermsGetResponse(false, __('Missing category url.', 'xo'));
+
+		// $vars = $this->Xo->Services->Rewrites->GetWpQueryForURL($params['url']);
+		// print_r($vars);
+		// exit;
 
 		// Get the term by matching the url parts
 		$term = $this->Xo->Services->SitemapGenerator->GetTermByUrl($params['url']);

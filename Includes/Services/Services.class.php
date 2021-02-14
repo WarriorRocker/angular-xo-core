@@ -18,6 +18,11 @@ class XoServices
 	public $Options;
 
 	/**
+	 * @var XoServiceRewrites
+	 */
+	public $Rewrites;
+
+	/**
 	 * @var XoServiceAngularJson
 	 */
 	public $AngularJson;
@@ -51,6 +56,7 @@ class XoServices
 
 	protected function Init() {
 		$this->Options = new XoServiceOptions($this->Xo);
+		$this->Rewrits = new XoServiceRewrites();
 		$this->AngularJson = new XoServiceAngularJson();
 		$this->TemplateReader = new XoServiceTemplateReader($this->Xo);
 		$this->IndexBuilder = new XoServiceIndexBuilder($this->Xo);
@@ -60,6 +66,7 @@ class XoServices
 
 	protected function Includes() {
 		$this->Xo->RequireOnce('Includes/Services/Classes/Options.class.php');
+		$this->Xo->RequireOnce('Includes/Services/Classes/Rewrites.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/AngularJson.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/TemplateReader.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/IndexBuilder.class.php');
