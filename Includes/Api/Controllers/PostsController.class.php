@@ -253,6 +253,10 @@ class XoApiControllerPosts extends XoApiAbstractController
 		if (empty($postids))
 			return new XoApiAbstractPostsFilterResponse(false, __('Unable to locate posts.', 'xo'));
 
+		// Get a count of the total available posts
+		$total = get_posts($baseargs);
+		$total = ($total && !is_wp_error($total)) ? count($total) : 0;
+
 		// Get the wordpress post objects for the collected post ids
 		$posts = get_posts(array(
 			'post_type' => $postType,
@@ -269,20 +273,6 @@ class XoApiControllerPosts extends XoApiAbstractController
 
 		// Apply filters
 		$results = apply_filters('xo/api/posts/filter', $results);
-
-		// Get a count of the total available posts
-		$total = 0;
-		if (is_array($postType)) {
-			// Iterate through post types and add count to total
-			foreach ($postType as $type) {
-				$count = wp_count_posts($type);
-				$total += $count->publish;
-			}
-		} else {
-			// Get the count of a singular post type
-			$count = wp_count_posts($postType);
-			$total = $count->publish;
-		}
 
 		// Return success and collection of fully formed post objects
 		return new XoApiAbstractPostsFilterResponse(
