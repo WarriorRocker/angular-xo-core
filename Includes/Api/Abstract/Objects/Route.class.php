@@ -8,7 +8,7 @@
 class XoApiAbstractRoute
 {
 	/**
-	 * The path property of the Angular Route item.
+	 * The real path used for routing of the Angular Route item.
 	 *
 	 * @since 1.0.0
 	 *
@@ -17,13 +17,13 @@ class XoApiAbstractRoute
 	public $path;
 
 	/**
-	 * The loadChildren property of the Angular Route item.
+	 * The lazyPath used to match the existing fake path of lazy Routes.
 	 *
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 *
 	 * @var string
 	 */
-	public $loadChildren;
+	public $lazyPath;
 
 	/**
 	 * The pathMatch property of the Angular Route item.
@@ -48,15 +48,15 @@ class XoApiAbstractRoute
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $path The path property of the Angular Route item.
-	 * @param string $loadChildren The loadChildren property of the Angular Route item.
+	 * @param string $path The real path used for routing of the Angular Route item.
+	 * @param string $lazyPath The lazyPath used to match the existing fake path of lazy Routes.
 	 * @param string $pathMatch The pathMatch property of the Angular Route item.
 	 * @param mixed $data Additional data added to the data property of the Angular Route item.
 	 */
-	public function __construct($path, $loadChildren, $pathMatch = 'prefix', $data = false) {
+	public function __construct($path, $lazyPath, $pathMatch = 'prefix', $data = false) {
 		// Map base route properties
 		$this->path = $path;
-		$this->loadChildren = $loadChildren;
+		$this->lazyPath = $lazyPath;
 		$this->pathMatch = $pathMatch;
 		$this->data = $data;
 	}

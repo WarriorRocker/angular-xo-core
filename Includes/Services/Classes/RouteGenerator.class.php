@@ -67,16 +67,17 @@ class XoServiceRouteGenerator
 		foreach ($posts as $postId) {
 			if ($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($postId)) {
 				$path = ltrim(wp_make_link_relative(get_permalink($postId)), '/');
-				$routes[] = new XoApiAbstractRoute($path, $attrs['loadChildren'], 'full');
+				$routes[] = new XoApiAbstractRoute($path, $attrs['lazyPath'], 'full');
 			}
 		}
 	}
 
 	protected function AddRouteFor404Page(&$routes) {
+		// Check if there is a 404 page set and the template can be found
 		if (($page404Id = intval($this->Xo->Services->Options->GetOption('xo_404_page_id', 0))) &&
 			($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($page404Id))) {
 			$url = wp_make_link_relative(get_permalink($page404Id));
-			$routes[] = new XoApiAbstractRoute('**', $attrs['loadChildren'], 'full', array(
+			$routes[] = new XoApiAbstractRoute('**', $attrs['lazyPath'], 'full', array(
 				'url' => $url
 			));
 		}
@@ -103,7 +104,7 @@ class XoServiceRouteGenerator
 				$rewriteSlug = untrailingslashit($rewriteSlug);
 
 				// Generate route for a posts hub page which will handle individual post urls
-				$routes[] = new XoApiAbstractRoute($rewriteSlug, $attrs['loadChildren'], 'prefix', array(
+				$routes[] = new XoApiAbstractRoute($rewriteSlug, $attrs['lazyPath'], 'prefix', array(
 					'postType' => $post_type
 				));
 			} else {
@@ -120,7 +121,7 @@ class XoServiceRouteGenerator
 					// Generate route for individual post pages which are routed individually
 					if ($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($postId)) {
 						$path = ltrim(wp_make_link_relative(get_permalink($postId)), '/');
-						$routes[] = new XoApiAbstractRoute($path, $attrs['loadChildren'], 'full');
+						$routes[] = new XoApiAbstractRoute($path, $attrs['lazyPath'], 'full');
 					}
 				}
 			}
@@ -137,7 +138,7 @@ class XoServiceRouteGenerator
 
 		foreach ($posts as $postId) {
 		    if ($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($postId)) {
-				$routes[] = new XoApiAbstractRoute('xo-page-preview-' . $postId, $attrs['loadChildren'], 'full', array(
+				$routes[] = new XoApiAbstractRoute('xo-page-preview-' . $postId, $attrs['lazyPath'], 'full', array(
 					'postId' => $postId
 				));
 			}
@@ -155,7 +156,7 @@ class XoServiceRouteGenerator
 		foreach ($posts as $postId) {
 			if (($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($postId)) &&
 				(wp_get_post_autosave($postId, get_current_user_id()))) {
-				$routes[] = new XoApiAbstractRoute('xo-page-preview-' . $postId, $attrs['loadChildren'], 'full', array(
+				$routes[] = new XoApiAbstractRoute('xo-page-preview-' . $postId, $attrs['lazyPath'], 'full', array(
 					'postId' => $postId
 				));
 			}
@@ -173,7 +174,7 @@ class XoServiceRouteGenerator
 				|| (!$attrs = $this->Xo->Services->TemplateReader->GetAnnotatedTemplate($template)))
 				continue;
 
-			$routes[] = new XoApiAbstractRoute('xo-' . $post_type . '-preview', $attrs['loadChildren'], 'prefix', array(
+			$routes[] = new XoApiAbstractRoute('xo-' . $post_type . '-preview', $attrs['lazyPath'], 'prefix', array(
 				'postPreview' => true
 			));
 		}

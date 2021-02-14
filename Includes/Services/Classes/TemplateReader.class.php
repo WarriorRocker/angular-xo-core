@@ -172,12 +172,7 @@ class XoServiceTemplateReader
 		$this->GetAnnotatedTemplates();
 
 		if (!empty($this->annotatedTemplates[$template]))
-			return array_merge(
-				$this->annotatedTemplates[$template],
-				array(
-					'template' => $template
-				)
-			);
+			return $this->annotatedTemplates[$template];
 
 		return false;
 	}
@@ -203,12 +198,7 @@ class XoServiceTemplateReader
 			foreach ($files as $file) {
 				if ($attrs = $this->ParseTemplateCommentBlocks($file)) {
 					$isDefault = (!empty($attrs['defaultTemplate']));
-					$templates[($isDefault ? 'default' : $file)] = array_merge(
-						$attrs,
-						array(
-							'template' => $file
-						)
-					);
+					$templates[($isDefault ? 'default' : $file)] = $attrs;
 				}
 			}
 		}
@@ -298,10 +288,7 @@ class XoServiceTemplateReader
 				$key = lcfirst($matchAttr['key']);
 				$value = trim($matchAttr['value']);
 
-				if ($key == 'loadChildren') {
-					$trimPath = strlen(ltrim($this->templatesPath, '/'));
-					$value = '.' . substr(substr($template, 0, strlen($template) - 3), $trimPath) . '#' . $value;
-				} else if (array_key_exists($key, $this->annotationsFormats)) {
+				if (array_key_exists($key, $this->annotationsFormats)) {
 					if ($this->annotationsFormats[$key] == 'boolean') {
 						$value = ((strtolower($value) == 'true') ? 1 : 0);
 					} else if ($this->annotationsFormats[$key] == 'array') {
@@ -312,8 +299,19 @@ class XoServiceTemplateReader
 				$attrs[$key] = $value;
 			}
 
-			if ($attrs)
+			if ($attrs) {
+				// Trim the original template filename
+				$lazyPath = substr(substr($template, 0, strlen($template) - 3), strlen($this->templatesPath));
+
+				// Replace slashes and dots with dashes
+				$attrs['lazyPath'] = str_replace(['/', '.'], '-', $lazyPath);
+
+				// Add the template path as a property
+				$attrs['template'] = $template;
+
+				// Return a valid template
 				return $attrs;
+			}
 		}
 
 		return false;
