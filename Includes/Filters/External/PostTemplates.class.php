@@ -26,7 +26,7 @@ class XoFilterPostTemplates
 
 	public function TemplateInclude($template) {
 		if (($this->Xo->Services->Options->GetOption('xo_index_redirect_mode') == 'live')
-			&& ($file = $this->Xo->GetFile('Includes/Theme/ThemeIndex.php')))
+			&& ($file = $this->Xo->GetFile('Includes/Services/Entrypoints/ThemeIndex.php')))
 			return $file;
 
 		return $template;
@@ -43,7 +43,7 @@ class XoFilterPostTemplates
 		return $templates;
 	}
 
-	function DefaultPageTemplateTitle($title, $context) {
+	public function DefaultPageTemplateTitle($title, $context) {
 		$annotatedTemplates = $this->Xo->Services->TemplateReader->GetAnnotatedTemplates();
 
 		foreach ($annotatedTemplates as $attrs)
@@ -54,7 +54,7 @@ class XoFilterPostTemplates
 		return $title;
 	}
 
-	private function IsTemplateForPostType($attrs, $post_type) {
+	protected function IsTemplateForPostType($attrs, $post_type) {
 		if (empty($attrs['postTypes']))
 		    return true;
 

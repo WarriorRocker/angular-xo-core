@@ -17,7 +17,7 @@ class XoApi
 	 */
 	public $Router;
 
-	public function __construct($Xo) {
+	public function __construct(Xo $Xo) {
 		$this->Xo = $Xo;
 
 		$this->Includes();
@@ -27,6 +27,10 @@ class XoApi
 	protected function Init() {
 		$this->Router = new XoApiClassRouter($this->Xo);
 
+		$this->AddDefaultControllers();
+	}
+
+	protected function AddDefaultControllers() {
 		$this->Router->AddController('config', 'XoApiControllerConfig');
 		$this->Router->AddController('routes', 'XoApiControllerRoutes');
 		$this->Router->AddController('posts', 'XoApiControllerPosts');
