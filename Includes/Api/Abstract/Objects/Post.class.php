@@ -98,6 +98,15 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 	public $url;
 
 	/**
+	 * Featured Image of the post set as _thumbnail_id in the post meta.
+	 * 
+	 * @since 2.0.0
+	 * 
+	 * @var string
+	 */
+	public $image;
+
+	/**
 	 * Optional collection of terms applied to the given post.
 	 *
 	 * @since 1.0.0
@@ -173,7 +182,10 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 
 		// Set the relative URL of the post using get_permalink and wp_make_link_relative
 		$this->url = wp_make_link_relative(get_permalink($post->ID));
-	}
 
-	
+		// Set the attached post thumbnail if found
+		if ($thumbnail = get_post_meta($post->ID, '_thumbnail_id', true)) {
+			$this->image = wp_get_attachment_url($thumbnail);
+		}
+	}
 }
