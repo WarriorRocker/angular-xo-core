@@ -106,10 +106,6 @@ class XoServiceOptions
 			'xo_index_menu_items' => array(),
 			'xo_index_acf_groups' => array(),
 
-			// Api Tab
-			'xo_api_enabled' => true,
-			'xo_api_endpoint' => '/xo-api',
-
 			// Routing Tab
 			'xo_routing_previews_enabled' => true,
 
