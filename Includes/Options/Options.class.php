@@ -42,6 +42,9 @@ class XoOptions
 		$this->InitMainSettingsPage();
 		$this->InitMainSettingsPageTabs();
 
+		$this->InitPrerenderPage();
+		$this->InitPrerenderPageTabs();
+
 		$this->InitToolsPage();
 		$this->InitToolsPageTabs();
 	}
@@ -68,6 +71,7 @@ class XoOptions
 
 	protected function InitMainSettingsPageTabs() {
 		$this->MainSettingsPage->AddTab('index', __('Index', 'xo'), 'XoOptionsTabIndex');
+		$this->MainSettingsPage->AddTab('cache', __('Cache', 'xo'), 'XoOptionsTabCache');
 		$this->MainSettingsPage->AddTab('api', __('API', 'xo'), 'XoOptionsTabApi');
 		$this->MainSettingsPage->AddTab('posts', __('Posts', 'xo'), 'XoOptionsTabPosts');
 		$this->MainSettingsPage->AddTab('routing', __('Routing', 'xo'), 'XoOptionsTabRouting');
@@ -107,12 +111,32 @@ class XoOptions
 		$this->ToolsPage->AddTab('export', __('Export', 'xo'), 'XoOptionsTabExport');
 	}
 
+	protected function InitPrerenderPage() {
+		$this->PrerenderPage = new XoOptionsSubMenuPage(
+			$this->Xo,
+			'angular-xo-prerender',
+			'angular-xo',
+			__('Prerender', 'xo'),
+			__('Prerender', 'xo'),
+			__('Prerender', 'xo'),
+			'manage_options'
+		);
+	}
+
+	protected function InitPrerenderPageTabs() {
+		$this->PrerenderPage->AddTab('prerender', __('Prerender', 'xo'), 'XoOptionsTabPrerender');
+		$this->PrerenderPage->AddTab('middleware', __('Middleware', 'xo'), 'XoOptionsTabMiddleware');
+	}
+
 	protected function Includes() {
 		// Include abstract classes for admin pages and tabs
 		$this->IncludeAbstractClasses();
 
 		// Include tabs used on the General Settings page
 		$this->IncludeGeneralTabs();
+
+		// Include tabs usded on the Prerender page
+		$this->includePrerenderTabs();
 
 		// Include tabs used on the Tools page
 		$this->IncludeToolsTabs();
@@ -130,11 +154,17 @@ class XoOptions
 
 	protected function IncludeGeneralTabs() {
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/IndexTab.class.php');
+		$this->Xo->RequireOnce('Includes/Options/Tabs/General/CacheTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/ApiTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/PostsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/RoutingTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/TemplatesTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/AcfTab.class.php');
+	}
+
+	protected function includePrerenderTabs() {
+		$this->Xo->RequireOnce('Includes/Options/Tabs/Prerender/PrerenderTab.class.php');
+		$this->Xo->RequireOnce('Includes/Options/Tabs/Prerender/MiddlewareTab.class.php');
 	}
 
 	protected function IncludeToolsTabs() {
