@@ -127,7 +127,7 @@ class XoApiAbstractTerm
 		$this->taxonomyId = $term->term_taxonomy_id;
 
 		// Set the relative URL of the term using get_term_link and wp_make_link_relative
-		$this->url = wp_make_link_relative(get_term_link($term));
+		$this->url = str_replace('/./', '/', wp_make_link_relative(get_term_link($term)));
 
 		// Optionally set the post fields
 		if ($fields)

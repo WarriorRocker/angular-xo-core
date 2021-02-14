@@ -181,7 +181,7 @@ class XoApiAbstractPost extends XoApiAbstractPostObject
 		$this->content = apply_filters('the_content', $post->post_content);
 
 		// Set the relative URL of the post using get_permalink and wp_make_link_relative
-		$this->url = wp_make_link_relative(get_permalink($post->ID));
+		$this->url = str_replace('/./', '/', wp_make_link_relative(get_permalink($post->ID)));
 
 		// Set the attached post thumbnail if found
 		if ($thumbnail = get_post_meta($post->ID, '_thumbnail_id', true)) {

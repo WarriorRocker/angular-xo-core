@@ -182,7 +182,7 @@ class XoApiAbstractMenu extends XoApiAbstractPostObject
 		if ($this->target == '_blank') {
 			$this->url = $menu->url;
 		} else {
-			$this->url = wp_make_link_relative($menu->url);
+			$this->url = str_replace('/./', '/', wp_make_link_relative($menu->url));
 		}
 	}
 }
