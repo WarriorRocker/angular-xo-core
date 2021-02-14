@@ -30,7 +30,7 @@ class XoServicePrerender
 		$serviceEndpoint = $this->Xo->Services->Options->GetOption('xo_prerender_service_endpoint', '');
 		$token = $this->Xo->Services->Options->GetOption('xo_prerender_token', '');
 
-		$url = str_replace('http://pyc.local', 'https://dev-perfect-yacht-charter.pantheonsite.io', $url);
+		$url = apply_filters('xo/prerender/get', $url);
 
 		$request = $serviceEndpoint . '/' .urlencode($url);
 		$args = [
@@ -104,6 +104,31 @@ class XoServicePrerender
 			return false;
 
 		return json_decode($response['body'], true);
+	}
+
+	public function CachePage($session, $url) {
+		$url = apply_filters('xo/prerender/cache', $url);
+
+		$request = [
+			'headers' => [
+				'Content-Type' => 'application/json',
+				'x-xsrf-token' => $session['XSRF-TOKEN']
+			],
+			'cookies' => $this->GenerateSessionCookies($session),
+			'body' => json_encode([
+				'url' => $url
+			])
+		];
+
+		print_r($request);
+
+		$response = wp_remote_post($this->adminApiEndpoint . '/api/cache-page', $request);
+
+		if ((is_wp_error($response))
+			|| ($response['response']['message'] != 'OK'))
+			return false;
+
+		return true;
 	}
 
 	public function GetCachedPages($session) {
