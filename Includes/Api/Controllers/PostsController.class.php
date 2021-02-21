@@ -21,9 +21,8 @@ class XoApiControllerPosts extends XoApiAbstractController
 				'callback' => [$this, 'Get'],
 				'permission_callback' => '__return_true',
 				'args' => [
-					'url' => [
-						'required' => true
-					]
+					'url',
+					'id'
 				]
 			]
 		]);

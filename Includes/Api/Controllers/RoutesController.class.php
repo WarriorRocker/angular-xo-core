@@ -22,6 +22,14 @@ class XoApiControllerRoutes extends XoApiAbstractController
 				'permission_callback' => '__return_true'
 			]
 		]);
+
+		register_rest_route($this->restBase, '/breadcrumbs', [
+			[
+				'methods' => 'GET',
+				'callback' => [$this, 'Breadcrumbs'],
+				'permission_callback' => '__return_true'
+			]
+		]);
 	}
 
 	/**
