@@ -43,7 +43,7 @@ class XoServiceRouteGenerator
 		$this->AddRoutesForPages($routes);
 
 		// Add routes for custom post types
-		// $this->AddRoutesForPosts($routes);
+		$this->AddRoutesForPosts($routes);
 
 		// Add route for the 404 page
 		$this->AddRouteFor404Page($routes);
@@ -51,6 +51,12 @@ class XoServiceRouteGenerator
 		$routes = apply_filters('xo/routes/get', $routes);
 
 		return $routes;
+	}
+
+	protected function PathExistsInRoutes($routes, $path) {
+		return !empty(array_filter($routes, function ($route) use ($path) {
+			return $route->path == $path;
+		}));
 	}
 
 	protected function AddRoutesForPages(&$routes) {
@@ -86,44 +92,35 @@ class XoServiceRouteGenerator
 	protected function AddRoutesForPosts(&$routes) {
 		global $wp_post_types;
 
+		// Obtain the permalink base
+		$structure = get_option('permalink_structure');
+		$base = ltrim(untrailingslashit(preg_replace('/(%)(.*?)(%)/', '', $structure)), '/');
+
 		// Iterate through all available post types
 		foreach ($wp_post_types as $post_type => $post_type_config) {
 			// Skip if the post type is not public or is a page
 			if ((!$post_type_config->public) || ($post_type == 'page'))
 				continue;
 
-			// Check if the post type has a rewrite base
+			// Get the template of the rewrite base
+			if ((!$template = $this->Xo->Services->Options->GetOption('xo_' . $post_type . '_template', false))
+				|| (!$attrs = $this->Xo->Services->TemplateReader->GetAnnotatedTemplate($template)))
+				continue;
+
+			// Start path with base if post type uses with_front
+			$path = empty($post_type_config->rewrite['with_front']) ? $base : '';
+
+			// Add post type rewrite slug to path
 			if (!empty($post_type_config->rewrite['slug'])) {
-				// Get the template of the rewrite base
-				if ((!$template = $this->Xo->Services->Options->GetOption('xo_' . $post_type . '_template', false))
-				    || (!$attrs = $this->Xo->Services->TemplateReader->GetAnnotatedTemplate($template)))
-				    continue;
+				$rewrite = ltrim(untrailingslashit(preg_replace('/(%)(.*?)(%)/', '', $post_type_config->rewrite['slug'])), '/');
+				$path .= ($path ? '/' : '') . $rewrite;
+			}
 
-				// Remove any tags from rewrite slug
-				$rewriteSlug = preg_replace('/(%)(.*?)(%)/', '', $post_type_config->rewrite['slug']);
-				$rewriteSlug = untrailingslashit($rewriteSlug);
-
-				// Generate route for a posts hub page which will handle individual post urls
-				$routes[] = new XoApiAbstractRoute($rewriteSlug, $attrs['lazyPath'], 'prefix', array(
+			if ($path && !$this->PathExistsInRoutes($routes, $path)) {
+				// Generate route for a posts page which will handle individual post urls
+				$routes[] = new XoApiAbstractRoute($path, $attrs['lazyPath'], 'prefix', array(
 					'postType' => $post_type
 				));
-			} else {
-				// Get all the published posts of a particular post type
-				$posts = get_posts(array(
-					'post_status' => 'publish',
-					'post_type' => $post_type,
-					'posts_per_page' => -1,
-					'fields' => 'ids'
-				));
-
-				// Iterate through the found posts
-				foreach ($posts as $postId) {
-					// Generate route for individual post pages which are routed individually
-					if ($attrs = $this->Xo->Services->TemplateReader->GetTemplateForPost($postId)) {
-						$path = ltrim(wp_make_link_relative(get_permalink($postId)), '/');
-						$routes[] = new XoApiAbstractRoute($path, $attrs['lazyPath'], 'full');
-					}
-				}
 			}
 		}
 	}
