@@ -23,7 +23,8 @@ class XoFilterPostPreview
 		if (!$this->Xo->Services->Options->GetOption('xo_routing_previews_enabled', false))
 			return $link;
 
-		return get_site_url() . '/' . 'xo-' . $post->post_type . '-preview' .
-			(($post->post_type == 'page') ? '-' : '/') . $post->ID;
+		$link = $this->Xo->Services->Permalinks->GetPermalink($post) . '?postId=' . $post->ID;
+
+		return $link;
 	}
 }

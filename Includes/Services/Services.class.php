@@ -52,6 +52,11 @@ class XoServices
 	 */
 	public $Prerender;
 
+	/**
+	 * @var XoServicePermalinks
+	 */
+	public $Permalinks;
+
 	public function __construct($Xo) {
 		$this->Xo = $Xo;
 
@@ -68,6 +73,7 @@ class XoServices
 		$this->RouteGenerator = new XoServiceRouteGenerator($this->Xo);
 		$this->SitemapGenerator = new XoServiceSitemapGenerator($this->Xo);
 		$this->Prerender = new XoServicePrerender($this->Xo);
+		$this->Permalinks = new XoServicePermalinks();
 	}
 
 	protected function Includes() {
@@ -80,5 +86,6 @@ class XoServices
 		$this->Xo->RequireOnce('Includes/Services/Classes/SitemapGenerator.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/Prerender.class.php');
 		$this->Xo->RequireOnce('Includes/Services/Classes/AdminNotice.class.php');
+		$this->Xo->RequireOnce('Includes/Services/Classes/Permalinks.class.php');
 	}
 }
