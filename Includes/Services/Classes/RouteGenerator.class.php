@@ -36,7 +36,7 @@ class XoServiceRouteGenerator
 			$this->AddRoutesForPagePreviews($routes);
 
 			// Add routes for post drafts and previews
-			// $this->AddRoutesForPostDraftsAndPreviews($routes);
+			$this->AddRoutesForPostDraftsAndPreviews($routes);
 		}
 
 		// Add routes for pages
