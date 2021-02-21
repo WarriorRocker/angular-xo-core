@@ -16,6 +16,7 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 	 */
 	function Init() {
 		$this->InitPreviewsSection();
+		$this->InitPostTemplateSection();
 		$this->InitErrorsSection();
 	}
 
@@ -55,6 +56,66 @@ class XoOptionsTabRouting extends XoOptionsAbstractSettingsTab
 				return $this->GenerateInputCheckboxField(
 					$option, $states, $value,
 					__('Add post and page preview links to dynamic routes when logged in.', 'xo')
+				);
+			}
+		);
+	}
+
+	/**
+	 * Settings section for configuring Post type templates.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	protected function InitPostTemplateSection() {
+		$this->AddSettingsSection(
+			'post_template_section',
+			__('Post Templates', 'xo'),
+			__('Used to set the default template for a post type.', 'xo'),
+			function ($section) {
+				global $wp_post_types;
+
+				foreach ($wp_post_types as $post_type => $post_type_config) {
+					if ((!$post_type_config->public) || ($post_type == 'page'))
+						continue;
+
+					$this->AddPostTemplateSettingsField($section, $post_type, $post_type_config);
+				}
+			}
+		);
+	}
+
+	/**
+	 * Settings field for Post Template.
+	 * Used to set the template used for a single custom post type.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $section Name of the section.
+	 * @param string $post_type Post type slug.
+	 * @param WP_Post_Type $post_type_config Post type object.
+	 * @return void
+	 */
+	protected function AddPostTemplateSettingsField($section, $post_type, $post_type_config) {
+		$this->AddSettingsField(
+			$section,
+			'xo_' . $post_type . '_template',
+			sprintf(__('%s Template', 'xo'), $post_type_config->label),
+			function ($option, $states, $value) {
+				$templates = array();
+				$annotatedTemplates = $this->Xo->Services->TemplateReader->GetAnnotatedTemplates();
+
+				foreach ($annotatedTemplates as $template => $attrs)
+					$templates[$template] = $attrs['pageTemplate'];
+
+				$this->GenerateSelectField(
+					$option, array(), $templates,
+					array(
+						'value' => '',
+						'name' =>  __('&mdash; None &mdash;', 'xo')
+					),
+					$value
 				);
 			}
 		);

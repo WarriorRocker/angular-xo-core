@@ -72,7 +72,6 @@ class XoOptions
 	protected function InitMainSettingsPageTabs() {
 		$this->MainSettingsPage->AddTab('index', __('Index', 'xo'), 'XoOptionsTabIndex');
 		$this->MainSettingsPage->AddTab('cache', __('Cache', 'xo'), 'XoOptionsTabCache');
-		$this->MainSettingsPage->AddTab('posts', __('Posts', 'xo'), 'XoOptionsTabPosts');
 		$this->MainSettingsPage->AddTab('routing', __('Routing', 'xo'), 'XoOptionsTabRouting');
 		$this->MainSettingsPage->AddTab('templates', __('Templates', 'xo'), 'XoOptionsTabTemplates');
 
@@ -154,7 +153,6 @@ class XoOptions
 	protected function IncludeGeneralTabs() {
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/IndexTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/CacheTab.class.php');
-		$this->Xo->RequireOnce('Includes/Options/Tabs/General/PostsTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/RoutingTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/TemplatesTab.class.php');
 		$this->Xo->RequireOnce('Includes/Options/Tabs/General/AcfTab.class.php');
